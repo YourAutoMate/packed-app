@@ -1,1215 +1,1215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Packed.  Your Smart Trip Planner</title>
- <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
- <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
- <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
- <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
- <style>
- *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- :root {
- /* Travel-friendly light palette */
- --bg: #f7f4ee; /* warm cream */
- --bg2: #ffffff; /* card white */
- --bg3: #f0ebe1; /* sand */
- --bg4: #e8e2d6; /* border fill */
- --border: #e2dbd0;
- --border2: #cfc7b8;
- --text: #1c1828;
- --text2: #6b5f72;
- --text3: #a89cb0;
- --sky: #2980c4; /* mediterranean blue */
- --sky2: #4da3e8;
- --coral: #e8734e; /* sunset coral */
- --coral2: #f09070;
- --sun: #f5b93e; /* warm sun */
- --mint: #35b89a; /* tropical water */
- --lavender:#8b74d4;
- --green: #3daa6a;
- --red: #d94f4f;
- --shadow-sm: 0 1px 4px rgba(28,24,40,0.08);
- --shadow: 0 4px 16px rgba(28,24,40,0.10);
- --shadow-lg: 0 8px 32px rgba(28,24,40,0.14);
- --r: 14px;
- --r2: 9px;
- }
- html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
- h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
- #root { height: 100%; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packed. — Your Smart Trip Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* Travel-friendly light palette */
+      --bg:      #f7f4ee;   /* warm cream */
+      --bg2:     #ffffff;   /* card white */
+      --bg3:     #f0ebe1;   /* sand */
+      --bg4:     #e8e2d6;   /* border fill */
+      --border:  #e2dbd0;
+      --border2: #cfc7b8;
+      --text:    #1c1828;
+      --text2:   #6b5f72;
+      --text3:   #a89cb0;
+      --sky:     #2980c4;   /* mediterranean blue */
+      --sky2:    #4da3e8;
+      --coral:   #e8734e;   /* sunset coral */
+      --coral2:  #f09070;
+      --sun:     #f5b93e;   /* warm sun */
+      --mint:    #35b89a;   /* tropical water */
+      --lavender:#8b74d4;
+      --green:   #3daa6a;
+      --red:     #d94f4f;
+      --shadow-sm: 0 1px 4px rgba(28,24,40,0.08);
+      --shadow:    0 4px 16px rgba(28,24,40,0.10);
+      --shadow-lg: 0 8px 32px rgba(28,24,40,0.14);
+      --r: 14px;
+      --r2: 9px;
+    }
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    #root { height: 100%; }
 
- /* \uc0\u9472 \u9472 App shell \u9472 \u9472 */
- .app { display: flex; flex-direction: column; height: 100vh; }
- .app-header {
- background: rgba(247,244,238,0.96); backdrop-filter: blur(12px);
- border-bottom: 1px solid var(--border);
- padding: 0 20px; height: 58px;
- display: flex; align-items: center; justify-content: space-between;
- position: sticky; top: 0; z-index: 100; flex-shrink: 0;
- }
- .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
- .logo-mark { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
- .logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-style: italic; font-weight: 700; background: linear-gradient(90deg, var(--sky) 0%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.01em; }
- .logo-badge { font-size: 0.65rem; font-weight: 700; color: var(--coral); background: rgba(232,115,78,0.12); border: 1px solid rgba(232,115,78,0.3); border-radius: 20px; padding: 2px 7px; }
- .app-nav { display: flex; gap: 2px; }
- .nav-btn { padding: 6px 13px; border-radius: 8px; border: none; background: transparent; color: var(--text2); font-size: 0.79rem; font-weight: 500; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; white-space: nowrap; }
- .nav-btn.active { background: var(--sky); color: #fff; box-shadow: 0 2px 8px rgba(41,128,196,0.3); }
- .nav-btn:hover:not(.active) { background: var(--bg3); color: var(--text); }
- .nav-count { background: var(--coral); color: #fff; border-radius: 10px; padding: 1px 5px; font-size: 0.62rem; font-weight: 700; }
- .app-content { flex: 1; overflow-y: auto; }
- .page { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
+    /* ── App shell ── */
+    .app { display: flex; flex-direction: column; height: 100vh; }
+    .app-header {
+      background: rgba(247,244,238,0.96); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-mark { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-style: italic; font-weight: 700; background: linear-gradient(90deg, var(--sky) 0%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.01em; }
+    .logo-badge { font-size: 0.65rem; font-weight: 700; color: var(--coral); background: rgba(232,115,78,0.12); border: 1px solid rgba(232,115,78,0.3); border-radius: 20px; padding: 2px 7px; }
+    .app-nav { display: flex; gap: 2px; }
+    .nav-btn { padding: 6px 13px; border-radius: 8px; border: none; background: transparent; color: var(--text2); font-size: 0.79rem; font-weight: 500; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; white-space: nowrap; }
+    .nav-btn.active { background: var(--sky); color: #fff; box-shadow: 0 2px 8px rgba(41,128,196,0.3); }
+    .nav-btn:hover:not(.active) { background: var(--bg3); color: var(--text); }
+    .nav-count { background: var(--coral); color: #fff; border-radius: 10px; padding: 1px 5px; font-size: 0.62rem; font-weight: 700; }
+    .app-content { flex: 1; overflow-y: auto; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 
- /* \uc0\u9472 \u9472 Demo Banner \u9472 \u9472 */
- .demo-banner {
- background: linear-gradient(135deg, #fff8ec, #fef3ea);
- border-bottom: 2px solid var(--sun);
- padding: 10px 20px;
- display: flex; align-items: center; gap: 12px;
- font-size: 0.83rem;
- }
- .demo-banner-icon { font-size: 1.3rem; flex-shrink: 0; }
- .demo-banner-text { flex: 1; }
- .demo-banner-text strong { color: var(--coral); }
- .demo-banner-text span { color: var(--text2); margin-left: 4px; }
+    /* ── Demo Banner ── */
+    .demo-banner {
+      background: linear-gradient(135deg, #fff8ec, #fef3ea);
+      border-bottom: 2px solid var(--sun);
+      padding: 10px 20px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.83rem;
+    }
+    .demo-banner-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .demo-banner-text { flex: 1; }
+    .demo-banner-text strong { color: var(--coral); }
+    .demo-banner-text span { color: var(--text2); margin-left: 4px; }
 
- /* \uc0\u9472 \u9472 Buttons \u9472 \u9472 */
- .btn { padding: 10px 22px; border-radius: 10px; border: none; font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all .16s; display: inline-flex; align-items: center; gap: 7px; font-family: 'Inter', sans-serif; }
- .btn-sky { background: var(--sky); color: #fff; box-shadow: 0 3px 12px rgba(41,128,196,0.28); }
- .btn-sky:hover { background: #1f70b0; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(41,128,196,0.35); }
- .btn-coral { background: var(--coral); color: #fff; box-shadow: 0 3px 12px rgba(232,115,78,0.28); }
- .btn-coral:hover { background: #d45e3a; transform: translateY(-1px); }
- .btn-outline { background: var(--bg2); border: 1.5px solid var(--border2); color: var(--text); }
- .btn-outline:hover { background: var(--bg3); border-color: var(--text3); }
- .btn-ghost { background: transparent; color: var(--text2); padding: 7px 13px; }
- .btn-ghost:hover { background: var(--bg3); color: var(--text); }
- .btn-danger { background: rgba(217,79,79,0.1); border: 1px solid rgba(217,79,79,0.25); color: var(--red); }
- .btn-danger:hover { background: rgba(217,79,79,0.18); }
- .btn-sm { padding: 6px 13px; font-size: 0.78rem; border-radius: 8px; }
- .btn-xs { padding: 4px 10px; font-size: 0.72rem; border-radius: 6px; }
- .icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg2); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all .14s; }
- .icon-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
+    /* ── Buttons ── */
+    .btn { padding: 10px 22px; border-radius: 10px; border: none; font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all .16s; display: inline-flex; align-items: center; gap: 7px; font-family: 'Inter', sans-serif; }
+    .btn-sky { background: var(--sky); color: #fff; box-shadow: 0 3px 12px rgba(41,128,196,0.28); }
+    .btn-sky:hover { background: #1f70b0; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(41,128,196,0.35); }
+    .btn-coral { background: var(--coral); color: #fff; box-shadow: 0 3px 12px rgba(232,115,78,0.28); }
+    .btn-coral:hover { background: #d45e3a; transform: translateY(-1px); }
+    .btn-outline { background: var(--bg2); border: 1.5px solid var(--border2); color: var(--text); }
+    .btn-outline:hover { background: var(--bg3); border-color: var(--text3); }
+    .btn-ghost { background: transparent; color: var(--text2); padding: 7px 13px; }
+    .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+    .btn-danger { background: rgba(217,79,79,0.1); border: 1px solid rgba(217,79,79,0.25); color: var(--red); }
+    .btn-danger:hover { background: rgba(217,79,79,0.18); }
+    .btn-sm { padding: 6px 13px; font-size: 0.78rem; border-radius: 8px; }
+    .btn-xs { padding: 4px 10px; font-size: 0.72rem; border-radius: 6px; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg2); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all .14s; }
+    .icon-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
 
- /* \uc0\u9472 \u9472 Cards \u9472 \u9472 */
- .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; box-shadow: var(--shadow-sm); }
- .card-flat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); }
+    /* ── Cards ── */
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; box-shadow: var(--shadow-sm); }
+    .card-flat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); }
 
- /* \uc0\u9472 \u9472 Forms \u9472 \u9472 */
- input, select, textarea { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r2); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 10px 13px; width: 100%; outline: none; transition: border .15s, box-shadow .15s; }
- input[type=date] { background: var(--bg2); }
- input:focus, select:focus, textarea:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(41,128,196,0.12); }
- textarea { resize: vertical; min-height: 70px; }
- label { font-size: 0.76rem; font-weight: 600; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
- .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
- .form-group { margin-bottom: 16px; }
- select option { background: var(--bg2); }
+    /* ── Forms ── */
+    input, select, textarea { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r2); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 10px 13px; width: 100%; outline: none; transition: border .15s, box-shadow .15s; }
+    input[type=date] { background: var(--bg2); }
+    input:focus, select:focus, textarea:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(41,128,196,0.12); }
+    textarea { resize: vertical; min-height: 70px; }
+    label { font-size: 0.76rem; font-weight: 600; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 16px; }
+    select option { background: var(--bg2); }
 
- /* \uc0\u9472 \u9472 Tags / Badges \u9472 \u9472 */
- .tag { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; transition: all .14s; user-select: none; }
- .tag.sel { background: rgba(41,128,196,0.1); border-color: rgba(41,128,196,0.4); color: var(--sky); }
- .tag.sel-coral { background: rgba(232,115,78,0.1); border-color: rgba(232,115,78,0.4); color: var(--coral); }
- .tag:hover:not(.sel):not(.sel-coral) { background: var(--bg4); color: var(--text); }
- .tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
- .badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 20px; font-size: 0.71rem; font-weight: 600; }
- .badge-sky { background: rgba(41,128,196,0.12); color: var(--sky); border: 1px solid rgba(41,128,196,0.25); }
- .badge-coral { background: rgba(232,115,78,0.12); color: var(--coral); border: 1px solid rgba(232,115,78,0.25); }
- .badge-sun { background: rgba(245,185,62,0.15); color: #b8820a; border: 1px solid rgba(245,185,62,0.35); }
- .badge-green { background: rgba(61,170,106,0.12); color: var(--green); border: 1px solid rgba(61,170,106,0.25); }
- .badge-mint { background: rgba(53,184,154,0.12); color: var(--mint); border: 1px solid rgba(53,184,154,0.25); }
- .badge-demo { background: rgba(245,185,62,0.18); color: #9a6a00; border: 1px solid rgba(245,185,62,0.4); }
+    /* ── Tags / Badges ── */
+    .tag { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; transition: all .14s; user-select: none; }
+    .tag.sel { background: rgba(41,128,196,0.1); border-color: rgba(41,128,196,0.4); color: var(--sky); }
+    .tag.sel-coral { background: rgba(232,115,78,0.1); border-color: rgba(232,115,78,0.4); color: var(--coral); }
+    .tag:hover:not(.sel):not(.sel-coral) { background: var(--bg4); color: var(--text); }
+    .tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 20px; font-size: 0.71rem; font-weight: 600; }
+    .badge-sky { background: rgba(41,128,196,0.12); color: var(--sky); border: 1px solid rgba(41,128,196,0.25); }
+    .badge-coral { background: rgba(232,115,78,0.12); color: var(--coral); border: 1px solid rgba(232,115,78,0.25); }
+    .badge-sun { background: rgba(245,185,62,0.15); color: #b8820a; border: 1px solid rgba(245,185,62,0.35); }
+    .badge-green { background: rgba(61,170,106,0.12); color: var(--green); border: 1px solid rgba(61,170,106,0.25); }
+    .badge-mint { background: rgba(53,184,154,0.12); color: var(--mint); border: 1px solid rgba(53,184,154,0.25); }
+    .badge-demo { background: rgba(245,185,62,0.18); color: #9a6a00; border: 1px solid rgba(245,185,62,0.4); }
 
- /* \uc0\u9472 \u9472 Tabs \u9472 \u9472 */
- .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 22px; }
- .tab { padding: 10px 18px; border: none; background: transparent; color: var(--text3); font-size: 0.83rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
- .tab.active { color: var(--sky); border-bottom-color: var(--sky); }
- .tab:hover:not(.active) { color: var(--text2); }
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 22px; }
+    .tab { padding: 10px 18px; border: none; background: transparent; color: var(--text3); font-size: 0.83rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
+    .tab.active { color: var(--sky); border-bottom-color: var(--sky); }
+    .tab:hover:not(.active) { color: var(--text2); }
 
- /* \uc0\u9472 \u9472 Modal \u9472 \u9472 */
- .modal-bg { position: fixed; inset: 0; background: rgba(28,24,40,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(4px); }
- .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; max-width: 520px; width: 100%; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
- .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
- .modal-title { font-size: 1.25rem; }
- .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
+    /* ── Modal ── */
+    .modal-bg { position: fixed; inset: 0; background: rgba(28,24,40,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(4px); }
+    .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; max-width: 520px; width: 100%; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .modal-title { font-size: 1.25rem; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
 
- /* \uc0\u9472 \u9472 Drop Zone \u9472 \u9472 */
- .dz { border: 2px dashed var(--border2); border-radius: var(--r); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; overflow: hidden; background: var(--bg3); }
- .dz:hover, .dz.over { border-color: var(--sky); background: rgba(41,128,196,0.05); }
- .dz.over { transform: scale(1.01); border-style: solid; }
- .dz img { width: 100%; height: 100%; object-fit: cover; }
- .dz-hint { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px; text-align: center; pointer-events: none; }
- .dz-icon { font-size: 1.8rem; }
- .dz-main { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
- .dz-sub { font-size: 0.72rem; color: var(--text3); }
+    /* ── Drop Zone ── */
+    .dz { border: 2px dashed var(--border2); border-radius: var(--r); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; overflow: hidden; background: var(--bg3); }
+    .dz:hover, .dz.over { border-color: var(--sky); background: rgba(41,128,196,0.05); }
+    .dz.over { transform: scale(1.01); border-style: solid; }
+    .dz img { width: 100%; height: 100%; object-fit: cover; }
+    .dz-hint { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px; text-align: center; pointer-events: none; }
+    .dz-icon { font-size: 1.8rem; }
+    .dz-main { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .dz-sub { font-size: 0.72rem; color: var(--text3); }
 
- /* \uc0\u9472 \u9472 Symmetric Item Grid \u9472 \u9472 */
- .item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
- @media (min-width: 480px) { .item-grid { grid-template-columns: repeat(3, 1fr); } }
- @media (min-width: 720px) { .item-grid { grid-template-columns: repeat(4, 1fr); } }
- @media (min-width: 960px) { .item-grid { grid-template-columns: repeat(5, 1fr); } }
+    /* ── Symmetric Item Grid ── */
+    .item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (min-width: 480px) { .item-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 720px) { .item-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 960px) { .item-grid { grid-template-columns: repeat(5, 1fr); } }
 
- .item-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden; cursor: pointer; transition: all .18s; position: relative; }
- .item-card:hover { border-color: var(--sky); transform: translateY(-3px); box-shadow: var(--shadow); }
- .item-card.hero { border-color: var(--sun); box-shadow: 0 0 0 2px rgba(245,185,62,0.3); }
- .item-card.selected { border-color: var(--sky); box-shadow: 0 0 0 2px rgba(41,128,196,0.2); }
- .item-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
- .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
- .item-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
- .item-emoji { font-size: 2.4rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
- .item-info { padding: 8px 9px 9px; border-top: 1px solid var(--border); }
- .item-name { font-size: 0.75rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px; }
- .item-sub { font-size: 0.67rem; color: var(--text3); }
- .item-pin { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; box-shadow: var(--shadow-sm); }
- .item-pin-hero { background: var(--sun); }
- .item-pin-sel { background: var(--sky); color: #fff; font-weight: 700; }
+    .item-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden; cursor: pointer; transition: all .18s; position: relative; }
+    .item-card:hover { border-color: var(--sky); transform: translateY(-3px); box-shadow: var(--shadow); }
+    .item-card.hero { border-color: var(--sun); box-shadow: 0 0 0 2px rgba(245,185,62,0.3); }
+    .item-card.selected { border-color: var(--sky); box-shadow: 0 0 0 2px rgba(41,128,196,0.2); }
+    .item-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .item-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .item-emoji { font-size: 2.4rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+    .item-info { padding: 8px 9px 9px; border-top: 1px solid var(--border); }
+    .item-name { font-size: 0.75rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px; }
+    .item-sub { font-size: 0.67rem; color: var(--text3); }
+    .item-pin { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; box-shadow: var(--shadow-sm); }
+    .item-pin-hero { background: var(--sun); }
+    .item-pin-sel { background: var(--sky); color: #fff; font-weight: 700; }
 
- /* \uc0\u9472 \u9472 Symmetric Outfit Grid \u9472 \u9472 */
- .outfit-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
- @media (min-width: 600px) { .outfit-grid { grid-template-columns: repeat(2, 1fr); } }
- @media (min-width: 960px) { .outfit-grid { grid-template-columns: repeat(3, 1fr); } }
+    /* ── Symmetric Outfit Grid ── */
+    .outfit-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .outfit-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 960px) { .outfit-grid { grid-template-columns: repeat(3, 1fr); } }
 
- .outfit-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden; transition: all .18s; box-shadow: var(--shadow-sm); }
- .outfit-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border2); }
- .outfit-card.hero { border-color: var(--sun); background: linear-gradient(160deg, #fffbf0 0%, var(--bg2) 60%); }
- .outfit-card.packed { border-color: var(--mint); background: linear-gradient(160deg, #f0fdf7 0%, var(--bg2) 60%); }
- .outfit-photos { display: flex; height: 120px; }
- .outfit-photo { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--border); position: relative; }
- .outfit-photo:last-child { border-right: none; }
- .outfit-photo img { width: 100%; height: 100%; object-fit: cover; }
- .outfit-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
- .outfit-emoji { font-size: 2rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15)); }
- .outfit-body { padding: 13px 14px; }
- .outfit-name { font-size: 0.9rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 7px; }
- .outfit-score-row { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
- .score-bar { flex: 1; height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
- .score-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sky), var(--mint)); }
- .score-pct { font-size: 0.74rem; font-weight: 700; color: var(--sky); min-width: 35px; }
- .outfit-pieces { display: flex; flex-wrap: wrap; gap: 4px; }
- .piece-tag { font-size: 0.69rem; padding: 2px 8px; background: var(--bg3); border-radius: 20px; color: var(--text2); }
- .outfit-footer { padding: 9px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; }
- .pack-label { display: flex; align-items: center; gap: 8px; font-size: 0.81rem; color: var(--text2); cursor: pointer; flex: 1; user-select: none; }
- .pack-label input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--mint); flex-shrink: 0; }
- .pack-label.done { color: var(--mint); font-weight: 600; }
+    .outfit-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden; transition: all .18s; box-shadow: var(--shadow-sm); }
+    .outfit-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--border2); }
+    .outfit-card.hero { border-color: var(--sun); background: linear-gradient(160deg, #fffbf0 0%, var(--bg2) 60%); }
+    .outfit-card.packed { border-color: var(--mint); background: linear-gradient(160deg, #f0fdf7 0%, var(--bg2) 60%); }
+    .outfit-photos { display: flex; height: 120px; }
+    .outfit-photo { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--border); position: relative; }
+    .outfit-photo:last-child { border-right: none; }
+    .outfit-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .outfit-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .outfit-emoji { font-size: 2rem; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15)); }
+    .outfit-body { padding: 13px 14px; }
+    .outfit-name { font-size: 0.9rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 7px; }
+    .outfit-score-row { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+    .score-bar { flex: 1; height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sky), var(--mint)); }
+    .score-pct { font-size: 0.74rem; font-weight: 700; color: var(--sky); min-width: 35px; }
+    .outfit-pieces { display: flex; flex-wrap: wrap; gap: 4px; }
+    .piece-tag { font-size: 0.69rem; padding: 2px 8px; background: var(--bg3); border-radius: 20px; color: var(--text2); }
+    .outfit-footer { padding: 9px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; }
+    .pack-label { display: flex; align-items: center; gap: 8px; font-size: 0.81rem; color: var(--text2); cursor: pointer; flex: 1; user-select: none; }
+    .pack-label input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--mint); flex-shrink: 0; }
+    .pack-label.done { color: var(--mint); font-weight: 600; }
 
- /* \uc0\u9472 \u9472 Inspo Grid \u9472 \u9472 */
- .inspo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
- @media (min-width: 480px) { .inspo-grid { grid-template-columns: repeat(3, 1fr); } }
- @media (min-width: 720px) { .inspo-grid { grid-template-columns: repeat(4, 1fr); } }
- .inspo-card { border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 3/4; cursor: pointer; border: 2px solid transparent; transition: all .18s; box-shadow: var(--shadow-sm); }
- .inspo-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
- .inspo-card.tagged { border-color: var(--lavender); }
- .inspo-card img { width: 100%; height: 100%; object-fit: cover; }
- .inspo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,24,40,0.75) 0%, transparent 55%); opacity: 0; transition: opacity .18s; display: flex; flex-direction: column; justify-content: flex-end; padding: 9px; }
- .inspo-card:hover .inspo-overlay, .inspo-card.tagged .inspo-overlay { opacity: 1; }
- .inspo-vibe-tags { display: flex; flex-wrap: wrap; gap: 3px; }
- .inspo-vibe { font-size: 0.63rem; padding: 2px 6px; background: rgba(139,116,212,0.6); border-radius: 10px; color: #fff; font-weight: 500; }
+    /* ── Inspo Grid ── */
+    .inspo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (min-width: 480px) { .inspo-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 720px) { .inspo-grid { grid-template-columns: repeat(4, 1fr); } }
+    .inspo-card { border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 3/4; cursor: pointer; border: 2px solid transparent; transition: all .18s; box-shadow: var(--shadow-sm); }
+    .inspo-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .inspo-card.tagged { border-color: var(--lavender); }
+    .inspo-card img { width: 100%; height: 100%; object-fit: cover; }
+    .inspo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,24,40,0.75) 0%, transparent 55%); opacity: 0; transition: opacity .18s; display: flex; flex-direction: column; justify-content: flex-end; padding: 9px; }
+    .inspo-card:hover .inspo-overlay, .inspo-card.tagged .inspo-overlay { opacity: 1; }
+    .inspo-vibe-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+    .inspo-vibe { font-size: 0.63rem; padding: 2px 6px; background: rgba(139,116,212,0.6); border-radius: 10px; color: #fff; font-weight: 500; }
 
- /* \uc0\u9472 \u9472 Progress (Sticky) \u9472 \u9472 */
- .sticky-progress { position: sticky; top: 58px; z-index: 50; background: rgba(247,244,238,0.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; }
- .sticky-progress-inner { max-width: 1100px; margin: 0 auto; }
- .prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.84rem; }
- .prog-label { font-weight: 600; color: var(--text); }
- .prog-pct { font-weight: 700; font-size: 0.95rem; }
- .prog-bar { height: 8px; background: var(--bg4); border-radius: 4px; overflow: hidden; }
- .prog-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--sky), var(--mint)); transition: width .5s cubic-bezier(.4,0,.2,1); }
+    /* ── Progress (Sticky) ── */
+    .sticky-progress { position: sticky; top: 58px; z-index: 50; background: rgba(247,244,238,0.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; }
+    .sticky-progress-inner { max-width: 1100px; margin: 0 auto; }
+    .prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.84rem; }
+    .prog-label { font-weight: 600; color: var(--text); }
+    .prog-pct { font-weight: 700; font-size: 0.95rem; }
+    .prog-bar { height: 8px; background: var(--bg4); border-radius: 4px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--sky), var(--mint)); transition: width .5s cubic-bezier(.4,0,.2,1); }
 
- /* \uc0\u9472 \u9472 Pack items \u9472 \u9472 */
- .pack-section { margin-bottom: 24px; }
- .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
- .sec-title { font-size: 0.85rem; font-weight: 700; color: var(--text2); display: flex; align-items: center; gap: 7px; }
- .pack-item { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 9px; margin-bottom: 6px; transition: all .13s; box-shadow: var(--shadow-sm); }
- .pack-item.done { opacity: 0.42; }
- .pack-item.done .pi-name { text-decoration: line-through; }
- .pack-item input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--mint); flex-shrink: 0; cursor: pointer; }
- .pi-thumb { width: 36px; height: 36px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
- .pi-thumb img { width: 100%; height: 100%; object-fit: cover; }
- .pi-name { font-size: 0.85rem; font-weight: 500; flex: 1; }
- .pi-color { font-size: 0.72rem; color: var(--text3); }
+    /* ── Pack items ── */
+    .pack-section { margin-bottom: 24px; }
+    .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .sec-title { font-size: 0.85rem; font-weight: 700; color: var(--text2); display: flex; align-items: center; gap: 7px; }
+    .pack-item { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 9px; margin-bottom: 6px; transition: all .13s; box-shadow: var(--shadow-sm); }
+    .pack-item.done { opacity: 0.42; }
+    .pack-item.done .pi-name { text-decoration: line-through; }
+    .pack-item input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--mint); flex-shrink: 0; cursor: pointer; }
+    .pi-thumb { width: 36px; height: 36px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pi-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .pi-name { font-size: 0.85rem; font-weight: 500; flex: 1; }
+    .pi-color { font-size: 0.72rem; color: var(--text3); }
 
- /* \uc0\u9472 \u9472 Weather card \u9472 \u9472 */
- .weather-card { display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg, rgba(41,128,196,0.07), rgba(53,184,154,0.07)); border: 1px solid rgba(41,128,196,0.18); border-radius: var(--r); padding: 15px 18px; }
- .wc-icon { font-size: 2.4rem; }
- .wc-temp { font-size: 1.55rem; font-weight: 700; color: var(--sky); font-family: 'Playfair Display', serif; }
- .wc-desc { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
- .wc-note { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
+    /* ── Weather card ── */
+    .weather-card { display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg, rgba(41,128,196,0.07), rgba(53,184,154,0.07)); border: 1px solid rgba(41,128,196,0.18); border-radius: var(--r); padding: 15px 18px; }
+    .wc-icon { font-size: 2.4rem; }
+    .wc-temp { font-size: 1.55rem; font-weight: 700; color: var(--sky); font-family: 'Playfair Display', serif; }
+    .wc-desc { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+    .wc-note { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
 
- /* \uc0\u9472 \u9472 Wizard steps \u9472 \u9472 */
- .wiz-row { display: flex; align-items: flex-start; margin-bottom: 28px; gap: 0; }
- .wiz-step-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
- .wiz-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid var(--border2); color: var(--text3); background: var(--bg2); transition: all .3s; margin-bottom: 5px; flex-shrink: 0; }
- .wiz-dot.done { background: var(--mint); border-color: var(--mint); color: #fff; }
- .wiz-dot.active { background: var(--sky); border-color: var(--sky); color: #fff; box-shadow: 0 0 0 4px rgba(41,128,196,0.18); }
- .wiz-lbl { font-size: 0.68rem; font-weight: 600; color: var(--text3); text-align: center; }
- .wiz-lbl.active { color: var(--sky); }
- .wiz-lbl.done { color: var(--mint); }
- .wiz-line { flex: 1; height: 2px; background: var(--border); margin-top: 15px; transition: background .3s; }
- .wiz-line.done { background: var(--mint); }
+    /* ── Wizard steps ── */
+    .wiz-row { display: flex; align-items: flex-start; margin-bottom: 28px; gap: 0; }
+    .wiz-step-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .wiz-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid var(--border2); color: var(--text3); background: var(--bg2); transition: all .3s; margin-bottom: 5px; flex-shrink: 0; }
+    .wiz-dot.done { background: var(--mint); border-color: var(--mint); color: #fff; }
+    .wiz-dot.active { background: var(--sky); border-color: var(--sky); color: #fff; box-shadow: 0 0 0 4px rgba(41,128,196,0.18); }
+    .wiz-lbl { font-size: 0.68rem; font-weight: 600; color: var(--text3); text-align: center; }
+    .wiz-lbl.active { color: var(--sky); }
+    .wiz-lbl.done { color: var(--mint); }
+    .wiz-line { flex: 1; height: 2px; background: var(--border); margin-top: 15px; transition: background .3s; }
+    .wiz-line.done { background: var(--mint); }
 
- /* \uc0\u9472 \u9472 Sliders \u9472 \u9472 */
- .slider-row { margin-bottom: 12px; }
- .slider-lbl { display: flex; justify-content: space-between; font-size: 0.79rem; margin-bottom: 5px; }
- .slider-lbl-left { color: var(--text2); }
- .slider-lbl-right { font-weight: 700; color: var(--sky); }
- input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--bg4); border-radius: 2px; outline: none; padding: 0; cursor: pointer; }
- input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--sky); cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(41,128,196,0.35); }
+    /* ── Sliders ── */
+    .slider-row { margin-bottom: 12px; }
+    .slider-lbl { display: flex; justify-content: space-between; font-size: 0.79rem; margin-bottom: 5px; }
+    .slider-lbl-left { color: var(--text2); }
+    .slider-lbl-right { font-weight: 700; color: var(--sky); }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--bg4); border-radius: 2px; outline: none; padding: 0; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--sky); cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(41,128,196,0.35); }
 
- /* \uc0\u9472 \u9472 DNA bars \u9472 \u9472 */
- .dna-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
- .dna-lbl { width: 110px; font-size: 0.76rem; color: var(--text2); text-transform: capitalize; flex-shrink: 0; }
- .dna-track { flex: 1; height: 9px; background: var(--bg4); border-radius: 5px; overflow: hidden; }
- .dna-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--lavender), var(--coral)); }
- .dna-pct { width: 36px; text-align: right; font-size: 0.73rem; color: var(--text3); font-weight: 600; }
+    /* ── DNA bars ── */
+    .dna-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .dna-lbl { width: 110px; font-size: 0.76rem; color: var(--text2); text-transform: capitalize; flex-shrink: 0; }
+    .dna-track { flex: 1; height: 9px; background: var(--bg4); border-radius: 5px; overflow: hidden; }
+    .dna-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--lavender), var(--coral)); }
+    .dna-pct { width: 36px; text-align: right; font-size: 0.73rem; color: var(--text3); font-weight: 600; }
 
- /* \uc0\u9472 \u9472 Trip cards \u9472 \u9472 */
- .trip-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; gap: 14px; transition: all .18s; cursor: pointer; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
- .trip-card:hover { border-color: var(--sky); transform: translateY(-2px); box-shadow: var(--shadow); }
- .trip-icon { width: 52px; height: 52px; background: linear-gradient(135deg, rgba(41,128,196,0.12), rgba(53,184,154,0.12)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
- .trip-meta { flex: 1; min-width: 0; }
- .trip-dest { font-size: 1.05rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
- .trip-dates { font-size: 0.79rem; color: var(--text2); margin-top: 2px; }
- .trip-prog { font-size: 0.72rem; color: var(--text3); margin-top: 3px; }
+    /* ── Trip cards ── */
+    .trip-card { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; gap: 14px; transition: all .18s; cursor: pointer; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
+    .trip-card:hover { border-color: var(--sky); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .trip-icon { width: 52px; height: 52px; background: linear-gradient(135deg, rgba(41,128,196,0.12), rgba(53,184,154,0.12)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
+    .trip-meta { flex: 1; min-width: 0; }
+    .trip-dest { font-size: 1.05rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .trip-dates { font-size: 0.79rem; color: var(--text2); margin-top: 2px; }
+    .trip-prog { font-size: 0.72rem; color: var(--text3); margin-top: 3px; }
 
- /* \uc0\u9472 \u9472 Welcome \u9472 \u9472 */
- .welcome { min-height: calc(100vh - 58px); display: flex; flex-direction: column; }
- .welcome-hero { background: linear-gradient(160deg, #e8f4fd 0%, #fef9ee 50%, #fef0e8 100%); padding: 52px 20px 48px; text-align: center; border-bottom: 1px solid var(--border); }
- .welcome-title { font-size: clamp(2rem, 6vw, 3.2rem); color: var(--text); line-height: 1.2; margin-bottom: 14px; }
- .welcome-title span { color: var(--sky); font-style: italic; }
- .welcome-sub { font-size: 1rem; color: var(--text2); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
- .onboard-paths { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 700px; margin: 0 auto; }
- @media (min-width: 600px) { .onboard-paths { grid-template-columns: 1fr 1fr; } }
- .path-card { border-radius: 16px; padding: 28px 24px; text-align: left; border: 2px solid transparent; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
- .path-card-demo { background: linear-gradient(135deg, #fffbf0, #fff6e8); border-color: rgba(245,185,62,0.4); }
- .path-card-demo:hover { border-color: var(--sun); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(245,185,62,0.2); }
- .path-card-own { background: linear-gradient(135deg, #edf6fe, #e8f8f4); border-color: rgba(41,128,196,0.3); }
- .path-card-own:hover { border-color: var(--sky); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(41,128,196,0.18); }
- .path-icon { font-size: 2.4rem; margin-bottom: 12px; }
- .path-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
- .path-desc { font-size: 0.84rem; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
- .path-steps { display: flex; flex-direction: column; gap: 5px; margin-bottom: 18px; }
- .path-step { font-size: 0.78rem; color: var(--text2); display: flex; align-items: center; gap: 7px; }
- .path-step-dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: #fff; flex-shrink: 0; }
- .demo-dot { background: var(--sun); }
- .own-dot { background: var(--sky); }
- .path-cta { width: 100%; text-align: center; }
- .welcome-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 700px; margin: 36px auto 0; padding: 0 20px; }
- @media (min-width: 600px) { .welcome-features { grid-template-columns: repeat(4, 1fr); } }
- .feat { text-align: center; padding: 18px 14px; background: var(--bg2); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
- .feat-icon { font-size: 1.6rem; margin-bottom: 8px; }
- .feat-title { font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
- .feat-desc { font-size: 0.72rem; color: var(--text3); line-height: 1.5; }
- .welcome-bottom { padding: 28px 20px 48px; background: var(--bg); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+    /* ── Welcome ── */
+    .welcome { min-height: calc(100vh - 58px); display: flex; flex-direction: column; }
+    .welcome-hero { background: linear-gradient(160deg, #e8f4fd 0%, #fef9ee 50%, #fef0e8 100%); padding: 52px 20px 48px; text-align: center; border-bottom: 1px solid var(--border); }
+    .welcome-title { font-size: clamp(2rem, 6vw, 3.2rem); color: var(--text); line-height: 1.2; margin-bottom: 14px; }
+    .welcome-title span { color: var(--sky); font-style: italic; }
+    .welcome-sub { font-size: 1rem; color: var(--text2); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
+    .onboard-paths { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 700px; margin: 0 auto; }
+    @media (min-width: 600px) { .onboard-paths { grid-template-columns: 1fr 1fr; } }
+    .path-card { border-radius: 16px; padding: 28px 24px; text-align: left; border: 2px solid transparent; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+    .path-card-demo { background: linear-gradient(135deg, #fffbf0, #fff6e8); border-color: rgba(245,185,62,0.4); }
+    .path-card-demo:hover { border-color: var(--sun); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(245,185,62,0.2); }
+    .path-card-own { background: linear-gradient(135deg, #edf6fe, #e8f8f4); border-color: rgba(41,128,196,0.3); }
+    .path-card-own:hover { border-color: var(--sky); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(41,128,196,0.18); }
+    .path-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .path-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
+    .path-desc { font-size: 0.84rem; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+    .path-steps { display: flex; flex-direction: column; gap: 5px; margin-bottom: 18px; }
+    .path-step { font-size: 0.78rem; color: var(--text2); display: flex; align-items: center; gap: 7px; }
+    .path-step-dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .demo-dot { background: var(--sun); }
+    .own-dot { background: var(--sky); }
+    .path-cta { width: 100%; text-align: center; }
+    .welcome-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 700px; margin: 36px auto 0; padding: 0 20px; }
+    @media (min-width: 600px) { .welcome-features { grid-template-columns: repeat(4, 1fr); } }
+    .feat { text-align: center; padding: 18px 14px; background: var(--bg2); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+    .feat-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .feat-title { font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .feat-desc { font-size: 0.72rem; color: var(--text3); line-height: 1.5; }
+    .welcome-bottom { padding: 28px 20px 48px; background: var(--bg); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
- /* \uc0\u9472 \u9472 Misc \u9472 \u9472 */
- .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
- .flex-between { display: flex; align-items: center; justify-content: space-between; }
- .flex-center { display: flex; align-items: center; }
- .empty { text-align: center; padding: 44px 20px; }
- .empty-icon { font-size: 3rem; margin-bottom: 12px; }
- .empty-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
- .empty-sub { font-size: 0.83rem; color: var(--text3); line-height: 1.6; max-width: 300px; margin: 0 auto 16px; }
- .mt-8 { margin-top: 8px; }
- .mt-16 { margin-top: 16px; }
- .mt-24 { margin-top: 24px; }
- .mb-8 { margin-bottom: 8px; }
- .mb-12 { margin-bottom: 12px; }
- .mb-16 { margin-bottom: 16px; }
- .mb-24 { margin-bottom: 24px; }
- .text-sm { font-size: 0.82rem; color: var(--text2); }
- .text-xs { font-size: 0.73rem; color: var(--text3); }
- .fw-600 { font-weight: 600; }
- ::-webkit-scrollbar { width: 5px; }
- ::-webkit-scrollbar-track { background: transparent; }
- ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
- ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
- @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
- @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* ── Misc ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .flex-center { display: flex; align-items: center; }
+    .empty { text-align: center; padding: 44px 20px; }
+    .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+    .empty-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .empty-sub { font-size: 0.83rem; color: var(--text3); line-height: 1.6; max-width: 300px; margin: 0 auto 16px; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-12 { margin-bottom: 12px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .text-sm { font-size: 0.82rem; color: var(--text2); }
+    .text-xs { font-size: 0.73rem; color: var(--text3); }
+    .fw-600 { font-weight: 600; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 
- @media (max-width: 480px) {
- .app-header { padding: 0 14px; }
- .page { padding: 20px 14px 48px; }
- .form-row { grid-template-columns: 1fr; }
- .nav-btn { padding: 5px 9px; font-size: 0.74rem; }
- }
- </style>
+    @media (max-width: 480px) {
+      .app-header { padding: 0 14px; }
+      .page { padding: 20px 14px 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-btn { padding: 5px 9px; font-size: 0.74rem; }
+    }
+  </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
-// \uc0\u9472 \u9472 \u9472 Constants \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Constants ───────────────────────────────────────────────────────────────
 const LUGGAGE = [
- { value:'personal', label:'\uc0\u55356 \u57234 Personal Item Only', note:'12 nights' },
- { value:'carry-on', label:'\uc0\u55358 \u56819 Carry-On', note:'37 nights' },
- { value:'checked', label:'\uc0\u55357 \u56771 \u65039 Checked Bag', note:'1+ weeks' },
- { value:'both', label:'\uc0\u55358 \u56819 \u55356 \u57234 Carry-On + Personal', note:'flexible' },
+  { value:'personal', label:'🎒 Personal Item Only', note:'1–2 nights' },
+  { value:'carry-on', label:'🧳 Carry-On', note:'3–7 nights' },
+  { value:'checked', label:'🗃️ Checked Bag', note:'1+ weeks' },
+  { value:'both', label:'🧳🎒 Carry-On + Personal', note:'flexible' },
 ];
 const VACATION_TYPES = [
- { value:'beach', label:'\uc0\u55356 \u57302 \u65039 Beach & Resort', icon:'\u55356 \u57302 \u65039 ' },
- { value:'adventure', label:'\uc0\u55356 \u57301 \u65039 Adventure', icon:'\u55356 \u57301 \u65039 ' },
- { value:'city', label:'\uc0\u55356 \u57305 \u65039 City Break', icon:'\u55356 \u57305 \u65039 ' },
- { value:'cultural', label:'\uc0\u55356 \u57307 \u65039 Cultural', icon:'\u55356 \u57307 \u65039 ' },
- { value:'wellness', label:'\uc0\u55358 \u56792 Wellness', icon:'\u55358 \u56792 ' },
- { value:'mixed', label:'\uc0\u10024 Mixed', icon:'\u10024 ' },
+  { value:'beach', label:'🏖️ Beach & Resort', icon:'🏖️' },
+  { value:'adventure', label:'🏕️ Adventure', icon:'🏕️' },
+  { value:'city', label:'🏙️ City Break', icon:'🏙️' },
+  { value:'cultural', label:'🏛️ Cultural', icon:'🏛️' },
+  { value:'wellness', label:'🧘 Wellness', icon:'🧘' },
+  { value:'mixed', label:'✨ Mixed', icon:'✨' },
 ];
 const ACTIVITIES = [
- { value:'sightseeing', label:'\uc0\u55357 \u56826 \u65039 Sightseeing', f:2 },
- { value:'dining', label:'\uc0\u55356 \u57213 \u65039 Fine Dining', f:4 },
- { value:'beach', label:'\uc0\u55356 \u57302 \u65039 Beach', f:1 },
- { value:'swimming', label:'\uc0\u55356 \u57098 Swimming', f:1 },
- { value:'hiking', label:'\uc0\u55358 \u56702 Hiking', f:1 },
- { value:'cenotes', label:'\uc0\u55357 \u56487 Cenotes', f:1 },
- { value:'nature', label:'\uc0\u55356 \u57151 Nature', f:1 },
- { value:'nightlife', label:'\uc0\u55356 \u57270 Nightlife', f:4 },
- { value:'water-sports', label:'\uc0\u55356 \u57284 Water Sports', f:1 },
- { value:'shopping', label:'\uc0\u55357 \u57037 \u65039 Shopping', f:2 },
- { value:'museums', label:'\uc0\u55356 \u57256 Museums', f:3 },
- { value:'wellness', label:'\uc0\u55358 \u56792 Spa & Yoga', f:2 },
- { value:'rooftop', label:'\uc0\u55356 \u57095 Rooftop Bars', f:4 },
- { value:'cafes', label:'\uc0\u9749 Cafés', f:2 },
+  { value:'sightseeing', label:'🗺️ Sightseeing', f:2 },
+  { value:'dining', label:'🍽️ Fine Dining', f:4 },
+  { value:'beach', label:'🏖️ Beach', f:1 },
+  { value:'swimming', label:'🌊 Swimming', f:1 },
+  { value:'hiking', label:'🥾 Hiking', f:1 },
+  { value:'cenotes', label:'💧 Cenotes', f:1 },
+  { value:'nature', label:'🌿 Nature', f:1 },
+  { value:'nightlife', label:'🎶 Nightlife', f:4 },
+  { value:'water-sports', label:'🏄 Water Sports', f:1 },
+  { value:'shopping', label:'🛍️ Shopping', f:2 },
+  { value:'museums', label:'🎨 Museums', f:3 },
+  { value:'wellness', label:'🧘 Spa & Yoga', f:2 },
+  { value:'rooftop', label:'🌇 Rooftop Bars', f:4 },
+  { value:'cafes', label:'☕ Cafés', f:2 },
 ];
 const AESTHETICS = [
- { value:'quiet-luxury', label:'Quiet Luxury', emoji:'\uc0\u55358 \u56589 ' },
- { value:'chic', label:'Chic & Elevated', emoji:'\uc0\u10024 ' },
- { value:'casual', label:'Casual Comfort', emoji:'\uc0\u9729 \u65039 ' },
- { value:'artsy', label:'Artsy & Creative', emoji:'\uc0\u55356 \u57256 ' },
- { value:'bold', label:'Bold & Statement', emoji:'\uc0\u55357 \u56613 ' },
- { value:'boho', label:'Boho & Free Spirit', emoji:'\uc0\u55356 \u57144 ' },
- { value:'minimalist', label:'Minimalist', emoji:'\uc0\u9723 \u65039 ' },
- { value:'resort', label:'Resort & Tropical', emoji:'\uc0\u55356 \u57140 ' },
+  { value:'quiet-luxury', label:'Quiet Luxury', emoji:'🤍' },
+  { value:'chic', label:'Chic & Elevated', emoji:'✨' },
+  { value:'casual', label:'Casual Comfort', emoji:'☁️' },
+  { value:'artsy', label:'Artsy & Creative', emoji:'🎨' },
+  { value:'bold', label:'Bold & Statement', emoji:'🔥' },
+  { value:'boho', label:'Boho & Free Spirit', emoji:'🌸' },
+  { value:'minimalist', label:'Minimalist', emoji:'◻️' },
+  { value:'resort', label:'Resort & Tropical', emoji:'🌴' },
 ];
 const ITEM_TYPES = [
- { value:'top', label:'Top / Shirt', emoji:'\uc0\u55357 \u56405 ' },
- { value:'bottom', label:'Pants / Skirt', emoji:'\uc0\u55357 \u56406 ' },
- { value:'dress', label:'Dress / Jumpsuit', emoji:'\uc0\u55357 \u56407 ' },
- { value:'shoes', label:'Shoes', emoji:'\uc0\u55357 \u56415 ' },
- { value:'outerwear', label:'Outerwear / Jacket', emoji:'\uc0\u55358 \u56805 ' },
- { value:'accessory', label:'Accessory / Jewelry', emoji:'\uc0\u55357 \u56461 ' },
- { value:'swimwear', label:'Swimwear', emoji:'\uc0\u55357 \u56409 ' },
- { value:'bag', label:'Bag / Purse', emoji:'\uc0\u55357 \u56412 ' },
- { value:'set', label:'Matching Set', emoji:'\uc0\u10024 ' },
+  { value:'top', label:'Top / Shirt', emoji:'👕' },
+  { value:'bottom', label:'Pants / Skirt', emoji:'👖' },
+  { value:'dress', label:'Dress / Jumpsuit', emoji:'👗' },
+  { value:'shoes', label:'Shoes', emoji:'👟' },
+  { value:'outerwear', label:'Outerwear / Jacket', emoji:'🧥' },
+  { value:'accessory', label:'Accessory / Jewelry', emoji:'💍' },
+  { value:'swimwear', label:'Swimwear', emoji:'👙' },
+  { value:'bag', label:'Bag / Purse', emoji:'👜' },
+  { value:'set', label:'Matching Set', emoji:'✨' },
 ];
 const WMO = {0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Light showers',81:'Showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
 
-// \uc0\u9472 \u9472 \u9472 DEMO PHOTOS \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
-// Swap null \uc0\u8594 raw GitHub URL to show real outfit photos in demo mode.
+// ─── DEMO PHOTOS ─────────────────────────────────────────────────────────────
+// Swap null → raw GitHub URL to show real outfit photos in demo mode.
 // Format: https://raw.githubusercontent.com/YourAutoMate/packed-closet/main/images/filename.jpg
 // GitHub raw base URL
 const _GH = 'https://raw.githubusercontent.com/YourAutoMate/packed-closet/main/';
 const DEMO_PHOTOS = {
- d01: _GH + 'linen%20top%20oatmeal.png', // Oatmeal Linen Top
- d02: _GH + 'Sage%20embroidery%20top.png', // Sage Embroidery Top
- d03: _GH + 'linen%20top%20coffee.png', // Coffee Linen Top
- d04: _GH + 'linen%20top%20light%20brown.png', // Light Brown Linen Top
- d05: _GH + 'multiclor%20coverup.png', // Multicolor Cover-Up
- d06: _GH + 'linen%20top%20and%20pants%20set%20pink.png', // Pink Linen Set
- d07: _GH + 'mini%20skort%20light%20brown.png', // Light Brown Mini Skort
- d08: _GH + 'vest%20and%20shorts%20set%20red.png', // Red Vest & Shorts Set
- d09: null,
- d10: _GH + 'floral%20multicolor%20mini%20dress.png', // Floral Mini Dress
- d11: null, d12: null, d13: null, d14: null, d15: null,
- d16: null,
- d17: _GH + 'sunhat.png', // Sun Hat
- d18: null, d19: null, d20: null,
+  d01: _GH + 'linen%20top%20oatmeal.png',           // Oatmeal Linen Top
+  d02: _GH + 'Sage%20embroidery%20top.png',          // Sage Embroidery Top
+  d03: _GH + 'linen%20top%20coffee.png',             // Coffee Linen Top
+  d04: _GH + 'linen%20top%20light%20brown.png',      // Light Brown Linen Top
+  d05: _GH + 'multiclor%20coverup.png',              // Multicolor Cover-Up
+  d06: _GH + 'linen%20top%20and%20pants%20set%20pink.png', // Pink Linen Set
+  d07: _GH + 'mini%20skort%20light%20brown.png',     // Light Brown Mini Skort
+  d08: _GH + 'vest%20and%20shorts%20set%20red.png',  // Red Vest & Shorts Set
+  d09: null,
+  d10: _GH + 'floral%20multicolor%20mini%20dress.png', // Floral Mini Dress
+  d11: null, d12: null, d13: null, d14: null, d15: null,
+  d16: null,
+  d17: _GH + 'sunhat.png',                           // Sun Hat
+  d18: null, d19: null, d20: null,
 };
 
-// \uc0\u9472 \u9472 \u9472 Image Analysis (canvas + filename) \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Image Analysis (canvas + filename) ──────────────────────────────────────
 const COLOR_NAMES=[['White',[245,245,245]],['Cream',[240,230,200]],['Beige',[215,195,160]],['Sand',[200,180,140]],['Tan',[185,155,110]],['Camel',[190,140,80]],['Brown',[130,85,50]],['Black',[30,30,30]],['Charcoal',[70,70,75]],['Gray',[150,150,155]],['Silver',[195,195,205]],['Navy',[30,40,90]],['Blue',[50,90,180]],['Sky Blue',[90,160,225]],['Teal',[35,145,145]],['Mint',[140,220,190]],['Green',[55,150,75]],['Olive',[100,115,55]],['Yellow',[240,210,60]],['Gold',[210,170,50]],['Orange',[220,120,50]],['Terracotta',[185,90,60]],['Coral',[235,110,90]],['Red',[195,50,55]],['Burgundy',[120,30,45]],['Pink',[235,155,175]],['Dusty Rose',[200,140,145]],['Blush',[235,195,195]],['Lavender',[170,140,205]],['Purple',[120,60,160]],['Natural',[205,185,155]],['Denim Blue',[90,115,170]],['Floral Multi',[180,150,120]]];
 function guessColorName(r,g,b){let best=COLOR_NAMES[0],dist=Infinity;COLOR_NAMES.forEach(([n,[cr,cg,cb]])=>{const d=(r-cr)*(r-cr)+(g-cg)*(g-cg)+(b-cb)*(b-cb);if(d<dist){dist=d;best=[n,[cr,cg,cb]];}});return best[0];}
 function guessWarmth(r,g,b){const brightness=(r+g+b)/3;const warmScore=r-b;if(brightness>220)return 1;if(brightness<60)return 3;if(warmScore>40)return 1;if(warmScore<-30)return 2;return 2;}
 function guessTypeFromFilename(name){const n=name.toLowerCase();if(/dress|gown|romper|jumpsuit/.test(n))return'dress';if(/skirt/.test(n))return'bottom';if(/pant|trouser|short|jean|denim/.test(n))return'bottom';if(/shoe|heel|sneaker|sandal|boot|flat|wedge|espadri/.test(n))return'shoes';if(/jacket|coat|blazer|cardigan|hoodie|sweater/.test(n))return'outerwear';if(/swim|bikini|one.piece|bathing/.test(n))return'swimwear';if(/bag|purse|tote|clutch/.test(n))return'bag';if(/hat|earring|necklace|bracelet|belt|scarf|jewelry|sunglass/.test(n))return'accessory';return'top';}
-function cleanFilename(name){return name.replace(/\\.[^.]+$/,'').replace(/[-_]/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()).trim();}
+function cleanFilename(name){return name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ').replace(/\b\w/g,c=>c.toUpperCase()).trim();}
 async function analyzePhoto(src,filename=''){
- return new Promise(resolve=>{
- const img=new Image();
- img.crossOrigin='anonymous';
- img.onload=()=>{
- try{
- const c=document.createElement('canvas');c.width=60;c.height=60;
- const ctx=c.getContext('2d');ctx.drawImage(img,0,0,60,60);
- const data=ctx.getImageData(0,0,60,60).data;
- let rs=0,gs=0,bs=0,n=0;
- for(let i=0;i<data.length;i+=16){rs+=data[i];gs+=data[i+1];bs+=data[i+2];n++;}
- const r=Math.round(rs/n),g=Math.round(gs/n),b=Math.round(bs/n);
- resolve({colorName:guessColorName(r,g,b),warmth:guessWarmth(r,g,b),type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:`rgb(${r},${g},${b})`});
- }catch(e){resolve({colorName:'',warmth:2,type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:null});}
- };
- img.onerror=()=>resolve({colorName:'',warmth:2,type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:null});
- img.src=src;
- });
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{
+      try{
+        const c=document.createElement('canvas');c.width=60;c.height=60;
+        const ctx=c.getContext('2d');ctx.drawImage(img,0,0,60,60);
+        const data=ctx.getImageData(0,0,60,60).data;
+        let rs=0,gs=0,bs=0,n=0;
+        for(let i=0;i<data.length;i+=16){rs+=data[i];gs+=data[i+1];bs+=data[i+2];n++;}
+        const r=Math.round(rs/n),g=Math.round(gs/n),b=Math.round(bs/n);
+        resolve({colorName:guessColorName(r,g,b),warmth:guessWarmth(r,g,b),type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:`rgb(${r},${g},${b})`});
+      }catch(e){resolve({colorName:'',warmth:2,type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:null});}
+    };
+    img.onerror=()=>resolve({colorName:'',warmth:2,type:guessTypeFromFilename(filename),name:cleanFilename(filename)||'',bg:null});
+    img.src=src;
+  });
 }
 
-// \uc0\u9472 \u9472 \u9472 Demo Wardrobe (20 items with color swatches) \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Demo Wardrobe (20 items with color swatches) ─────────────────────────────
 // To replace swatches with real photos: fill in DEMO_PHOTOS above with GitHub URLs
 const DEMO_WARDROBE = [
- {id:'d01',name:'Oatmeal Linen Top',type:'top',color:'Oatmeal',bg:'#e8e0cc',warmth:1,formality:2,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d01},
- {id:'d02',name:'Sage Embroidery Top',type:'top',color:'Sage Green',bg:'#9ab89a',warmth:2,formality:2,aesthetics:['chic','casual','boho'],photo:DEMO_PHOTOS.d02},
- {id:'d03',name:'Coffee Linen Top',type:'top',color:'Coffee Brown',bg:'#8b6347',warmth:2,formality:2,aesthetics:['chic','quiet-luxury','minimalist'],photo:DEMO_PHOTOS.d03},
- {id:'d04',name:'Light Brown Linen Top',type:'top',color:'Light Brown',bg:'#c4a882',warmth:1,formality:2,aesthetics:['casual','resort','minimalist'],photo:DEMO_PHOTOS.d04},
- {id:'d05',name:'Multicolor Cover-Up',type:'top',color:'Multicolor',bg:'#d4b89a',warmth:1,formality:1,aesthetics:['boho','resort','artsy'],photo:DEMO_PHOTOS.d05},
- {id:'d06',name:'Pink Linen Set',type:'set',color:'Blush Pink',bg:'#e8c4c4',warmth:2,formality:2,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d06},
- {id:'d07',name:'Light Brown Mini Skort',type:'bottom',color:'Light Brown',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','casual','minimalist'],photo:DEMO_PHOTOS.d07},
- {id:'d08',name:'Red Vest & Shorts Set',type:'set',color:'Red',bg:'#c0392b',warmth:1,formality:1,aesthetics:['bold','resort','casual'],photo:DEMO_PHOTOS.d08},
- {id:'d09',name:'Dusty Rose Midi Skirt',type:'bottom',color:'Dusty Rose',bg:'#d4a0a0',warmth:2,formality:3,aesthetics:['boho','chic','artsy'],photo:DEMO_PHOTOS.d09},
- {id:'d10',name:'Floral Mini Dress',type:'dress',color:'Floral Multi',bg:'#8fbc7a',warmth:1,formality:2,aesthetics:['resort','boho','artsy'],photo:DEMO_PHOTOS.d10},
- {id:'d11',name:'White Wrap Dress',type:'dress',color:'White',bg:'#f7f4ef',warmth:1,formality:3,aesthetics:['chic','quiet-luxury','resort'],photo:DEMO_PHOTOS.d11},
- {id:'d12',name:'Gold Strappy Sandals',type:'shoes',color:'Gold',bg:'#c8a84b',warmth:1,formality:3,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d12},
- {id:'d13',name:'White Leather Sneakers',type:'shoes',color:'White',bg:'#e8e8e6',warmth:2,formality:1,aesthetics:['casual','minimalist'],photo:DEMO_PHOTOS.d13},
- {id:'d14',name:'Espadrille Wedges',type:'shoes',color:'Natural',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','boho','chic'],photo:DEMO_PHOTOS.d14},
- {id:'d15',name:'Black One-Piece Swimsuit',type:'swimwear',color:'Black',bg:'#2a2a32',warmth:1,formality:1,aesthetics:['chic','minimalist'],photo:DEMO_PHOTOS.d15},
- {id:'d16',name:'Coral Bikini Set',type:'swimwear',color:'Coral',bg:'#e8836a',warmth:1,formality:1,aesthetics:['resort','bold'],photo:DEMO_PHOTOS.d16},
- {id:'d17',name:'Woven Sun Hat',type:'accessory',color:'Natural',bg:'#c4a458',warmth:1,formality:1,aesthetics:['resort','boho','quiet-luxury'],photo:DEMO_PHOTOS.d17},
- {id:'d18',name:'Gold Hoop Earrings',type:'accessory',color:'Gold',bg:'#d4a84b',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','bold'],photo:DEMO_PHOTOS.d18},
- {id:'d19',name:'Cream Linen Blazer',type:'outerwear',color:'Cream',bg:'#e4ddd0',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d19},
- {id:'d20',name:'Raffia Tote Bag',type:'bag',color:'Natural',bg:'#c8aa7a',warmth:1,formality:1,aesthetics:['resort','boho'],photo:DEMO_PHOTOS.d20},
+  {id:'d01',name:'Oatmeal Linen Top',type:'top',color:'Oatmeal',bg:'#e8e0cc',warmth:1,formality:2,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d01},
+  {id:'d02',name:'Sage Embroidery Top',type:'top',color:'Sage Green',bg:'#9ab89a',warmth:2,formality:2,aesthetics:['chic','casual','boho'],photo:DEMO_PHOTOS.d02},
+  {id:'d03',name:'Coffee Linen Top',type:'top',color:'Coffee Brown',bg:'#8b6347',warmth:2,formality:2,aesthetics:['chic','quiet-luxury','minimalist'],photo:DEMO_PHOTOS.d03},
+  {id:'d04',name:'Light Brown Linen Top',type:'top',color:'Light Brown',bg:'#c4a882',warmth:1,formality:2,aesthetics:['casual','resort','minimalist'],photo:DEMO_PHOTOS.d04},
+  {id:'d05',name:'Multicolor Cover-Up',type:'top',color:'Multicolor',bg:'#d4b89a',warmth:1,formality:1,aesthetics:['boho','resort','artsy'],photo:DEMO_PHOTOS.d05},
+  {id:'d06',name:'Pink Linen Set',type:'set',color:'Blush Pink',bg:'#e8c4c4',warmth:2,formality:2,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d06},
+  {id:'d07',name:'Light Brown Mini Skort',type:'bottom',color:'Light Brown',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','casual','minimalist'],photo:DEMO_PHOTOS.d07},
+  {id:'d08',name:'Red Vest & Shorts Set',type:'set',color:'Red',bg:'#c0392b',warmth:1,formality:1,aesthetics:['bold','resort','casual'],photo:DEMO_PHOTOS.d08},
+  {id:'d09',name:'Dusty Rose Midi Skirt',type:'bottom',color:'Dusty Rose',bg:'#d4a0a0',warmth:2,formality:3,aesthetics:['boho','chic','artsy'],photo:DEMO_PHOTOS.d09},
+  {id:'d10',name:'Floral Mini Dress',type:'dress',color:'Floral Multi',bg:'#8fbc7a',warmth:1,formality:2,aesthetics:['resort','boho','artsy'],photo:DEMO_PHOTOS.d10},
+  {id:'d11',name:'White Wrap Dress',type:'dress',color:'White',bg:'#f7f4ef',warmth:1,formality:3,aesthetics:['chic','quiet-luxury','resort'],photo:DEMO_PHOTOS.d11},
+  {id:'d12',name:'Gold Strappy Sandals',type:'shoes',color:'Gold',bg:'#c8a84b',warmth:1,formality:3,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d12},
+  {id:'d13',name:'White Leather Sneakers',type:'shoes',color:'White',bg:'#e8e8e6',warmth:2,formality:1,aesthetics:['casual','minimalist'],photo:DEMO_PHOTOS.d13},
+  {id:'d14',name:'Espadrille Wedges',type:'shoes',color:'Natural',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','boho','chic'],photo:DEMO_PHOTOS.d14},
+  {id:'d15',name:'Black One-Piece Swimsuit',type:'swimwear',color:'Black',bg:'#2a2a32',warmth:1,formality:1,aesthetics:['chic','minimalist'],photo:DEMO_PHOTOS.d15},
+  {id:'d16',name:'Coral Bikini Set',type:'swimwear',color:'Coral',bg:'#e8836a',warmth:1,formality:1,aesthetics:['resort','bold'],photo:DEMO_PHOTOS.d16},
+  {id:'d17',name:'Woven Sun Hat',type:'accessory',color:'Natural',bg:'#c4a458',warmth:1,formality:1,aesthetics:['resort','boho','quiet-luxury'],photo:DEMO_PHOTOS.d17},
+  {id:'d18',name:'Gold Hoop Earrings',type:'accessory',color:'Gold',bg:'#d4a84b',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','bold'],photo:DEMO_PHOTOS.d18},
+  {id:'d19',name:'Cream Linen Blazer',type:'outerwear',color:'Cream',bg:'#e4ddd0',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d19},
+  {id:'d20',name:'Raffia Tote Bag',type:'bag',color:'Natural',bg:'#c8aa7a',warmth:1,formality:1,aesthetics:['resort','boho'],photo:DEMO_PHOTOS.d20},
 ];
 const DEMO_SETS = [
- {id:'ds1',name:'Resort Chic',itemIds:['d01','d07','d12','d17']},
- {id:'ds2',name:'Beach Day',itemIds:['d04','d08','d13','d16']},
- {id:'ds3',name:'Sundowner Glam',itemIds:['d06','d12','d18']},
- {id:'ds4',name:'City Explorer',itemIds:['d02','d09','d14','d19']},
+  {id:'ds1',name:'Resort Chic',itemIds:['d01','d07','d12','d17']},
+  {id:'ds2',name:'Beach Day',itemIds:['d04','d08','d13','d16']},
+  {id:'ds3',name:'Sundowner Glam',itemIds:['d06','d12','d18']},
+  {id:'ds4',name:'City Explorer',itemIds:['d02','d09','d14','d19']},
 ];
 
-// \uc0\u9472 \u9472 \u9472 Helpers \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 const uid = () => Math.random().toString(36).slice(2,10);
 const fmtDate = d => d ? new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
-const typeEmoji = t => ITEM_TYPES.find(x=>x.value===t)?.emoji||'\uc0\u55357 \u56407 ';
-const wmoIcon = cond => { const c = (cond||'').toLowerCase(); return c.includes('rain')||c.includes('shower')?'\uc0\u55356 \u57127 \u65039 ':c.includes('thunder')?'\u9928 \u65039 ':c.includes('cloud')||c.includes('overcast')?'\u9925 ':c.includes('snow')?'\u10052 \u65039 ':'\u9728 \u65039 '; };
+const typeEmoji = t => ITEM_TYPES.find(x=>x.value===t)?.emoji||'👗';
+const wmoIcon = cond => { const c = (cond||'').toLowerCase(); return c.includes('rain')||c.includes('shower')?'🌧️':c.includes('thunder')?'⛈️':c.includes('cloud')||c.includes('overcast')?'⛅':c.includes('snow')?'❄️':'☀️'; };
 
 function calcDNA(board) {
- const cnt={}; let tot=0;
- AESTHETICS.forEach(a=>{cnt[a.value]=0;});
- board.forEach(img=>(img.aesthetics||[]).forEach(a=>{cnt[a]=(cnt[a]||0)+1;tot++;}));
- if(!tot) return null;
- const dna={}; AESTHETICS.forEach(a=>{dna[a.value]=Math.round(cnt[a.value]/tot*100);}); return dna;
+  const cnt={}; let tot=0;
+  AESTHETICS.forEach(a=>{cnt[a.value]=0;});
+  board.forEach(img=>(img.aesthetics||[]).forEach(a=>{cnt[a]=(cnt[a]||0)+1;tot++;}));
+  if(!tot) return null;
+  const dna={}; AESTHETICS.forEach(a=>{dna[a.value]=Math.round(cnt[a.value]/tot*100);}); return dna;
 }
 
 async function getWeather(dest, start, days) {
- const gr = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(dest)}&count=1&language=en&format=json`);
- const gd = await gr.json();
- if(!gd.results?.length) throw new Error('Location not found  try a city name');
- const {latitude:lat,longitude:lon,name,country} = gd.results[0];
- const s = new Date(start); const today = new Date(); today.setHours(0,0,0,0);
- const isForecast = (s-today)/86400000 <= 15;
- const fmt = d => d.toISOString().split('T')[0];
- let url; if(isForecast){const e=new Date(s);e.setDate(e.getDate()+days-1);url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(s)}&end_date=${fmt(e)}&timezone=auto`;}
- else{const hs=new Date(s);hs.setFullYear(hs.getFullYear()-1);const he=new Date(hs);he.setDate(he.getDate()+days-1);url=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(hs)}&end_date=${fmt(he)}&timezone=auto`;}
- const wd = await (await fetch(url)).json();
- const mx=wd.daily?.temperature_2m_max||[],mn=wd.daily?.temperature_2m_min||[],cd=wd.daily?.weathercode||[];
- const avgMx=mx.reduce((a,b)=>a+b,0)/mx.length||22,avgMn=mn.reduce((a,b)=>a+b,0)/mn.length||16;
- const cc={}; cd.forEach(c=>{cc[c]=(cc[c]||0)+1;});
- const mc=Object.entries(cc).sort((a,b)=>b[1]-a[1])[0]?.[0];
- return {min:Math.round(avgMn),max:Math.round(avgMx),conditions:WMO[+mc]||'Variable',hasRain:cd.some(c=>c>=51),fetched:true,isForecast,location:`${name}, ${country}`};
+  const gr = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(dest)}&count=1&language=en&format=json`);
+  const gd = await gr.json();
+  if(!gd.results?.length) throw new Error('Location not found — try a city name');
+  const {latitude:lat,longitude:lon,name,country} = gd.results[0];
+  const s = new Date(start); const today = new Date(); today.setHours(0,0,0,0);
+  const isForecast = (s-today)/86400000 <= 15;
+  const fmt = d => d.toISOString().split('T')[0];
+  let url; if(isForecast){const e=new Date(s);e.setDate(e.getDate()+days-1);url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(s)}&end_date=${fmt(e)}&timezone=auto`;}
+  else{const hs=new Date(s);hs.setFullYear(hs.getFullYear()-1);const he=new Date(hs);he.setDate(he.getDate()+days-1);url=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(hs)}&end_date=${fmt(he)}&timezone=auto`;}
+  const wd = await (await fetch(url)).json();
+  const mx=wd.daily?.temperature_2m_max||[],mn=wd.daily?.temperature_2m_min||[],cd=wd.daily?.weathercode||[];
+  const avgMx=mx.reduce((a,b)=>a+b,0)/mx.length||22,avgMn=mn.reduce((a,b)=>a+b,0)/mn.length||16;
+  const cc={}; cd.forEach(c=>{cc[c]=(cc[c]||0)+1;});
+  const mc=Object.entries(cc).sort((a,b)=>b[1]-a[1])[0]?.[0];
+  return {min:Math.round(avgMn),max:Math.round(avgMx),conditions:WMO[+mc]||'Variable',hasRain:cd.some(c=>c>=51),fetched:true,isForecast,location:`${name}, ${country}`};
 }
 
 function buildOutfits(wardrobe, trip, weather) {
- if(!wardrobe?.length) return [];
- const avg=(weather?.min+weather?.max)/2||22, aw=trip?.aesthetics||{}, hi=new Set(trip?.heroItems||[]);
- const acts=trip?.activities||[]; const avgF=acts.length?acts.map(a=>ACTIVITIES.find(x=>x.value===a)?.f||2).reduce((a,b)=>a+b,0)/acts.length:2;
- const score=item=>{let s=0;(item.aesthetics||[]).forEach(a=>{s+=(aw[a]||0)/100*4;});const wt=avg>26?1:avg>20?2:avg>14?3:avg>8?4:5;s-=Math.abs((item.warmth||3)-wt)*0.6;s-=Math.abs((item.formality||2)-avgF)*0.4;if(hi.has(item.id))s+=6;return s;};
- const by=t=>wardrobe.filter(i=>i.type===t).sort((a,b)=>score(b)-score(a));
- const tops=by('top'),btms=by('bottom'),drss=wardrobe.filter(i=>['dress','set'].includes(i.type)).sort((a,b)=>score(b)-score(a));
- const shoeArr=by('shoes'),outArr=by('outerwear'),accArr=by('accessory');
- const sh=shoeArr[0],ou=outArr[0],ac=accArr[0]; const needOuter=avg<16;
- const combos=[]; const seen=new Set();
- tops.forEach(top=>btms.forEach(btm=>{const k=[top.id,btm.id].sort().join('|');if(seen.has(k))return;seen.add(k);const items=[top,btm,...(sh?[sh]:[]),...(needOuter&&ou?[ou]:[]),...(ac?[ac]:[])];combos.push({id:`tb-${top.id}-${btm.id}`,items,sc:score(top)+score(btm)+(sh?score(sh)*.5:0),hero:items.some(i=>hi.has(i.id)),type:'top+btm'});}));
- drss.forEach(d=>{const items=[d,...(sh?[sh]:[]),...(needOuter&&ou?[ou]:[]),...(ac?[ac]:[])];combos.push({id:`d-${d.id}`,items,sc:score(d)+(sh?score(sh)*.5:0),hero:items.some(i=>hi.has(i.id)),type:'dress'});});
- combos.sort((a,b)=>a.hero&&!b.hero?-1:!a.hero&&b.hero?1:b.sc-a.sc);
- const mx=combos[0]?.sc||10;
- const names=['Effortless','Polished','Breezy','Classic','Vibrant','Sunset','Garden','Coastal','Urban','Chic','Resort','Golden','Riviera','Palms'];
- return combos.slice(0,14).map((c,i)=>({...c,pct:Math.max(30,Math.min(99,Math.round(c.sc/mx*100))),label:c.hero?'\uc0\u11088 Signature Look':`${names[i%names.length]} ${c.type==='dress'?'Look':'Outfit'}`}));
+  if(!wardrobe?.length) return [];
+  const avg=(weather?.min+weather?.max)/2||22, aw=trip?.aesthetics||{}, hi=new Set(trip?.heroItems||[]);
+  const acts=trip?.activities||[]; const avgF=acts.length?acts.map(a=>ACTIVITIES.find(x=>x.value===a)?.f||2).reduce((a,b)=>a+b,0)/acts.length:2;
+  const score=item=>{let s=0;(item.aesthetics||[]).forEach(a=>{s+=(aw[a]||0)/100*4;});const wt=avg>26?1:avg>20?2:avg>14?3:avg>8?4:5;s-=Math.abs((item.warmth||3)-wt)*0.6;s-=Math.abs((item.formality||2)-avgF)*0.4;if(hi.has(item.id))s+=6;return s;};
+  const by=t=>wardrobe.filter(i=>i.type===t).sort((a,b)=>score(b)-score(a));
+  const tops=by('top'),btms=by('bottom'),drss=wardrobe.filter(i=>['dress','set'].includes(i.type)).sort((a,b)=>score(b)-score(a));
+  const shoeArr=by('shoes'),outArr=by('outerwear'),accArr=by('accessory');
+  const sh=shoeArr[0],ou=outArr[0],ac=accArr[0]; const needOuter=avg<16;
+  const combos=[]; const seen=new Set();
+  tops.forEach(top=>btms.forEach(btm=>{const k=[top.id,btm.id].sort().join('|');if(seen.has(k))return;seen.add(k);const items=[top,btm,...(sh?[sh]:[]),...(needOuter&&ou?[ou]:[]),...(ac?[ac]:[])];combos.push({id:`tb-${top.id}-${btm.id}`,items,sc:score(top)+score(btm)+(sh?score(sh)*.5:0),hero:items.some(i=>hi.has(i.id)),type:'top+btm'});}));
+  drss.forEach(d=>{const items=[d,...(sh?[sh]:[]),...(needOuter&&ou?[ou]:[]),...(ac?[ac]:[])];combos.push({id:`d-${d.id}`,items,sc:score(d)+(sh?score(sh)*.5:0),hero:items.some(i=>hi.has(i.id)),type:'dress'});});
+  combos.sort((a,b)=>a.hero&&!b.hero?-1:!a.hero&&b.hero?1:b.sc-a.sc);
+  const mx=combos[0]?.sc||10;
+  const names=['Effortless','Polished','Breezy','Classic','Vibrant','Sunset','Garden','Coastal','Urban','Chic','Resort','Golden','Riviera','Palms'];
+  return combos.slice(0,14).map((c,i)=>({...c,pct:Math.max(30,Math.min(99,Math.round(c.sc/mx*100))),label:c.hero?'⭐ Signature Look':`${names[i%names.length]} ${c.type==='dress'?'Look':'Outfit'}`}));
 }
 
 function buildEssentials(trip, weather) {
- const acts=trip?.activities||[],avg=weather?(weather.min+weather.max)/2:22;
- const hot=avg>=24,cold=avg<=14,rainy=weather?.hasRain,days=trip?.days||5;
- const beach=acts.includes('beach')||acts.includes('swimming')||acts.includes('water-sports')||trip?.vacationType==='beach';
- const hike=acts.includes('hiking')||acts.includes('cenotes')||acts.includes('nature');
- const res=[]; const add=(cat,items)=>{const f=items.filter(i=>i[1]!==false);if(f.length)res.push({cat,items:f.map(i=>i[0])});};
- add('Skincare & Beauty',[['Sunscreen SPF 50+',hot||beach],['Moisturizer',true],['Lip balm SPF',hot],['After-sun lotion',beach],['Aloe vera gel',beach],['Night cream',days>=4],['Face mist',hot],['Dry shampoo',days>=3],['Insect repellent',hike]]);
- add('Health & Wellness',[['Pain reliever',true],['Antidiarrheal',true],['Antihistamine',true],['Blister bandages',hike],['Prescription meds',true],['Hand sanitizer',true],['Electrolyte packets',hot]]);
- add('Electronics',[['Phone + charger',true],['Power bank',true],['Universal adapter',true],['Earbuds',true],['Camera',days>=4],['Waterproof phone pouch',beach||hike]]);
- add('Beach & Water',[['Beach towel / sarong',beach],['Snorkel gear',acts.includes('swimming')||acts.includes('cenotes')],['Waterproof bag',beach||hike],['Flip flops',beach],['Water shoes',acts.includes('cenotes')]]);
- add('Adventure & Outdoors',[['Daypack',hike],['Water bottle',hike||hot],['Trail snacks',hike],['Headlamp',trip?.vacationType==='adventure'],['Quick-dry towel',hike||beach]]);
- add('Rain & Cold Gear',[['Compact umbrella',rainy],['Rain poncho',rainy&&hike],['Warm layers',cold],['Warm socks',cold],['Gloves & scarf',cold]]);
- add('Documents & Money',[['Passport / ID',true],['Travel insurance',true],['Credit + debit cards',true],['Local cash',true],['Hotel confirmations',true]]);
- add('Comfort & Misc',[['Reusable tote bags',true],['Laundry bag',days>=5],['Travel snacks',true],['Neck pillow',days>=5],['Sleep mask',true],['Luggage lock',true]]);
- return res;
+  const acts=trip?.activities||[],avg=weather?(weather.min+weather.max)/2:22;
+  const hot=avg>=24,cold=avg<=14,rainy=weather?.hasRain,days=trip?.days||5;
+  const beach=acts.includes('beach')||acts.includes('swimming')||acts.includes('water-sports')||trip?.vacationType==='beach';
+  const hike=acts.includes('hiking')||acts.includes('cenotes')||acts.includes('nature');
+  const res=[]; const add=(cat,items)=>{const f=items.filter(i=>i[1]!==false);if(f.length)res.push({cat,items:f.map(i=>i[0])});};
+  add('Skincare & Beauty',[['Sunscreen SPF 50+',hot||beach],['Moisturizer',true],['Lip balm SPF',hot],['After-sun lotion',beach],['Aloe vera gel',beach],['Night cream',days>=4],['Face mist',hot],['Dry shampoo',days>=3],['Insect repellent',hike]]);
+  add('Health & Wellness',[['Pain reliever',true],['Antidiarrheal',true],['Antihistamine',true],['Blister bandages',hike],['Prescription meds',true],['Hand sanitizer',true],['Electrolyte packets',hot]]);
+  add('Electronics',[['Phone + charger',true],['Power bank',true],['Universal adapter',true],['Earbuds',true],['Camera',days>=4],['Waterproof phone pouch',beach||hike]]);
+  add('Beach & Water',[['Beach towel / sarong',beach],['Snorkel gear',acts.includes('swimming')||acts.includes('cenotes')],['Waterproof bag',beach||hike],['Flip flops',beach],['Water shoes',acts.includes('cenotes')]]);
+  add('Adventure & Outdoors',[['Daypack',hike],['Water bottle',hike||hot],['Trail snacks',hike],['Headlamp',trip?.vacationType==='adventure'],['Quick-dry towel',hike||beach]]);
+  add('Rain & Cold Gear',[['Compact umbrella',rainy],['Rain poncho',rainy&&hike],['Warm layers',cold],['Warm socks',cold],['Gloves & scarf',cold]]);
+  add('Documents & Money',[['Passport / ID',true],['Travel insurance',true],['Credit + debit cards',true],['Local cash',true],['Hotel confirmations',true]]);
+  add('Comfort & Misc',[['Reusable tote bags',true],['Laundry bag',days>=5],['Travel snacks',true],['Neck pillow',days>=5],['Sleep mask',true],['Luggage lock',true]]);
+  return res;
 }
 
-// \uc0\u9472 \u9472 \u9472 DropZone \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── DropZone ─────────────────────────────────────────────────────────────────
 function DZ({ onFile, preview, height=130, hint='Drag & drop or click to browse', multi=false }) {
- const [over, setOver] = useState(false);
- const ref = useRef();
- const read = useCallback(f=>{ if(!f||!f.type.startsWith('image/')) return; const r=new FileReader(); r.onload=e=>onFile(e.target.result,f); r.readAsDataURL(f); },[onFile]);
- const onDrop = useCallback(e=>{ e.preventDefault(); setOver(false); Array.from(e.dataTransfer.files).forEach(read); },[read]);
- return (
- <div className={`dz${over?' over':''}`} style={{height}} onDragOver={e=>{e.preventDefault();setOver(true);}} onDragEnter={e=>{e.preventDefault();setOver(true);}} onDragLeave={()=>setOver(false)} onDrop={onDrop} onClick={()=>ref.current.click()}>
- {preview?<img src={preview} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>:(<div className="dz-hint"><div className="dz-icon">{over?'\uc0\u55357 \u56514 ':'\u55357 \u56526 '}</div><div className="dz-main">{over?'Drop it!':hint}</div>{multi&&<div className="dz-sub">Multiple images OK</div>}</div>)}
- <input ref={ref} type="file" accept="image/*" multiple={multi} style={{display:'none'}} onChange={e=>{Array.from(e.target.files).forEach(read);e.target.value='';}}/>
- </div>
- );
+  const [over, setOver] = useState(false);
+  const ref = useRef();
+  const read = useCallback(f=>{ if(!f||!f.type.startsWith('image/')) return; const r=new FileReader(); r.onload=e=>onFile(e.target.result,f); r.readAsDataURL(f); },[onFile]);
+  const onDrop = useCallback(e=>{ e.preventDefault(); setOver(false); Array.from(e.dataTransfer.files).forEach(read); },[read]);
+  return (
+    <div className={`dz${over?' over':''}`} style={{height}} onDragOver={e=>{e.preventDefault();setOver(true);}} onDragEnter={e=>{e.preventDefault();setOver(true);}} onDragLeave={()=>setOver(false)} onDrop={onDrop} onClick={()=>ref.current.click()}>
+      {preview?<img src={preview} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>:(<div className="dz-hint"><div className="dz-icon">{over?'📂':'📎'}</div><div className="dz-main">{over?'Drop it!':hint}</div>{multi&&<div className="dz-sub">Multiple images OK</div>}</div>)}
+      <input ref={ref} type="file" accept="image/*" multiple={multi} style={{display:'none'}} onChange={e=>{Array.from(e.target.files).forEach(read);e.target.value='';}}/>
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Swatch Thumb \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Swatch Thumb ─────────────────────────────────────────────────────────────
 function ST({ item, size=52, r=7 }) {
- const s={width:size,height:size,borderRadius:r,overflow:'hidden',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center'};
- if(item?.photo) return <div style={s}><img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>;
- return <div style={{...s,background:item?.bg||'var(--bg4)'}}><span style={{fontSize:size*.42,filter:'drop-shadow(0 1px 3px rgba(0,0,0,.15))'}}>{typeEmoji(item?.type)}</span></div>;
+  const s={width:size,height:size,borderRadius:r,overflow:'hidden',flexShrink:0,display:'flex',alignItems:'center',justifyContent:'center'};
+  if(item?.photo) return <div style={s}><img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>;
+  return <div style={{...s,background:item?.bg||'var(--bg4)'}}><span style={{fontSize:size*.42,filter:'drop-shadow(0 1px 3px rgba(0,0,0,.15))'}}>{typeEmoji(item?.type)}</span></div>;
 }
 
-// \uc0\u9472 \u9472 \u9472 Item Modal \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Item Modal ───────────────────────────────────────────────────────────────
 function ItemModal({ item, onSave, onDelete, onClose }) {
- const isNew=item?.__new;
- const [f,setF]=useState(item&&!isNew?item:{name:item?.name||'',type:item?.type||'top',color:item?.color||'',warmth:item?.warmth||3,formality:item?.formality||2,aesthetics:item?.aesthetics||[],notes:'',photo:item?.photo||null,bg:item?.bg||null});
- const [suggestions,setSuggestions]=useState(item?.__suggestions||null);
- const [analyzing,setAnalyzing]=useState(false);
- const s=v=>setF(p=>({...p,...v}));
- const tog=a=>s({aesthetics:f.aesthetics.includes(a)?f.aesthetics.filter(x=>x!==a):[...f.aesthetics,a]});
- const handlePhoto=async(src,file)=>{
- s({photo:src,bg:null});
- setAnalyzing(true);
- const sg=await analyzePhoto(src,file?.name||'');
- setSuggestions(sg);
- setAnalyzing(false);
- if(!f.name)s({name:sg.name,type:sg.type,color:sg.colorName,warmth:sg.warmth,bg:sg.bg});
- };
- const applySuggestions=()=>{if(!suggestions)return;s({name:suggestions.name||f.name,type:suggestions.type,color:suggestions.colorName,warmth:suggestions.warmth,bg:suggestions.bg});};
- return (
- <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
- <div className="modal">
- <div className="modal-header"><span className="modal-title">{isNew||!item?'Add to My Closet':'Edit Item'}</span><button className="icon-btn" onClick={onClose}>\uc0\u10005 </button></div>
- {suggestions&&<div style={{background:'rgba(41,128,196,0.07)',border:'1px solid rgba(41,128,196,0.2)',borderRadius:9,padding:'10px 13px',marginBottom:14,fontSize:'0.79rem'}}>
- <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}><strong style={{color:'var(--sky)'}}>\uc0\u55357 \u56568 Suggested from photo:</strong><button className="btn btn-sky btn-xs" onClick={applySuggestions}>Apply All</button></div>
- <span style={{color:'var(--text2)'}}>Type: <b>{suggestions.type}</b> · Color: <b>{suggestions.colorName}</b> · Warmth: <b>{suggestions.warmth}/5</b>{suggestions.name&&<> · Name: <b>{suggestions.name}</b></>}</span>
- </div>}
- {analyzing&&<div style={{background:'rgba(41,128,196,0.07)',borderRadius:9,padding:'8px 13px',marginBottom:14,fontSize:'0.79rem',color:'var(--sky)'}}>\uc0\u10024 Analyzing photo</div>}
- <div style={{display:'grid',gridTemplateColumns:'140px 1fr',gap:16,marginBottom:16}}>
- <div><label>Photo</label><DZ preview={f.photo} height={140} hint="Drop or click" onFile={handlePhoto}/>{f.photo&&<button className="btn btn-ghost btn-sm" style={{width:'100%',marginTop:5}} onClick={()=>{s({photo:null});setSuggestions(null);}}>Remove</button>}</div>
- <div>
- <div className="form-group"><label>Name *</label><input value={f.name} onChange={e=>s({name:e.target.value})} placeholder="e.g. White Linen Shirt"/></div>
- <div className="form-group"><label>Type</label><select value={f.type} onChange={e=>s({type:e.target.value})}>{ITEM_TYPES.map(t=><option key={t.value} value={t.value}>{t.emoji} {t.label}</option>)}</select></div>
- <div className="form-group"><label>Color</label><input value={f.color||''} onChange={e=>s({color:e.target.value})} placeholder="e.g. Cream, Navy, Coral"/></div>
- </div>
- </div>
- <div className="form-group"><label>Warmth: {['\uc0\u10052 \u65039 Very Light','\u55356 \u57124 Light','\u9728 \u65039 Medium','\u55356 \u57154 Warm','\u55357 \u56613 Heavy'][f.warmth-1]}</label><input type="range" min={1} max={5} value={f.warmth} onChange={e=>s({warmth:+e.target.value})}/></div>
- <div className="form-group"><label>Formality: {['\uc0\u55357 \u56415 Casual','\u55357 \u56842 Smart-casual','\u55357 \u56404 Business-casual','\u10024 Semi-formal','\u55358 \u56642 Formal'][f.formality-1]}</label><input type="range" min={1} max={5} value={f.formality} onChange={e=>s({formality:+e.target.value})}/></div>
- <div className="form-group"><label>Vibes / Aesthetics</label><div className="tag-wrap mt-8">{AESTHETICS.map(a=><span key={a.value} className={`tag${f.aesthetics.includes(a.value)?' sel':''}`} onClick={()=>tog(a.value)}>{a.emoji} {a.label}</span>)}</div></div>
- <div className="form-group"><label>Notes</label><textarea value={f.notes||''} onChange={e=>s({notes:e.target.value})} placeholder="Styling tips, care notes" rows={2}/></div>
- <div className="modal-footer">{item&&!isNew&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(item.id)}>\uc0\u55357 \u56785 Delete</button>}<div style={{flex:1}}/><button className="btn btn-outline" onClick={onClose}>Cancel</button><button className="btn btn-sky" disabled={!f.name.trim()} onClick={()=>onSave({...f,id:(!isNew&&item?.id)||uid(),__new:undefined,__suggestions:undefined})}>{isNew||!item?'Add Item':'Save Changes'}</button></div>
- </div>
- </div>
- );
+  const isNew=item?.__new;
+  const [f,setF]=useState(item&&!isNew?item:{name:item?.name||'',type:item?.type||'top',color:item?.color||'',warmth:item?.warmth||3,formality:item?.formality||2,aesthetics:item?.aesthetics||[],notes:'',photo:item?.photo||null,bg:item?.bg||null});
+  const [suggestions,setSuggestions]=useState(item?.__suggestions||null);
+  const [analyzing,setAnalyzing]=useState(false);
+  const s=v=>setF(p=>({...p,...v}));
+  const tog=a=>s({aesthetics:f.aesthetics.includes(a)?f.aesthetics.filter(x=>x!==a):[...f.aesthetics,a]});
+  const handlePhoto=async(src,file)=>{
+    s({photo:src,bg:null});
+    setAnalyzing(true);
+    const sg=await analyzePhoto(src,file?.name||'');
+    setSuggestions(sg);
+    setAnalyzing(false);
+    if(!f.name)s({name:sg.name,type:sg.type,color:sg.colorName,warmth:sg.warmth,bg:sg.bg});
+  };
+  const applySuggestions=()=>{if(!suggestions)return;s({name:suggestions.name||f.name,type:suggestions.type,color:suggestions.colorName,warmth:suggestions.warmth,bg:suggestions.bg});};
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal">
+        <div className="modal-header"><span className="modal-title">{isNew||!item?'Add to My Closet':'Edit Item'}</span><button className="icon-btn" onClick={onClose}>✕</button></div>
+        {suggestions&&<div style={{background:'rgba(41,128,196,0.07)',border:'1px solid rgba(41,128,196,0.2)',borderRadius:9,padding:'10px 13px',marginBottom:14,fontSize:'0.79rem'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}><strong style={{color:'var(--sky)'}}>📸 Suggested from photo:</strong><button className="btn btn-sky btn-xs" onClick={applySuggestions}>Apply All</button></div>
+          <span style={{color:'var(--text2)'}}>Type: <b>{suggestions.type}</b> · Color: <b>{suggestions.colorName}</b> · Warmth: <b>{suggestions.warmth}/5</b>{suggestions.name&&<> · Name: <b>{suggestions.name}</b></>}</span>
+        </div>}
+        {analyzing&&<div style={{background:'rgba(41,128,196,0.07)',borderRadius:9,padding:'8px 13px',marginBottom:14,fontSize:'0.79rem',color:'var(--sky)'}}>✨ Analyzing photo…</div>}
+        <div style={{display:'grid',gridTemplateColumns:'140px 1fr',gap:16,marginBottom:16}}>
+          <div><label>Photo</label><DZ preview={f.photo} height={140} hint="Drop or click" onFile={handlePhoto}/>{f.photo&&<button className="btn btn-ghost btn-sm" style={{width:'100%',marginTop:5}} onClick={()=>{s({photo:null});setSuggestions(null);}}>Remove</button>}</div>
+          <div>
+            <div className="form-group"><label>Name *</label><input value={f.name} onChange={e=>s({name:e.target.value})} placeholder="e.g. White Linen Shirt"/></div>
+            <div className="form-group"><label>Type</label><select value={f.type} onChange={e=>s({type:e.target.value})}>{ITEM_TYPES.map(t=><option key={t.value} value={t.value}>{t.emoji} {t.label}</option>)}</select></div>
+            <div className="form-group"><label>Color</label><input value={f.color||''} onChange={e=>s({color:e.target.value})} placeholder="e.g. Cream, Navy, Coral"/></div>
+          </div>
+        </div>
+        <div className="form-group"><label>Warmth: {['❄️ Very Light','🌤 Light','☀️ Medium','🍂 Warm','🔥 Heavy'][f.warmth-1]}</label><input type="range" min={1} max={5} value={f.warmth} onChange={e=>s({warmth:+e.target.value})}/></div>
+        <div className="form-group"><label>Formality: {['👟 Casual','😊 Smart-casual','👔 Business-casual','✨ Semi-formal','🥂 Formal'][f.formality-1]}</label><input type="range" min={1} max={5} value={f.formality} onChange={e=>s({formality:+e.target.value})}/></div>
+        <div className="form-group"><label>Vibes / Aesthetics</label><div className="tag-wrap mt-8">{AESTHETICS.map(a=><span key={a.value} className={`tag${f.aesthetics.includes(a.value)?' sel':''}`} onClick={()=>tog(a.value)}>{a.emoji} {a.label}</span>)}</div></div>
+        <div className="form-group"><label>Notes</label><textarea value={f.notes||''} onChange={e=>s({notes:e.target.value})} placeholder="Styling tips, care notes…" rows={2}/></div>
+        <div className="modal-footer">{item&&!isNew&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(item.id)}>🗑 Delete</button>}<div style={{flex:1}}/><button className="btn btn-outline" onClick={onClose}>Cancel</button><button className="btn btn-sky" disabled={!f.name.trim()} onClick={()=>onSave({...f,id:(!isNew&&item?.id)||uid(),__new:undefined,__suggestions:undefined})}>{isNew||!item?'Add Item':'Save Changes'}</button></div>
+      </div>
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Outfit Set Modal \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Outfit Set Modal ─────────────────────────────────────────────────────────
 function SetModal({ set, wardrobe, onSave, onDelete, onClose }) {
- const [name,setName]=useState(set?.name||'');
- const [sel,setSel]=useState(new Set(set?.itemIds||[]));
- const tog=id=>setSel(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
- const selItems=wardrobe.filter(i=>sel.has(i.id));
- return (
- <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
- <div className="modal" style={{maxWidth:620}}>
- <div className="modal-header"><span className="modal-title">{set?'Edit Set':'Create Outfit Set'}</span><button className="icon-btn" onClick={onClose}>\uc0\u10005 </button></div>
- <div className="form-group"><label>Set Name *</label><input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Beach Day, Date Night"/></div>
- {selItems.length>0&&<div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>{selItems.map(i=><div key={i.id} style={{display:'flex',alignItems:'center',gap:6,background:'var(--bg3)',borderRadius:8,padding:'4px 10px',fontSize:'0.77rem'}}><ST item={i} size={24} r={4}/>{i.name}<button className="icon-btn" style={{width:18,height:18,fontSize:'0.62rem'}} onClick={()=>tog(i.id)}>\uc0\u10005 </button></div>)}</div>}
- <label style={{marginBottom:8}}>Click items to select:</label>
- <div className="item-grid" style={{maxHeight:280,overflowY:'auto',marginTop:8}}>{wardrobe.map(item=><div key={item.id} className={`item-card${sel.has(item.id)?' selected':''}`} onClick={()=>tog(item.id)}><div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div><div className="item-info"><div className="item-name">{item.name}</div></div>{sel.has(item.id)&&<div className="item-pin item-pin-sel">\uc0\u10003 </div>}</div>)}</div>
- <div className="modal-footer">{set&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(set.id)}>\uc0\u55357 \u56785 Delete</button>}<div style={{flex:1}}/><button className="btn btn-outline" onClick={onClose}>Cancel</button><button className="btn btn-sky" disabled={!name.trim()||sel.size===0} onClick={()=>onSave({id:set?.id||uid(),name,itemIds:[...sel]})}>{set?'Save Set':'Create Set'}</button></div>
- </div>
- </div>
- );
+  const [name,setName]=useState(set?.name||'');
+  const [sel,setSel]=useState(new Set(set?.itemIds||[]));
+  const tog=id=>setSel(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
+  const selItems=wardrobe.filter(i=>sel.has(i.id));
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal" style={{maxWidth:620}}>
+        <div className="modal-header"><span className="modal-title">{set?'Edit Set':'Create Outfit Set'}</span><button className="icon-btn" onClick={onClose}>✕</button></div>
+        <div className="form-group"><label>Set Name *</label><input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Beach Day, Date Night…"/></div>
+        {selItems.length>0&&<div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>{selItems.map(i=><div key={i.id} style={{display:'flex',alignItems:'center',gap:6,background:'var(--bg3)',borderRadius:8,padding:'4px 10px',fontSize:'0.77rem'}}><ST item={i} size={24} r={4}/>{i.name}<button className="icon-btn" style={{width:18,height:18,fontSize:'0.62rem'}} onClick={()=>tog(i.id)}>✕</button></div>)}</div>}
+        <label style={{marginBottom:8}}>Click items to select:</label>
+        <div className="item-grid" style={{maxHeight:280,overflowY:'auto',marginTop:8}}>{wardrobe.map(item=><div key={item.id} className={`item-card${sel.has(item.id)?' selected':''}`} onClick={()=>tog(item.id)}><div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div><div className="item-info"><div className="item-name">{item.name}</div></div>{sel.has(item.id)&&<div className="item-pin item-pin-sel">✓</div>}</div>)}</div>
+        <div className="modal-footer">{set&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(set.id)}>🗑 Delete</button>}<div style={{flex:1}}/><button className="btn btn-outline" onClick={onClose}>Cancel</button><button className="btn btn-sky" disabled={!name.trim()||sel.size===0} onClick={()=>onSave({id:set?.id||uid(),name,itemIds:[...sel]})}>{set?'Save Set':'Create Set'}</button></div>
+      </div>
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Inspo Bottom Sheet Tagger \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Inspo Bottom Sheet Tagger ────────────────────────────────────────────────
 function InspoTagSheet({ img, onSave, onClose }) {
- const [sel,setSel]=useState(new Set(img.aesthetics||[]));
- const tog=a=>setSel(s=>{const n=new Set(s);n.has(a)?n.delete(a):n.add(a);return n;});
- return (
- <>
- {/* Backdrop */}
- <div style={{position:'fixed',inset:0,background:'rgba(28,24,40,0.45)',zIndex:900,backdropFilter:'blur(3px)'}} onClick={onClose}/>
- {/* Sheet */}
- <div style={{position:'fixed',bottom:0,left:0,right:0,zIndex:901,background:'var(--bg2)',borderRadius:'20px 20px 0 0',padding:'0 20px 32px',boxShadow:'0 -8px 32px rgba(28,24,40,0.18)',animation:'slideUp .22s ease',maxHeight:'80vh',overflowY:'auto'}}>
- <div style={{width:40,height:4,background:'var(--bg4)',borderRadius:2,margin:'12px auto 16px'}}/>
- <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
- <img src={img.photo} alt="" style={{width:54,height:54,borderRadius:9,objectFit:'cover',border:'1.5px solid var(--border)',flexShrink:0}}/>
- <div><div style={{fontFamily:'Playfair Display,serif',fontSize:'1.05rem',fontWeight:700}}>Tag this look</div><div style={{fontSize:'0.75rem',color:'var(--text3)'}}>Pick all aesthetics that apply</div></div>
- <button className="icon-btn" style={{marginLeft:'auto'}} onClick={onClose}>\uc0\u10005 </button>
- </div>
- <div className="tag-wrap" style={{gap:8,marginBottom:20}}>
- {AESTHETICS.map(a=>(
- <span key={a.value} className={`tag${sel.has(a.value)?' sel':''}`} style={{fontSize:'0.85rem',padding:'8px 16px',borderRadius:24}} onClick={()=>tog(a.value)}>
- {a.emoji} {a.label}
- {sel.has(a.value)&&<span style={{marginLeft:4,fontWeight:700}}>\uc0\u10003 </span>}
- </span>
- ))}
- </div>
- <div style={{display:'flex',gap:10}}>
- <button className="btn btn-outline" style={{flex:1}} onClick={onClose}>Cancel</button>
- <button className="btn btn-sky" style={{flex:2}} onClick={()=>onSave({...img,aesthetics:[...sel]})}>Save {sel.size>0?`(${sel.size} tag${sel.size!==1?'s':''})`:''}</button>
- </div>
- </div>
- </>
- );
+  const [sel,setSel]=useState(new Set(img.aesthetics||[]));
+  const tog=a=>setSel(s=>{const n=new Set(s);n.has(a)?n.delete(a):n.add(a);return n;});
+  return (
+    <>
+      {/* Backdrop */}
+      <div style={{position:'fixed',inset:0,background:'rgba(28,24,40,0.45)',zIndex:900,backdropFilter:'blur(3px)'}} onClick={onClose}/>
+      {/* Sheet */}
+      <div style={{position:'fixed',bottom:0,left:0,right:0,zIndex:901,background:'var(--bg2)',borderRadius:'20px 20px 0 0',padding:'0 20px 32px',boxShadow:'0 -8px 32px rgba(28,24,40,0.18)',animation:'slideUp .22s ease',maxHeight:'80vh',overflowY:'auto'}}>
+        <div style={{width:40,height:4,background:'var(--bg4)',borderRadius:2,margin:'12px auto 16px'}}/>
+        <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
+          <img src={img.photo} alt="" style={{width:54,height:54,borderRadius:9,objectFit:'cover',border:'1.5px solid var(--border)',flexShrink:0}}/>
+          <div><div style={{fontFamily:'Playfair Display,serif',fontSize:'1.05rem',fontWeight:700}}>Tag this look</div><div style={{fontSize:'0.75rem',color:'var(--text3)'}}>Pick all aesthetics that apply</div></div>
+          <button className="icon-btn" style={{marginLeft:'auto'}} onClick={onClose}>✕</button>
+        </div>
+        <div className="tag-wrap" style={{gap:8,marginBottom:20}}>
+          {AESTHETICS.map(a=>(
+            <span key={a.value} className={`tag${sel.has(a.value)?' sel':''}`} style={{fontSize:'0.85rem',padding:'8px 16px',borderRadius:24}} onClick={()=>tog(a.value)}>
+              {a.emoji} {a.label}
+              {sel.has(a.value)&&<span style={{marginLeft:4,fontWeight:700}}>✓</span>}
+            </span>
+          ))}
+        </div>
+        <div style={{display:'flex',gap:10}}>
+          <button className="btn btn-outline" style={{flex:1}} onClick={onClose}>Cancel</button>
+          <button className="btn btn-sky" style={{flex:2}} onClick={()=>onSave({...img,aesthetics:[...sel]})}>Save {sel.size>0?`(${sel.size} tag${sel.size!==1?'s':''})`:''}</button>
+        </div>
+      </div>
+    </>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Closet View \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Closet View ──────────────────────────────────────────────────────────────
 function ClosetView({ wardrobe, setWardrobe, savedOutfits, setSavedOutfits }) {
- const [tab,setTab]=useState('items');
- const [editItem,setEditItem]=useState(null);
- const [showAdd,setShowAdd]=useState(false);
- const [editSet,setEditSet]=useState(null);
- const [showAddSet,setShowAddSet]=useState(false);
- const [filter,setFilter]=useState('all');
- const [pageDragOver,setPageDragOver]=useState(false);
- const saveItem=item=>{setWardrobe(w=>w.find(i=>i.id===item.id)?w.map(i=>i.id===item.id?item:i):[...w,item]);setEditItem(null);setShowAdd(false);};
- // Drop photo directly onto the closet page \uc0\u8594 open add-item modal with suggestions
- const handlePageDrop=useCallback(async(src,file)=>{
- setPageDragOver(false);
- const suggestions=await analyzePhoto(src,file?.name||'');
- setEditItem({__new:true,photo:src,bg:suggestions.bg,name:suggestions.name,type:suggestions.type,color:suggestions.colorName,warmth:suggestions.warmth,formality:2,aesthetics:[],notes:'',__suggestions:suggestions});
- },[]);
- const delItem=id=>{setWardrobe(w=>w.filter(i=>i.id!==id));setEditItem(null);};
- const saveSet=s=>{setSavedOutfits(o=>o.find(x=>x.id===s.id)?o.map(x=>x.id===s.id?s:x):[...o,s]);setEditSet(null);setShowAddSet(false);};
- const delSet=id=>{setSavedOutfits(o=>o.filter(s=>s.id!==id));setEditSet(null);};
- const filtered=filter==='all'?wardrobe:wardrobe.filter(i=>i.type===filter);
- const FILTERS=[['all','All'],['top','Tops'],['bottom','Bottoms'],['dress','Dresses'],['shoes','Shoes'],['outerwear','Outerwear'],['accessory','Accessories'],['swimwear','Swimwear'],['bag','Bags']];
- return (
- <div className="page" onDragOver={e=>{if(tab==='items'){e.preventDefault();setPageDragOver(true);}}} onDragLeave={()=>setPageDragOver(false)} onDrop={e=>{if(tab!=='items')return;e.preventDefault();setPageDragOver(false);const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/')){const r=new FileReader();r.onload=ev=>handlePageDrop(ev.target.result,f);r.readAsDataURL(f);}}} style={{position:'relative'}}>
- {pageDragOver&&<div style={{position:'absolute',inset:0,background:'rgba(41,128,196,0.12)',border:'3px dashed var(--sky)',borderRadius:16,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><div style={{textAlign:'center'}}><div style={{fontSize:'3rem'}}>\uc0\u55357 \u56568 </div><div style={{fontWeight:700,color:'var(--sky)',fontSize:'1.1rem'}}>Drop photo to add item</div><div style={{fontSize:'0.8rem',color:'var(--text2)',marginTop:4}}>Fields will be auto-suggested from the image</div></div></div>}
- <div className="flex-between mb-16">
- <div><h2 style={{fontSize:'1.5rem'}}>My Closet</h2><p className="text-sm mt-8">{wardrobe.length} item{wardrobe.length!==1?'s':''} · {savedOutfits.length} outfit set{savedOutfits.length!==1?'s':''}</p></div>
- <button className="btn btn-sky" onClick={()=>tab==='items'?setShowAdd(true):setShowAddSet(true)}>+ {tab==='items'?'Add Item':'New Set'}</button>
- </div>
- <div className="tabs">
- <button className={`tab${tab==='items'?' active':''}`} onClick={()=>setTab('items')}>\uc0\u55357 \u56407 Items ({wardrobe.length})</button>
- <button className={`tab${tab==='sets'?' active':''}`} onClick={()=>setTab('sets')}>\uc0\u55358 \u56809 Outfit Sets ({savedOutfits.length})</button>
- </div>
- {tab==='items'&&(<>
- <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:16}}>
- {FILTERS.map(([v,l])=><span key={v} className={`tag${filter===v?' sel-coral':''}`} onClick={()=>setFilter(v)}>{l}</span>)}
- </div>
- {filtered.length===0?(
- <div className="empty">
- <div className="empty-icon">\uc0\u55357 \u56407 </div><div className="empty-title">No items yet</div>
- <div className="empty-sub">Add your clothes with photos to get outfit suggestions and a smart packing list.</div>
- <button className="btn btn-sky" onClick={()=>setShowAdd(true)}>+ Add First Item</button>
- </div>
- ):(
- <div className="item-grid">
- {filtered.map(item=>(
- <div key={item.id} className="item-card" onClick={()=>setEditItem(item)}>
- <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div>
- <div className="item-info"><div className="item-name">{item.name}</div><div className="item-sub">{item.color||ITEM_TYPES.find(t=>t.value===item.type)?.label}</div></div>
- </div>
- ))}
- </div>
- )}
- </>)}
- {tab==='sets'&&(<>
- {savedOutfits.length===0?(
- <div className="empty"><div className="empty-icon">\uc0\u55358 \u56809 </div><div className="empty-title">No outfit sets</div><div className="empty-sub">Combine items into named looks  use them as anchor outfits when planning trips.</div><button className="btn btn-sky" onClick={()=>setShowAddSet(true)}>+ Create First Set</button></div>
- ):(
- <div className="outfit-grid">
- {savedOutfits.map(set=>{
- const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
- return (
- <div key={set.id} className="outfit-card" style={{cursor:'pointer'}} onClick={()=>setEditSet(set)}>
- <div className="outfit-photos">
- {items.slice(0,4).map(item=>(
- <div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>
- ))}
- {!items.length&&<div className="outfit-photo"><span className="outfit-emoji">\uc0\u55358 \u56809 </span></div>}
- </div>
- <div className="outfit-body"><div className="outfit-name">{set.name}</div><div className="outfit-pieces">{items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div></div>
- </div>
- );
- })}
- </div>
- )}
- </>)}
- {(showAdd||editItem)&&<ItemModal item={editItem} onSave={saveItem} onDelete={delItem} onClose={()=>{setEditItem(null);setShowAdd(false);}}/>}
- {(showAddSet||editSet)&&<SetModal set={editSet} wardrobe={wardrobe} onSave={saveSet} onDelete={delSet} onClose={()=>{setEditSet(null);setShowAddSet(false);}}/>}
- </div>
- );
+  const [tab,setTab]=useState('items');
+  const [editItem,setEditItem]=useState(null);
+  const [showAdd,setShowAdd]=useState(false);
+  const [editSet,setEditSet]=useState(null);
+  const [showAddSet,setShowAddSet]=useState(false);
+  const [filter,setFilter]=useState('all');
+  const [pageDragOver,setPageDragOver]=useState(false);
+  const saveItem=item=>{setWardrobe(w=>w.find(i=>i.id===item.id)?w.map(i=>i.id===item.id?item:i):[...w,item]);setEditItem(null);setShowAdd(false);};
+  // Drop photo directly onto the closet page → open add-item modal with suggestions
+  const handlePageDrop=useCallback(async(src,file)=>{
+    setPageDragOver(false);
+    const suggestions=await analyzePhoto(src,file?.name||'');
+    setEditItem({__new:true,photo:src,bg:suggestions.bg,name:suggestions.name,type:suggestions.type,color:suggestions.colorName,warmth:suggestions.warmth,formality:2,aesthetics:[],notes:'',__suggestions:suggestions});
+  },[]);
+  const delItem=id=>{setWardrobe(w=>w.filter(i=>i.id!==id));setEditItem(null);};
+  const saveSet=s=>{setSavedOutfits(o=>o.find(x=>x.id===s.id)?o.map(x=>x.id===s.id?s:x):[...o,s]);setEditSet(null);setShowAddSet(false);};
+  const delSet=id=>{setSavedOutfits(o=>o.filter(s=>s.id!==id));setEditSet(null);};
+  const filtered=filter==='all'?wardrobe:wardrobe.filter(i=>i.type===filter);
+  const FILTERS=[['all','All'],['top','Tops'],['bottom','Bottoms'],['dress','Dresses'],['shoes','Shoes'],['outerwear','Outerwear'],['accessory','Accessories'],['swimwear','Swimwear'],['bag','Bags']];
+  return (
+    <div className="page" onDragOver={e=>{if(tab==='items'){e.preventDefault();setPageDragOver(true);}}} onDragLeave={()=>setPageDragOver(false)} onDrop={e=>{if(tab!=='items')return;e.preventDefault();setPageDragOver(false);const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/')){const r=new FileReader();r.onload=ev=>handlePageDrop(ev.target.result,f);r.readAsDataURL(f);}}} style={{position:'relative'}}>
+      {pageDragOver&&<div style={{position:'absolute',inset:0,background:'rgba(41,128,196,0.12)',border:'3px dashed var(--sky)',borderRadius:16,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><div style={{textAlign:'center'}}><div style={{fontSize:'3rem'}}>📸</div><div style={{fontWeight:700,color:'var(--sky)',fontSize:'1.1rem'}}>Drop photo to add item</div><div style={{fontSize:'0.8rem',color:'var(--text2)',marginTop:4}}>Fields will be auto-suggested from the image</div></div></div>}
+      <div className="flex-between mb-16">
+        <div><h2 style={{fontSize:'1.5rem'}}>My Closet</h2><p className="text-sm mt-8">{wardrobe.length} item{wardrobe.length!==1?'s':''} · {savedOutfits.length} outfit set{savedOutfits.length!==1?'s':''}</p></div>
+        <button className="btn btn-sky" onClick={()=>tab==='items'?setShowAdd(true):setShowAddSet(true)}>+ {tab==='items'?'Add Item':'New Set'}</button>
+      </div>
+      <div className="tabs">
+        <button className={`tab${tab==='items'?' active':''}`} onClick={()=>setTab('items')}>👗 Items ({wardrobe.length})</button>
+        <button className={`tab${tab==='sets'?' active':''}`} onClick={()=>setTab('sets')}>🧩 Outfit Sets ({savedOutfits.length})</button>
+      </div>
+      {tab==='items'&&(<>
+        <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:16}}>
+          {FILTERS.map(([v,l])=><span key={v} className={`tag${filter===v?' sel-coral':''}`} onClick={()=>setFilter(v)}>{l}</span>)}
+        </div>
+        {filtered.length===0?(
+          <div className="empty">
+            <div className="empty-icon">👗</div><div className="empty-title">No items yet</div>
+            <div className="empty-sub">Add your clothes with photos to get outfit suggestions and a smart packing list.</div>
+            <button className="btn btn-sky" onClick={()=>setShowAdd(true)}>+ Add First Item</button>
+          </div>
+        ):(
+          <div className="item-grid">
+            {filtered.map(item=>(
+              <div key={item.id} className="item-card" onClick={()=>setEditItem(item)}>
+                <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div>
+                <div className="item-info"><div className="item-name">{item.name}</div><div className="item-sub">{item.color||ITEM_TYPES.find(t=>t.value===item.type)?.label}</div></div>
+              </div>
+            ))}
+          </div>
+        )}
+      </>)}
+      {tab==='sets'&&(<>
+        {savedOutfits.length===0?(
+          <div className="empty"><div className="empty-icon">🧩</div><div className="empty-title">No outfit sets</div><div className="empty-sub">Combine items into named looks — use them as anchor outfits when planning trips.</div><button className="btn btn-sky" onClick={()=>setShowAddSet(true)}>+ Create First Set</button></div>
+        ):(
+          <div className="outfit-grid">
+            {savedOutfits.map(set=>{
+              const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+              return (
+                <div key={set.id} className="outfit-card" style={{cursor:'pointer'}} onClick={()=>setEditSet(set)}>
+                  <div className="outfit-photos">
+                    {items.slice(0,4).map(item=>(
+                      <div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>
+                    ))}
+                    {!items.length&&<div className="outfit-photo"><span className="outfit-emoji">🧩</span></div>}
+                  </div>
+                  <div className="outfit-body"><div className="outfit-name">{set.name}</div><div className="outfit-pieces">{items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div></div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </>)}
+      {(showAdd||editItem)&&<ItemModal item={editItem} onSave={saveItem} onDelete={delItem} onClose={()=>{setEditItem(null);setShowAdd(false);}}/>}
+      {(showAddSet||editSet)&&<SetModal set={editSet} wardrobe={wardrobe} onSave={saveSet} onDelete={delSet} onClose={()=>{setEditSet(null);setShowAddSet(false);}}/>}
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Inspiration View \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Inspiration View ─────────────────────────────────────────────────────────
 function InspoView({ board, setBoard }) {
- const [tagImg,setTagImg]=useState(null);
- const add=useCallback(src=>setBoard(b=>[...b,{id:uid(),photo:src,aesthetics:[]}]),[setBoard]);
- const saveTag=img=>{setBoard(b=>b.map(i=>i.id===img.id?img:i));setTagImg(null);};
- const remove=id=>setBoard(b=>b.filter(i=>i.id!==id));
- const dna=calcDNA(board);
- return (
- <div className="page">
- <div className="mb-24"><h2 style={{fontSize:'1.5rem'}}>Inspiration Board</h2><p className="text-sm mt-8">Upload Pinterest screenshots or style photos  we'll decode your aesthetic DNA</p></div>
- <DZ height={130} hint="Drag & drop your inspiration images here, or click to browse" multi onFile={add}/>
- {board.length>0&&(<>
- <div className="flex-between mt-24 mb-12"><h3 style={{fontSize:'1rem',fontWeight:700}}>Your Board <span style={{color:'var(--text3)',fontFamily:'Inter',fontWeight:400}}> ({board.length} images)</span></h3><span className="text-xs">Click any image to tag its vibe</span></div>
- <div className="inspo-grid">
- {board.map(img=>(
- <div key={img.id} className={`inspo-card${img.aesthetics.length?' tagged':''}`} onClick={()=>setTagImg(img)}>
- <img src={img.photo} alt=""/>
- <div className="inspo-overlay">{img.aesthetics.length?<div className="inspo-vibe-tags">{img.aesthetics.map(a=>{const ae=AESTHETICS.find(x=>x.value===a);return<span key={a} className="inspo-vibe">{ae?.emoji} {ae?.label||a}</span>;})}</div>:<span style={{fontSize:'0.75rem',color:'rgba(255,255,255,.9)',fontWeight:600,background:'rgba(0,0,0,0.3)',padding:'3px 8px',borderRadius:10}}>\uc0\u9999 \u65039 Tag vibe</span>}</div>
- <button style={{position:'absolute',top:6,right:6,background:'rgba(28,24,40,0.55)',border:'none',color:'#fff',borderRadius:'50%',width:22,height:22,cursor:'pointer',fontSize:'0.7rem',display:'flex',alignItems:'center',justifyContent:'center'}} onClick={e=>{e.stopPropagation();remove(img.id);}}>\uc0\u10005 </button>
- </div>
- ))}
- </div>
- {dna&&(
- <div className="card mt-24">
- <div className="flex-between mb-16"><h3 style={{fontSize:'1.1rem'}}>\uc0\u10024 Your Style DNA</h3><span className="badge badge-sky">{board.filter(i=>i.aesthetics.length).length} tagged</span></div>
- <p className="text-sm mb-16">Based on your inspiration board, you lean toward:</p>
- {AESTHETICS.map(a=><div key={a.value} className="dna-bar"><span className="dna-lbl">{a.emoji} {a.label}</span><div className="dna-track"><div className="dna-fill" style={{width:`${dna[a.value]||0}%`}}/></div><span className="dna-pct">{dna[a.value]||0}%</span></div>)}
- <p className="text-xs mt-8" style={{color:'var(--lavender)'}}>Use "Apply from Board" in Trip Setup \uc0\u8594 Step 2 to auto-fill your style sliders.</p>
- </div>
- )}
- </>)}
- {!board.length&&<div className="empty mt-24"><div className="empty-icon">\uc0\u55357 \u56764 \u65039 </div><div className="empty-title">Build your style board</div><div className="empty-sub">Drop in Pinterest screenshots, fashion blog photos, or any looks you love. We'll extract your aesthetic profile.</div></div>}
- {tagImg&&<InspoTagSheet img={tagImg} onSave={saveTag} onClose={()=>setTagImg(null)}/>}
- </div>
- );
+  const [tagImg,setTagImg]=useState(null);
+  const add=useCallback(src=>setBoard(b=>[...b,{id:uid(),photo:src,aesthetics:[]}]),[setBoard]);
+  const saveTag=img=>{setBoard(b=>b.map(i=>i.id===img.id?img:i));setTagImg(null);};
+  const remove=id=>setBoard(b=>b.filter(i=>i.id!==id));
+  const dna=calcDNA(board);
+  return (
+    <div className="page">
+      <div className="mb-24"><h2 style={{fontSize:'1.5rem'}}>Inspiration Board</h2><p className="text-sm mt-8">Upload Pinterest screenshots or style photos — we'll decode your aesthetic DNA</p></div>
+      <DZ height={130} hint="Drag & drop your inspiration images here, or click to browse" multi onFile={add}/>
+      {board.length>0&&(<>
+        <div className="flex-between mt-24 mb-12"><h3 style={{fontSize:'1rem',fontWeight:700}}>Your Board <span style={{color:'var(--text3)',fontFamily:'Inter',fontWeight:400}}> ({board.length} images)</span></h3><span className="text-xs">Click any image to tag its vibe</span></div>
+        <div className="inspo-grid">
+          {board.map(img=>(
+            <div key={img.id} className={`inspo-card${img.aesthetics.length?' tagged':''}`} onClick={()=>setTagImg(img)}>
+              <img src={img.photo} alt=""/>
+              <div className="inspo-overlay">{img.aesthetics.length?<div className="inspo-vibe-tags">{img.aesthetics.map(a=>{const ae=AESTHETICS.find(x=>x.value===a);return<span key={a} className="inspo-vibe">{ae?.emoji} {ae?.label||a}</span>;})}</div>:<span style={{fontSize:'0.75rem',color:'rgba(255,255,255,.9)',fontWeight:600,background:'rgba(0,0,0,0.3)',padding:'3px 8px',borderRadius:10}}>✏️ Tag vibe</span>}</div>
+              <button style={{position:'absolute',top:6,right:6,background:'rgba(28,24,40,0.55)',border:'none',color:'#fff',borderRadius:'50%',width:22,height:22,cursor:'pointer',fontSize:'0.7rem',display:'flex',alignItems:'center',justifyContent:'center'}} onClick={e=>{e.stopPropagation();remove(img.id);}}>✕</button>
+            </div>
+          ))}
+        </div>
+        {dna&&(
+          <div className="card mt-24">
+            <div className="flex-between mb-16"><h3 style={{fontSize:'1.1rem'}}>✨ Your Style DNA</h3><span className="badge badge-sky">{board.filter(i=>i.aesthetics.length).length} tagged</span></div>
+            <p className="text-sm mb-16">Based on your inspiration board, you lean toward:</p>
+            {AESTHETICS.map(a=><div key={a.value} className="dna-bar"><span className="dna-lbl">{a.emoji} {a.label}</span><div className="dna-track"><div className="dna-fill" style={{width:`${dna[a.value]||0}%`}}/></div><span className="dna-pct">{dna[a.value]||0}%</span></div>)}
+            <p className="text-xs mt-8" style={{color:'var(--lavender)'}}>Use "Apply from Board" in Trip Setup → Step 2 to auto-fill your style sliders.</p>
+          </div>
+        )}
+      </>)}
+      {!board.length&&<div className="empty mt-24"><div className="empty-icon">🖼️</div><div className="empty-title">Build your style board</div><div className="empty-sub">Drop in Pinterest screenshots, fashion blog photos, or any looks you love. We'll extract your aesthetic profile.</div></div>}
+      {tagImg&&<InspoTagSheet img={tagImg} onSave={saveTag} onClose={()=>setTagImg(null)}/>}
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Trip Setup View \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Trip Setup View ──────────────────────────────────────────────────────────
 function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
- const [step,setStep]=useState(1);
- const [loading,setLoading]=useState(false);
- const [wErr,setWErr]=useState(null);
- const defAes=()=>Object.fromEntries(AESTHETICS.map(a=>[a.value,0]));
- const [form,setForm]=useState({dest:'',start:'',end:'',luggage:'carry-on',vtype:'mixed',acts:[],aes:defAes(),hi:[],hs:[],weather:null,dnaApplied:false});
- const s=v=>setForm(f=>({...f,...v}));
- const days=useMemo(()=>{if(!form.start||!form.end)return 0;return Math.max(1,Math.round((new Date(form.end)-new Date(form.start))/86400000)+1);},[form.start,form.end]);
- const togAct=a=>s({acts:form.acts.includes(a)?form.acts.filter(x=>x!==a):[...form.acts,a]});
- const togHI=id=>s({hi:form.hi.includes(id)?form.hi.filter(x=>x!==id):[...form.hi,id]});
- const togHS=id=>s({hs:form.hs.includes(id)?form.hs.filter(x=>x!==id):[...form.hs,id]});
- const fetchW=useCallback(async()=>{if(!form.dest.trim()||!form.start||!days)return;setLoading(true);setWErr(null);try{s({weather:await getWeather(form.dest,form.start,days)});}catch(e){setWErr(e.message);}finally{setLoading(false);}},[form.dest,form.start,form.end,days]);
- // Auto-fetch weather 800ms after dest+dates are all filled
- useEffect(()=>{
- if(!form.dest.trim()||!form.start||!form.end||days<=0)return;
- s({weather:null});setWErr(null);
- const t=setTimeout(fetchW,800);
- return()=>clearTimeout(t);
- },[form.dest,form.start,form.end,days]);
- const applyDNA=()=>{const dna=calcDNA(board);if(!dna)return;s({aes:dna,dnaApplied:true});};
- const ok1=form.dest.trim()&&form.start&&form.end&&days>0;
- const ok2=form.vtype&&form.acts.length>0;
- const STEPS=[{n:1,l:'Trip Details'},{n:2,l:'Style & Activities'},{n:3,l:'Anchor Pieces'}];
- return (
- <div className="page">
- <div className="flex-between mb-24">
- <h2 style={{fontSize:'1.5rem'}}>Plan a Trip</h2>
- {step>1&&<button className="btn btn-ghost btn-sm" onClick={()=>setStep(p=>p-1)}>\uc0\u8592 Back</button>}
- </div>
- <div className="wiz-row">
- {STEPS.map((ws,i)=>(<React.Fragment key={ws.n}>
- {i>0&&<div className={`wiz-line${step>ws.n-1?' done':''}`}/>}
- <div className="wiz-step-wrap"><div className={`wiz-dot${step>ws.n?' done':step===ws.n?' active':''}`}>{step>ws.n?'\uc0\u10003 ':ws.n}</div><div className={`wiz-lbl${step===ws.n?' active':step>ws.n?' done':''}`}>{ws.l}</div></div>
- </React.Fragment>))}
- </div>
+  const [step,setStep]=useState(1);
+  const [loading,setLoading]=useState(false);
+  const [wErr,setWErr]=useState(null);
+  const defAes=()=>Object.fromEntries(AESTHETICS.map(a=>[a.value,0]));
+  const [form,setForm]=useState({dest:'',start:'',end:'',luggage:'carry-on',vtype:'mixed',acts:[],aes:defAes(),hi:[],hs:[],weather:null,dnaApplied:false});
+  const s=v=>setForm(f=>({...f,...v}));
+  const days=useMemo(()=>{if(!form.start||!form.end)return 0;return Math.max(1,Math.round((new Date(form.end)-new Date(form.start))/86400000)+1);},[form.start,form.end]);
+  const togAct=a=>s({acts:form.acts.includes(a)?form.acts.filter(x=>x!==a):[...form.acts,a]});
+  const togHI=id=>s({hi:form.hi.includes(id)?form.hi.filter(x=>x!==id):[...form.hi,id]});
+  const togHS=id=>s({hs:form.hs.includes(id)?form.hs.filter(x=>x!==id):[...form.hs,id]});
+  const fetchW=useCallback(async()=>{if(!form.dest.trim()||!form.start||!days)return;setLoading(true);setWErr(null);try{s({weather:await getWeather(form.dest,form.start,days)});}catch(e){setWErr(e.message);}finally{setLoading(false);}},[form.dest,form.start,form.end,days]);
+  // Auto-fetch weather 800ms after dest+dates are all filled
+  useEffect(()=>{
+    if(!form.dest.trim()||!form.start||!form.end||days<=0)return;
+    s({weather:null});setWErr(null);
+    const t=setTimeout(fetchW,800);
+    return()=>clearTimeout(t);
+  },[form.dest,form.start,form.end,days]);
+  const applyDNA=()=>{const dna=calcDNA(board);if(!dna)return;s({aes:dna,dnaApplied:true});};
+  const ok1=form.dest.trim()&&form.start&&form.end&&days>0;
+  const ok2=form.vtype&&form.acts.length>0;
+  const STEPS=[{n:1,l:'Trip Details'},{n:2,l:'Style & Activities'},{n:3,l:'Anchor Pieces'}];
+  return (
+    <div className="page">
+      <div className="flex-between mb-24">
+        <h2 style={{fontSize:'1.5rem'}}>Plan a Trip</h2>
+        {step>1&&<button className="btn btn-ghost btn-sm" onClick={()=>setStep(p=>p-1)}>← Back</button>}
+      </div>
+      <div className="wiz-row">
+        {STEPS.map((ws,i)=>(<React.Fragment key={ws.n}>
+          {i>0&&<div className={`wiz-line${step>ws.n-1?' done':''}`}/>}
+          <div className="wiz-step-wrap"><div className={`wiz-dot${step>ws.n?' done':step===ws.n?' active':''}`}>{step>ws.n?'✓':ws.n}</div><div className={`wiz-lbl${step===ws.n?' active':step>ws.n?' done':''}`}>{ws.l}</div></div>
+        </React.Fragment>))}
+      </div>
 
- {step===1&&(
- <div>
- <div className="form-group"><label>Where are you going? *</label><input value={form.dest} onChange={e=>s({dest:e.target.value})} placeholder="e.g. Tulum, Mexico" style={{fontSize:'1rem',padding:'12px 14px'}}/></div>
- <div className="form-row"><div className="form-group"><label>Departure *</label><input type="date" value={form.start} onChange={e=>s({start:e.target.value})}/></div><div className="form-group"><label>Return *</label><input type="date" value={form.end} min={form.start} onChange={e=>s({end:e.target.value})}/></div></div>
- {days>0&&<p className="text-sm mb-16">\uc0\u55357 \u56517 {days} night{days!==1?'s':''}</p>}
- <div className="form-group"><label>Luggage</label><select value={form.luggage} onChange={e=>s({luggage:e.target.value})}>{LUGGAGE.map(l=><option key={l.value} value={l.value}>{l.label} ({l.note})</option>)}</select></div>
- <div className="card mt-16">
- <div className="flex-between mb-12"><span style={{fontWeight:700,fontSize:'0.9rem'}}>\uc0\u55356 \u57124 Weather Forecast</span>{loading&&<span className="text-xs" style={{color:'var(--sky)'}}>Fetching</span>}{!loading&&form.weather&&<span className="text-xs" style={{color:'var(--mint)'}}>\u10003 Auto-fetched</span>}{!loading&&!form.weather&&ok1&&!wErr&&<span className="text-xs" style={{color:'var(--text3)'}}>Auto-fetching</span>}</div>
- {wErr&&<p style={{color:'var(--red)',fontSize:'0.8rem',marginBottom:8}}>\uc0\u9888 \u65039 {wErr} <button className="btn btn-ghost btn-xs" onClick={fetchW}>Retry</button></p>}
- {!form.weather&&!wErr&&!loading&&<p className="text-xs">Fill in destination and dates  weather loads automatically.</p>}
- {loading&&<p className="text-xs" style={{color:'var(--sky)'}}>Looking up forecast for {form.dest}</p>}
- {form.weather&&(
- <div className="weather-card mt-8">
- <div className="wc-icon">{wmoIcon(form.weather.conditions)}</div>
- <div><div className="wc-temp">{form.weather.min}°{form.weather.max}°C</div><div className="wc-desc">{form.weather.conditions} · {form.weather.location}</div>{!form.weather.isForecast&&<div className="wc-note">\uc0\u55357 \u56522 Historical estimate (same dates last year)</div>}</div>
- </div>
- )}
- </div>
- <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-sky" disabled={!ok1} onClick={()=>setStep(2)}>Next: Style & Activities \uc0\u8594 </button></div>
- </div>
- )}
+      {step===1&&(
+        <div>
+          <div className="form-group"><label>Where are you going? *</label><input value={form.dest} onChange={e=>s({dest:e.target.value})} placeholder="e.g. Tulum, Mexico" style={{fontSize:'1rem',padding:'12px 14px'}}/></div>
+          <div className="form-row"><div className="form-group"><label>Departure *</label><input type="date" value={form.start} onChange={e=>s({start:e.target.value})}/></div><div className="form-group"><label>Return *</label><input type="date" value={form.end} min={form.start} onChange={e=>s({end:e.target.value})}/></div></div>
+          {days>0&&<p className="text-sm mb-16">📅 {days} night{days!==1?'s':''}</p>}
+          <div className="form-group"><label>Luggage</label><select value={form.luggage} onChange={e=>s({luggage:e.target.value})}>{LUGGAGE.map(l=><option key={l.value} value={l.value}>{l.label} ({l.note})</option>)}</select></div>
+          <div className="card mt-16">
+            <div className="flex-between mb-12"><span style={{fontWeight:700,fontSize:'0.9rem'}}>🌤 Weather Forecast</span>{loading&&<span className="text-xs" style={{color:'var(--sky)'}}>Fetching…</span>}{!loading&&form.weather&&<span className="text-xs" style={{color:'var(--mint)'}}>✓ Auto-fetched</span>}{!loading&&!form.weather&&ok1&&!wErr&&<span className="text-xs" style={{color:'var(--text3)'}}>Auto-fetching…</span>}</div>
+            {wErr&&<p style={{color:'var(--red)',fontSize:'0.8rem',marginBottom:8}}>⚠️ {wErr} <button className="btn btn-ghost btn-xs" onClick={fetchW}>Retry</button></p>}
+            {!form.weather&&!wErr&&!loading&&<p className="text-xs">Fill in destination and dates — weather loads automatically.</p>}
+            {loading&&<p className="text-xs" style={{color:'var(--sky)'}}>Looking up forecast for {form.dest}…</p>}
+            {form.weather&&(
+              <div className="weather-card mt-8">
+                <div className="wc-icon">{wmoIcon(form.weather.conditions)}</div>
+                <div><div className="wc-temp">{form.weather.min}°–{form.weather.max}°C</div><div className="wc-desc">{form.weather.conditions} · {form.weather.location}</div>{!form.weather.isForecast&&<div className="wc-note">📊 Historical estimate (same dates last year)</div>}</div>
+              </div>
+            )}
+          </div>
+          <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-sky" disabled={!ok1} onClick={()=>setStep(2)}>Next: Style & Activities →</button></div>
+        </div>
+      )}
 
- {step===2&&(
- <div>
- <div className="form-group"><label>Trip Vibe</label><div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vtype===v.value?' sel-coral':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vtype:v.value})}>{v.icon} {v.label}</span>)}</div></div>
- <div className="form-group mt-16"><label>Activities (select all that apply)</label><div className="tag-wrap mt-8">{ACTIVITIES.map(a=><span key={a.value} className={`tag${form.acts.includes(a.value)?' sel':''}`} onClick={()=>togAct(a.value)}>{a.label}</span>)}</div></div>
- <hr className="divider"/>
- <div className="flex-between mb-12"><label style={{margin:0}}>Style Mix</label>{board.length>0&&<button className="btn btn-outline btn-sm" onClick={applyDNA}>{form.dnaApplied?'\uc0\u10003 Board Applied':'\u10024 Apply from Board'}</button>}</div>
- {form.dnaApplied&&<p style={{fontSize:'0.78rem',color:'var(--lavender)',marginBottom:12}}>\uc0\u10024 Sliders filled from your inspiration board</p>}
- {AESTHETICS.map(a=>(<div key={a.value} className="slider-row"><div className="slider-lbl"><span className="slider-lbl-left">{a.emoji} {a.label}</span><span className="slider-lbl-right">{form.aes[a.value]}%</span></div><input type="range" min={0} max={100} step={5} value={form.aes[a.value]} onChange={e=>s({aes:{...form.aes,[a.value]:+e.target.value}})}/></div>))}
- <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-sky" disabled={!ok2} onClick={()=>setStep(3)}>Next: Anchor Pieces \uc0\u8594 </button></div>
- </div>
- )}
+      {step===2&&(
+        <div>
+          <div className="form-group"><label>Trip Vibe</label><div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vtype===v.value?' sel-coral':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vtype:v.value})}>{v.icon} {v.label}</span>)}</div></div>
+          <div className="form-group mt-16"><label>Activities (select all that apply)</label><div className="tag-wrap mt-8">{ACTIVITIES.map(a=><span key={a.value} className={`tag${form.acts.includes(a.value)?' sel':''}`} onClick={()=>togAct(a.value)}>{a.label}</span>)}</div></div>
+          <hr className="divider"/>
+          <div className="flex-between mb-12"><label style={{margin:0}}>Style Mix</label>{board.length>0&&<button className="btn btn-outline btn-sm" onClick={applyDNA}>{form.dnaApplied?'✓ Board Applied':'✨ Apply from Board'}</button>}</div>
+          {form.dnaApplied&&<p style={{fontSize:'0.78rem',color:'var(--lavender)',marginBottom:12}}>✨ Sliders filled from your inspiration board</p>}
+          {AESTHETICS.map(a=>(<div key={a.value} className="slider-row"><div className="slider-lbl"><span className="slider-lbl-left">{a.emoji} {a.label}</span><span className="slider-lbl-right">{form.aes[a.value]}%</span></div><input type="range" min={0} max={100} step={5} value={form.aes[a.value]} onChange={e=>s({aes:{...form.aes,[a.value]:+e.target.value}})}/></div>))}
+          <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-sky" disabled={!ok2} onClick={()=>setStep(3)}>Next: Anchor Pieces →</button></div>
+        </div>
+      )}
 
- {step===3&&(
- <div>
- <p className="text-sm mb-24" style={{background:'rgba(41,128,196,0.07)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--sky)'}}>
- <strong>Optional:</strong> Pin your must-pack hero pieces  they'll appear first in your packing list and be prioritized in outfit combos.
- </p>
- {savedOutfits.length>0&&(<>
- <label style={{marginBottom:10}}>Pin Outfit Sets</label>
- <div className="outfit-grid mb-16">
- {savedOutfits.map(set=>{
- const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
- const isH=form.hs.includes(set.id);
- return (
- <div key={set.id} className={`outfit-card${isH?' hero':''}`} style={{cursor:'pointer'}} onClick={()=>togHS(set.id)}>
- <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
- <div className="outfit-body"><div className="outfit-name">{isH&&'\uc0\u11088 '}{set.name}</div></div>
- </div>
- );
- })}
- </div>
- </>)}
- {wardrobe.length>0&&(<>
- <label style={{marginBottom:10}}>Pin Individual Items</label>
- <div className="item-grid mt-8">
- {wardrobe.map(item=>{const isH=form.hi.includes(item.id);return(
- <div key={item.id} className={`item-card${isH?' hero':''}`} onClick={()=>togHI(item.id)}>
- <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div>
- <div className="item-info"><div className="item-name">{item.name}</div></div>
- {isH&&<div className="item-pin item-pin-hero">\uc0\u11088 </div>}
- </div>
- );})}
- </div>
- </>)}
- {!wardrobe.length&&!savedOutfits.length&&<div className="card" style={{textAlign:'center',padding:28,color:'var(--text3)'}}>Add items to your closet first to pin hero pieces.</div>}
- <div style={{textAlign:'right',marginTop:28}}>
- <button className="btn btn-coral" style={{fontSize:'1rem',padding:'12px 28px'}} onClick={()=>onTrip({dest:form.dest,startDate:form.start,endDate:form.end,days,luggage:form.luggage,vacationType:form.vtype,activities:form.acts,aesthetics:form.aes,heroItems:form.hi,heroSets:form.hs,weather:form.weather,dnaApplied:form.dnaApplied,id:uid()})}>
- \uc0\u55358 \u56819 Generate My Packing List
- </button>
- </div>
- </div>
- )}
- </div>
- );
+      {step===3&&(
+        <div>
+          <p className="text-sm mb-24" style={{background:'rgba(41,128,196,0.07)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--sky)'}}>
+            <strong>Optional:</strong> Pin your must-pack hero pieces — they'll appear first in your packing list and be prioritized in outfit combos.
+          </p>
+          {savedOutfits.length>0&&(<>
+            <label style={{marginBottom:10}}>Pin Outfit Sets</label>
+            <div className="outfit-grid mb-16">
+              {savedOutfits.map(set=>{
+                const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+                const isH=form.hs.includes(set.id);
+                return (
+                  <div key={set.id} className={`outfit-card${isH?' hero':''}`} style={{cursor:'pointer'}} onClick={()=>togHS(set.id)}>
+                    <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
+                    <div className="outfit-body"><div className="outfit-name">{isH&&'⭐ '}{set.name}</div></div>
+                  </div>
+                );
+              })}
+            </div>
+          </>)}
+          {wardrobe.length>0&&(<>
+            <label style={{marginBottom:10}}>Pin Individual Items</label>
+            <div className="item-grid mt-8">
+              {wardrobe.map(item=>{const isH=form.hi.includes(item.id);return(
+                <div key={item.id} className={`item-card${isH?' hero':''}`} onClick={()=>togHI(item.id)}>
+                  <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{typeEmoji(item.type)}</span>}</div></div>
+                  <div className="item-info"><div className="item-name">{item.name}</div></div>
+                  {isH&&<div className="item-pin item-pin-hero">⭐</div>}
+                </div>
+              );})}
+            </div>
+          </>)}
+          {!wardrobe.length&&!savedOutfits.length&&<div className="card" style={{textAlign:'center',padding:28,color:'var(--text3)'}}>Add items to your closet first to pin hero pieces.</div>}
+          <div style={{textAlign:'right',marginTop:28}}>
+            <button className="btn btn-coral" style={{fontSize:'1rem',padding:'12px 28px'}} onClick={()=>onTrip({dest:form.dest,startDate:form.start,endDate:form.end,days,luggage:form.luggage,vacationType:form.vtype,activities:form.acts,aesthetics:form.aes,heroItems:form.hi,heroSets:form.hs,weather:form.weather,dnaApplied:form.dnaApplied,id:uid()})}>
+              🧳 Generate My Packing List
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Packing List View \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Packing List View ────────────────────────────────────────────────────────
 function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave, onBack }) {
- const [tab,setTab]=useState('outfits');
- const [checked,setChecked]=useState(initChecked||new Set());
- const [justSaved,setJustSaved]=useState(false);
- const [approvedOutfits,setApprovedOutfits]=useState(new Set());
- const [showSticky,setShowSticky]=useState(false);
- const tripHeaderRef=useRef();
- useEffect(()=>{
- const el=document.querySelector('.app-content');
- if(!el)return;
- const check=()=>{if(!tripHeaderRef.current)return;const r=tripHeaderRef.current.getBoundingClientRect();setShowSticky(r.bottom<58);};
- el.addEventListener('scroll',check,{passive:true});
- return()=>el.removeEventListener('scroll',check);
- },[]);
- const approveOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.add(id);return n;});
- const skipOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.has(id)&&n.delete(id);return n;});
- const outfits=useMemo(()=>buildOutfits(wardrobe,trip,trip.weather),[wardrobe,trip]);
- const essentials=useMemo(()=>buildEssentials(trip,trip.weather),[trip]);
- const tog=id=>setChecked(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
- const togAll=ids=>setChecked(s=>{const n=new Set(s);ids.every(id=>n.has(id))?ids.forEach(id=>n.delete(id)):ids.forEach(id=>n.add(id));return n;});
- const heroSets=(trip.heroSets||[]).map(id=>savedOutfits.find(s=>s.id===id)).filter(Boolean);
- const clothes=wardrobe.filter(i=>!['accessory','bag'].includes(i.type));
- const essIds=essentials.flatMap(c=>c.items.map(i=>`ess-${i}`));
- const total=clothes.length+essIds.length;
- const done=clothes.filter(i=>checked.has(i.id)).length+essIds.filter(id=>checked.has(id)).length;
- const pct=total>0?Math.round(done/total*100):0;
- const handleSave=()=>{onSave(trip,[...checked]);setJustSaved(true);setTimeout(()=>setJustSaved(false),3000);};
- const JOURNEY=[{n:1,l:'Trip Details',icon:'\uc0\u55357 \u56826 \u65039 '},{n:2,l:'Approve Outfits',icon:'\u55357 \u56407 '},{n:3,l:'Pack Clothes',icon:'\u55358 \u56826 '},{n:4,l:'Pack Essentials',icon:'\u55356 \u57234 '}];
- const journeyStep=tab==='outfits'?2:tab==='clothes'?3:4;
- return (
- <div>
- {/* Sticky Progress Bar  only shown after trip header scrolls out */}
- {showSticky&&<div className="sticky-progress">
- <div className="sticky-progress-inner">
- <div className="prog-row">
- <span className="prog-label">\uc0\u55358 \u56819 {trip.dest}  {done} of {total} packed</span>
- <span className="prog-pct" style={{color:pct===100?'var(--green)':pct>=60?'var(--sky)':'var(--coral)'}}>{pct}%{pct===100?' \uc0\u55356 \u57225 ':''}</span>
- </div>
- <div className="prog-bar"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
- </div>
- </div>}
+  const [tab,setTab]=useState('outfits');
+  const [checked,setChecked]=useState(initChecked||new Set());
+  const [justSaved,setJustSaved]=useState(false);
+  const [approvedOutfits,setApprovedOutfits]=useState(new Set());
+  const [showSticky,setShowSticky]=useState(false);
+  const tripHeaderRef=useRef();
+  useEffect(()=>{
+    const el=document.querySelector('.app-content');
+    if(!el)return;
+    const check=()=>{if(!tripHeaderRef.current)return;const r=tripHeaderRef.current.getBoundingClientRect();setShowSticky(r.bottom<58);};
+    el.addEventListener('scroll',check,{passive:true});
+    return()=>el.removeEventListener('scroll',check);
+  },[]);
+  const approveOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.add(id);return n;});
+  const skipOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.has(id)&&n.delete(id);return n;});
+  const outfits=useMemo(()=>buildOutfits(wardrobe,trip,trip.weather),[wardrobe,trip]);
+  const essentials=useMemo(()=>buildEssentials(trip,trip.weather),[trip]);
+  const tog=id=>setChecked(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
+  const togAll=ids=>setChecked(s=>{const n=new Set(s);ids.every(id=>n.has(id))?ids.forEach(id=>n.delete(id)):ids.forEach(id=>n.add(id));return n;});
+  const heroSets=(trip.heroSets||[]).map(id=>savedOutfits.find(s=>s.id===id)).filter(Boolean);
+  const clothes=wardrobe.filter(i=>!['accessory','bag'].includes(i.type));
+  const essIds=essentials.flatMap(c=>c.items.map(i=>`ess-${i}`));
+  const total=clothes.length+essIds.length;
+  const done=clothes.filter(i=>checked.has(i.id)).length+essIds.filter(id=>checked.has(id)).length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const handleSave=()=>{onSave(trip,[...checked]);setJustSaved(true);setTimeout(()=>setJustSaved(false),3000);};
+  const JOURNEY=[{n:1,l:'Trip Details',icon:'🗺️'},{n:2,l:'Approve Outfits',icon:'👗'},{n:3,l:'Pack Clothes',icon:'🧺'},{n:4,l:'Pack Essentials',icon:'🎒'}];
+  const journeyStep=tab==='outfits'?2:tab==='clothes'?3:4;
+  return (
+    <div>
+      {/* Sticky Progress Bar — only shown after trip header scrolls out */}
+      {showSticky&&<div className="sticky-progress">
+        <div className="sticky-progress-inner">
+          <div className="prog-row">
+            <span className="prog-label">🧳 {trip.dest} — {done} of {total} packed</span>
+            <span className="prog-pct" style={{color:pct===100?'var(--green)':pct>=60?'var(--sky)':'var(--coral)'}}>{pct}%{pct===100?' 🎉':''}</span>
+          </div>
+          <div className="prog-bar"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
+        </div>
+      </div>}
 
- <div className="page">
- {/* Journey stepper */}
- <div style={{display:'flex',alignItems:'flex-start',marginBottom:24,gap:0}}>
- {JOURNEY.map((js,i)=>(
- <React.Fragment key={js.n}>
- {i>0&&<div style={{flex:1,height:2,background:journeyStep>js.n-1?'var(--mint)':'var(--border)',marginTop:15,transition:'background .3s'}}/>}
- <div style={{display:'flex',flexDirection:'column',alignItems:'center',cursor:js.n<journeyStep?'pointer':'default'}} onClick={()=>{if(js.n===2)setTab('outfits');else if(js.n===3)setTab('clothes');else if(js.n===4)setTab('essentials');}}>
- <div style={{width:30,height:30,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:700,border:`2px solid ${journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--border2)'}`,background:journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--bg2)',color:journeyStep>=js.n?'#fff':'var(--text3)',boxShadow:journeyStep===js.n?'0 0 0 4px rgba(41,128,196,0.18)':'none',transition:'all .3s',flexShrink:0,marginBottom:4}}>{journeyStep>js.n?'\uc0\u10003 ':js.icon}</div>
- <span style={{fontSize:'0.6rem',fontWeight:600,color:journeyStep===js.n?'var(--sky)':journeyStep>js.n?'var(--mint)':'var(--text3)',textAlign:'center',maxWidth:56,lineHeight:1.2}}>{js.l}</span>
- </div>
- </React.Fragment>
- ))}
- </div>
+      <div className="page">
+        {/* Journey stepper */}
+        <div style={{display:'flex',alignItems:'flex-start',marginBottom:24,gap:0}}>
+          {JOURNEY.map((js,i)=>(
+            <React.Fragment key={js.n}>
+              {i>0&&<div style={{flex:1,height:2,background:journeyStep>js.n-1?'var(--mint)':'var(--border)',marginTop:15,transition:'background .3s'}}/>}
+              <div style={{display:'flex',flexDirection:'column',alignItems:'center',cursor:js.n<journeyStep?'pointer':'default'}} onClick={()=>{if(js.n===2)setTab('outfits');else if(js.n===3)setTab('clothes');else if(js.n===4)setTab('essentials');}}>
+                <div style={{width:30,height:30,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:700,border:`2px solid ${journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--border2)'}`,background:journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--bg2)',color:journeyStep>=js.n?'#fff':'var(--text3)',boxShadow:journeyStep===js.n?'0 0 0 4px rgba(41,128,196,0.18)':'none',transition:'all .3s',flexShrink:0,marginBottom:4}}>{journeyStep>js.n?'✓':js.icon}</div>
+                <span style={{fontSize:'0.6rem',fontWeight:600,color:journeyStep===js.n?'var(--sky)':journeyStep>js.n?'var(--mint)':'var(--text3)',textAlign:'center',maxWidth:56,lineHeight:1.2}}>{js.l}</span>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
 
- <div className="flex-between mb-8" ref={tripHeaderRef}>
- <div>
- <h2 style={{fontSize:'1.4rem'}}>Packing List</h2>
- <p className="text-sm mt-8">{fmtDate(trip.startDate)}  {fmtDate(trip.endDate)} · {trip.days} night{trip.days!==1?'s':''}</p>
- </div>
- <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
- {justSaved&&<span className="badge badge-green">\uc0\u10003 Saved!</span>}
- <button className="btn btn-outline btn-sm" onClick={handleSave}>\uc0\u55357 \u56510 Save Trip</button>
- <button className="btn btn-ghost btn-sm" onClick={onBack}>\uc0\u8592 New Trip</button>
- </div>
- </div>
+        <div className="flex-between mb-8" ref={tripHeaderRef}>
+          <div>
+            <h2 style={{fontSize:'1.4rem'}}>Packing List</h2>
+            <p className="text-sm mt-8">{fmtDate(trip.startDate)} – {fmtDate(trip.endDate)} · {trip.days} night{trip.days!==1?'s':''}</p>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            {justSaved&&<span className="badge badge-green">✓ Saved!</span>}
+            <button className="btn btn-outline btn-sm" onClick={handleSave}>💾 Save Trip</button>
+            <button className="btn btn-ghost btn-sm" onClick={onBack}>← New Trip</button>
+          </div>
+        </div>
 
- {trip.weather&&(
- <div className="weather-card mb-16">
- <div className="wc-icon">{wmoIcon(trip.weather.conditions)}</div>
- <div><div className="wc-temp">{trip.weather.min}°{trip.weather.max}°C</div><div className="wc-desc">{trip.weather.conditions} · {trip.weather.location}</div></div>
- </div>
- )}
+        {trip.weather&&(
+          <div className="weather-card mb-16">
+            <div className="wc-icon">{wmoIcon(trip.weather.conditions)}</div>
+            <div><div className="wc-temp">{trip.weather.min}°–{trip.weather.max}°C</div><div className="wc-desc">{trip.weather.conditions} · {trip.weather.location}</div></div>
+          </div>
+        )}
 
- <div className="tabs">
- <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>\uc0\u55357 \u56407 Outfits{outfits.length>0&&` (${outfits.length})`}</button>
- <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>\uc0\u55358 \u56826 Clothes ({clothes.length})</button>
- <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>\uc0\u55356 \u57234 Essentials</button>
- </div>
+        <div className="tabs">
+          <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>👗 Outfits{outfits.length>0&&` (${outfits.length})`}</button>
+          <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>🧺 Clothes ({clothes.length})</button>
+          <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>🎒 Essentials</button>
+        </div>
 
- {tab==='outfits'&&(
- <div>
- {heroSets.length>0&&(
- <div className="pack-section">
- <div className="sec-head"><div className="sec-title">\uc0\u11088 Pinned Outfit Sets</div><span className="badge badge-sun">{heroSets.length} pinned</span></div>
- <div className="outfit-grid">
- {heroSets.map(set=>{
- const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
- const key=`set-${set.id}`;const isPacked=checked.has(key);
- return (
- <div key={set.id} className={`outfit-card hero${isPacked?' packed':''}`}>
- <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
- <div className="outfit-body"><div className="outfit-name">\uc0\u11088 {set.name} <span className="badge badge-sun">Pinned</span></div><div className="outfit-pieces">{items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div></div>
- <div className="outfit-footer"><label className={`pack-label${isPacked?' done':''}`}><input type="checkbox" checked={isPacked} onChange={()=>tog(key)}/>{isPacked?'Packed \uc0\u10003 ':'Mark as packed'}</label></div>
- </div>
- );
- })}
- </div>
- </div>
- )}
- <div className="pack-section">
- <div className="sec-head"><div className="sec-title">\uc0\u10024 Suggested Outfits <span style={{fontWeight:400,color:'var(--text3)'}}> ranked by match</span></div></div>
- {outfits.length===0?(
- <div className="empty"><div className="empty-icon">\uc0\u55357 \u56407 </div><div className="empty-title">Add tops, bottoms & shoes</div><div className="empty-sub">Once you have clothing items in your closet, we'll build outfit combinations for your trip.</div></div>
- ):(
- {approvedOutfits.size>0&&<p className="text-xs mb-12" style={{color:'var(--mint)'}}>\uc0\u10003 {approvedOutfits.size} outfit{approvedOutfits.size!==1?'s':''} approved  head to <strong>Pack Clothes</strong> to check them off.</p>}
- <div className="outfit-grid">
- {outfits.map(o=>{const isApproved=approvedOutfits.has(o.id);return(
- <div key={o.id} className={`outfit-card${o.hero?' hero':''}${isApproved?' packed':''}`} style={{border:isApproved?'2px solid var(--mint)':undefined}}>
- <div className="outfit-photos">{o.items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
- <div className="outfit-body">
- <div className="outfit-name">{o.label}{o.hero&&<span className="badge badge-sun" style={{marginLeft:4}}>Hero</span>}{isApproved&&<span className="badge badge-green" style={{marginLeft:4}}>\uc0\u10003 Approved</span>}</div>
- <div className="outfit-score-row"><div className="score-bar"><div className="score-fill" style={{width:`${o.pct}%`}}/></div><span className="score-pct">{o.pct}%</span></div>
- <div className="outfit-pieces">{o.items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div>
- </div>
- <div className="outfit-footer" style={{gap:8}}>
- {isApproved
- ?<><span className="text-xs" style={{color:'var(--mint)',flex:1}}>\uc0\u10003 Packed into trip</span><button className="btn btn-ghost btn-xs" onClick={()=>skipOutfit(o.id)}>Remove</button></>
- :<><button className="btn btn-sm" style={{background:'var(--mint)',color:'#fff',flex:1}} onClick={()=>approveOutfit(o.id)}>\uc0\u10003 Approve</button><button className="btn btn-outline btn-sm" onClick={()=>{}}>Skip</button></>
- }
- </div>
- </div>
- );})}
- </div>
- )}
- </div>
- </div>
- )}
+        {tab==='outfits'&&(
+          <div>
+            {heroSets.length>0&&(
+              <div className="pack-section">
+                <div className="sec-head"><div className="sec-title">⭐ Pinned Outfit Sets</div><span className="badge badge-sun">{heroSets.length} pinned</span></div>
+                <div className="outfit-grid">
+                  {heroSets.map(set=>{
+                    const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+                    const key=`set-${set.id}`;const isPacked=checked.has(key);
+                    return (
+                      <div key={set.id} className={`outfit-card hero${isPacked?' packed':''}`}>
+                        <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
+                        <div className="outfit-body"><div className="outfit-name">⭐ {set.name} <span className="badge badge-sun">Pinned</span></div><div className="outfit-pieces">{items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div></div>
+                        <div className="outfit-footer"><label className={`pack-label${isPacked?' done':''}`}><input type="checkbox" checked={isPacked} onChange={()=>tog(key)}/>{isPacked?'Packed ✓':'Mark as packed'}</label></div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            <div className="pack-section">
+              <div className="sec-head"><div className="sec-title">✨ Suggested Outfits <span style={{fontWeight:400,color:'var(--text3)'}}>— ranked by match</span></div></div>
+              {outfits.length===0?(
+                <div className="empty"><div className="empty-icon">👗</div><div className="empty-title">Add tops, bottoms & shoes</div><div className="empty-sub">Once you have clothing items in your closet, we'll build outfit combinations for your trip.</div></div>
+              ):(
+                {approvedOutfits.size>0&&<p className="text-xs mb-12" style={{color:'var(--mint)'}}>✓ {approvedOutfits.size} outfit{approvedOutfits.size!==1?'s':''} approved — head to <strong>Pack Clothes</strong> to check them off.</p>}
+                <div className="outfit-grid">
+                  {outfits.map(o=>{const isApproved=approvedOutfits.has(o.id);return(
+                    <div key={o.id} className={`outfit-card${o.hero?' hero':''}${isApproved?' packed':''}`} style={{border:isApproved?'2px solid var(--mint)':undefined}}>
+                      <div className="outfit-photos">{o.items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
+                      <div className="outfit-body">
+                        <div className="outfit-name">{o.label}{o.hero&&<span className="badge badge-sun" style={{marginLeft:4}}>Hero</span>}{isApproved&&<span className="badge badge-green" style={{marginLeft:4}}>✓ Approved</span>}</div>
+                        <div className="outfit-score-row"><div className="score-bar"><div className="score-fill" style={{width:`${o.pct}%`}}/></div><span className="score-pct">{o.pct}%</span></div>
+                        <div className="outfit-pieces">{o.items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div>
+                      </div>
+                      <div className="outfit-footer" style={{gap:8}}>
+                        {isApproved
+                          ?<><span className="text-xs" style={{color:'var(--mint)',flex:1}}>✓ Packed into trip</span><button className="btn btn-ghost btn-xs" onClick={()=>skipOutfit(o.id)}>Remove</button></>
+                          :<><button className="btn btn-sm" style={{background:'var(--mint)',color:'#fff',flex:1}} onClick={()=>approveOutfit(o.id)}>✓ Approve</button><button className="btn btn-outline btn-sm" onClick={()=>{}}>Skip</button></>
+                        }
+                      </div>
+                    </div>
+                  );})}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
- {tab==='clothes'&&(
- <div>
- <div className="flex-between mb-16"><p className="text-sm">{clothes.filter(i=>checked.has(i.id)).length} of {clothes.length} packed</p><button className="btn btn-ghost btn-sm" onClick={()=>togAll(clothes.map(i=>i.id))}>{clothes.every(i=>checked.has(i.id))?'Uncheck All':'Check All'}</button></div>
- {['top','bottom','dress','outerwear','shoes','swimwear','set'].map(type=>{
- const items=clothes.filter(i=>i.type===type);if(!items.length)return null;
- const ti=ITEM_TYPES.find(t=>t.value===type);
- return(
- <div key={type} className="pack-section">
- <div className="sec-head"><div className="sec-title">{ti?.emoji} {ti?.label}</div><span className="text-xs">{items.filter(i=>checked.has(i.id)).length}/{items.length}</span></div>
- {items.map(item=>(
- <div key={item.id} className={`pack-item${checked.has(item.id)?' done':''}`} style={{cursor:'pointer'}} onClick={()=>tog(item.id)}>
- <input type="checkbox" checked={checked.has(item.id)} onChange={()=>tog(item.id)} onClick={e=>e.stopPropagation()}/>
- <div className="pi-thumb" style={{background:item.bg||'var(--bg4)'}}>{item.photo?<img src={item.photo} alt={item.name}/>:<span style={{fontSize:'1.1rem'}}>{typeEmoji(item.type)}</span>}</div>
- <div style={{flex:1,minWidth:0}}><div className="pi-name">{item.name}</div>{item.color&&<div className="pi-color">{item.color}</div>}</div>
- {trip.heroItems?.includes(item.id)&&<span className="badge badge-sun">\uc0\u11088 Hero</span>}
- </div>
- ))}
- </div>
- );
- })}
- {!clothes.length&&<div className="empty"><div className="empty-icon">\uc0\u55358 \u56826 </div><div className="empty-title">No clothing items</div></div>}
- </div>
- )}
+        {tab==='clothes'&&(
+          <div>
+            <div className="flex-between mb-16"><p className="text-sm">{clothes.filter(i=>checked.has(i.id)).length} of {clothes.length} packed</p><button className="btn btn-ghost btn-sm" onClick={()=>togAll(clothes.map(i=>i.id))}>{clothes.every(i=>checked.has(i.id))?'Uncheck All':'Check All'}</button></div>
+            {['top','bottom','dress','outerwear','shoes','swimwear','set'].map(type=>{
+              const items=clothes.filter(i=>i.type===type);if(!items.length)return null;
+              const ti=ITEM_TYPES.find(t=>t.value===type);
+              return(
+                <div key={type} className="pack-section">
+                  <div className="sec-head"><div className="sec-title">{ti?.emoji} {ti?.label}</div><span className="text-xs">{items.filter(i=>checked.has(i.id)).length}/{items.length}</span></div>
+                  {items.map(item=>(
+                    <div key={item.id} className={`pack-item${checked.has(item.id)?' done':''}`} style={{cursor:'pointer'}} onClick={()=>tog(item.id)}>
+                      <input type="checkbox" checked={checked.has(item.id)} onChange={()=>tog(item.id)} onClick={e=>e.stopPropagation()}/>
+                      <div className="pi-thumb" style={{background:item.bg||'var(--bg4)'}}>{item.photo?<img src={item.photo} alt={item.name}/>:<span style={{fontSize:'1.1rem'}}>{typeEmoji(item.type)}</span>}</div>
+                      <div style={{flex:1,minWidth:0}}><div className="pi-name">{item.name}</div>{item.color&&<div className="pi-color">{item.color}</div>}</div>
+                      {trip.heroItems?.includes(item.id)&&<span className="badge badge-sun">⭐ Hero</span>}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+            {!clothes.length&&<div className="empty"><div className="empty-icon">🧺</div><div className="empty-title">No clothing items</div></div>}
+          </div>
+        )}
 
- {tab==='essentials'&&(
- <div>
- <p className="text-sm mb-20" style={{background:'rgba(53,184,154,0.08)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--mint)'}}>
- Automatically generated based on your activities, weather, and trip duration.
- </p>
- {essentials.map(cat=>{
- const ids=cat.items.map(i=>`ess-${i}`);
- return(
- <div key={cat.cat} className="pack-section">
- <div className="sec-head"><div className="sec-title">{cat.cat}</div><div style={{display:'flex',gap:8,alignItems:'center'}}><span className="text-xs">{ids.filter(id=>checked.has(id)).length}/{ids.length}</span><button className="btn btn-ghost btn-xs" onClick={()=>togAll(ids)}>{ids.every(id=>checked.has(id))?'Uncheck':'Check all'}</button></div></div>
- {cat.items.map(item=>{const id=`ess-${item}`;return(
- <div key={item} className={`pack-item${checked.has(id)?' done':''}`}>
- <input type="checkbox" checked={checked.has(id)} onChange={()=>tog(id)}/>
- <span className="pi-name">{item}</span>
- </div>
- );})}
- </div>
- );
- })}
- </div>
- )}
- </div>
- </div>
- );
+        {tab==='essentials'&&(
+          <div>
+            <p className="text-sm mb-20" style={{background:'rgba(53,184,154,0.08)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--mint)'}}>
+              Automatically generated based on your activities, weather, and trip duration.
+            </p>
+            {essentials.map(cat=>{
+              const ids=cat.items.map(i=>`ess-${i}`);
+              return(
+                <div key={cat.cat} className="pack-section">
+                  <div className="sec-head"><div className="sec-title">{cat.cat}</div><div style={{display:'flex',gap:8,alignItems:'center'}}><span className="text-xs">{ids.filter(id=>checked.has(id)).length}/{ids.length}</span><button className="btn btn-ghost btn-xs" onClick={()=>togAll(ids)}>{ids.every(id=>checked.has(id))?'Uncheck':'Check all'}</button></div></div>
+                  {cat.items.map(item=>{const id=`ess-${item}`;return(
+                    <div key={item} className={`pack-item${checked.has(id)?' done':''}`}>
+                      <input type="checkbox" checked={checked.has(id)} onChange={()=>tog(id)}/>
+                      <span className="pi-name">{item}</span>
+                    </div>
+                  );})}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Saved Trips View \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Saved Trips View ─────────────────────────────────────────────────────────
 function TripsView({ trips, onLoad, onDelete }) {
- return (
- <div className="page">
- <div className="flex-between mb-24"><h2 style={{fontSize:'1.5rem'}}>My Trips</h2>{trips.length>0&&<span className="badge badge-sky">{trips.length} saved</span>}</div>
- {!trips.length?(
- <div className="empty"><div className="empty-icon">\uc0\u55357 \u56826 \u65039 </div><div className="empty-title">No saved trips yet</div><div className="empty-sub">Plan a trip and tap "Save Trip" in the packing list to pick up where you left off anytime.</div></div>
- ):(
- trips.map(st=>{
- const vt=VACATION_TYPES.find(v=>v.value===st.trip.vacationType);
- return(
- <div key={st.id} className="trip-card" onClick={()=>onLoad(st)}>
- <div className="trip-icon">{vt?.icon||'\uc0\u9992 \u65039 '}</div>
- <div className="trip-meta">
- <div className="trip-dest">{st.destination||st.trip.dest}</div>
- <div className="trip-dates">{fmtDate(st.trip.startDate)}  {fmtDate(st.trip.endDate)} · {st.trip.days} nights</div>
- <div className="trip-prog">{st.checkedItems.length} items checked · {new Date(st.updatedAt).toLocaleDateString()}</div>
- </div>
- <div style={{display:'flex',gap:7}}>
- <button className="btn btn-sky btn-sm" onClick={e=>{e.stopPropagation();onLoad(st);}}>Resume \uc0\u8594 </button>
- <button className="btn btn-danger btn-sm" onClick={e=>{e.stopPropagation();onDelete(st.id);}}>\uc0\u55357 \u56785 </button>
- </div>
- </div>
- );
- })
- )}
- </div>
- );
+  return (
+    <div className="page">
+      <div className="flex-between mb-24"><h2 style={{fontSize:'1.5rem'}}>My Trips</h2>{trips.length>0&&<span className="badge badge-sky">{trips.length} saved</span>}</div>
+      {!trips.length?(
+        <div className="empty"><div className="empty-icon">🗺️</div><div className="empty-title">No saved trips yet</div><div className="empty-sub">Plan a trip and tap "Save Trip" in the packing list to pick up where you left off anytime.</div></div>
+      ):(
+        trips.map(st=>{
+          const vt=VACATION_TYPES.find(v=>v.value===st.trip.vacationType);
+          return(
+            <div key={st.id} className="trip-card" onClick={()=>onLoad(st)}>
+              <div className="trip-icon">{vt?.icon||'✈️'}</div>
+              <div className="trip-meta">
+                <div className="trip-dest">{st.destination||st.trip.dest}</div>
+                <div className="trip-dates">{fmtDate(st.trip.startDate)} – {fmtDate(st.trip.endDate)} · {st.trip.days} nights</div>
+                <div className="trip-prog">{st.checkedItems.length} items checked · {new Date(st.updatedAt).toLocaleDateString()}</div>
+              </div>
+              <div style={{display:'flex',gap:7}}>
+                <button className="btn btn-sky btn-sm" onClick={e=>{e.stopPropagation();onLoad(st);}}>Resume →</button>
+                <button className="btn btn-danger btn-sm" onClick={e=>{e.stopPropagation();onDelete(st.id);}}>🗑</button>
+              </div>
+            </div>
+          );
+        })
+      )}
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 Welcome Screen \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── Welcome Screen ───────────────────────────────────────────────────────────
 function Welcome({ onDemo, onOwn, isDemo, onClearDemo }) {
- return (
- <div className="welcome">
- <div className="welcome-hero">
- <h1 className="welcome-title">Pack smarter,<br/><span>travel better.</span></h1>
- <p className="welcome-sub">Catalog your wardrobe, plan outfits by weather and activities, and generate a complete packing list  in minutes.</p>
- <div className="onboard-paths">
+  return (
+    <div className="welcome">
+      <div className="welcome-hero">
+        <h1 className="welcome-title">Pack smarter,<br/><span>travel better.</span></h1>
+        <p className="welcome-sub">Catalog your wardrobe, plan outfits by weather and activities, and generate a complete packing list — in minutes.</p>
+        <div className="onboard-paths">
 
- {/* Path A: Demo */}
- <div className="path-card path-card-demo" onClick={onDemo}>
- <div className="path-icon">\uc0\u55356 \u57261 </div>
- <div className="path-title">Try the Demo</div>
- <div className="path-desc">Explore Packed with a pre-loaded wardrobe of 20 sample items. No setup required  just play.</div>
- <div className="path-steps">
- <div className="path-step"><div className="path-step-dot demo-dot">1</div>Sample wardrobe loaded instantly</div>
- <div className="path-step"><div className="path-step-dot demo-dot">2</div>Plan a demo trip (e.g. Tulum)</div>
- <div className="path-step"><div className="path-step-dot demo-dot">3</div>See outfits + packing list in action</div>
- </div>
- <button className="btn btn-coral path-cta" style={{pointerEvents:'none'}}>Explore Demo \uc0\u8594 </button>
- </div>
+          {/* Path A: Demo */}
+          <div className="path-card path-card-demo" onClick={onDemo}>
+            <div className="path-icon">🎭</div>
+            <div className="path-title">Try the Demo</div>
+            <div className="path-desc">Explore Packed with a pre-loaded wardrobe of 20 sample items. No setup required — just play.</div>
+            <div className="path-steps">
+              <div className="path-step"><div className="path-step-dot demo-dot">1</div>Sample wardrobe loaded instantly</div>
+              <div className="path-step"><div className="path-step-dot demo-dot">2</div>Plan a demo trip (e.g. Tulum)</div>
+              <div className="path-step"><div className="path-step-dot demo-dot">3</div>See outfits + packing list in action</div>
+            </div>
+            <button className="btn btn-coral path-cta" style={{pointerEvents:'none'}}>Explore Demo →</button>
+          </div>
 
- {/* Path B: Own clothes */}
- <div className="path-card path-card-own" onClick={onOwn}>
- <div className="path-icon">\uc0\u55357 \u56407 </div>
- <div className="path-title">Use My Own Clothes</div>
- <div className="path-desc">Add your real wardrobe by dropping in photos  then plan any trip with personalized outfit suggestions.</div>
- <div className="path-steps">
- <div className="path-step"><div className="path-step-dot own-dot">1</div>Drop clothing photos into My Closet</div>
- <div className="path-step"><div className="path-step-dot own-dot">2</div>Add inspiration images (optional)</div>
- <div className="path-step"><div className="path-step-dot own-dot">3</div>Plan your trip \uc0\u8594 get your list</div>
- </div>
- <button className="btn btn-sky path-cta" style={{pointerEvents:'none'}}>Start My Closet \uc0\u8594 </button>
- </div>
+          {/* Path B: Own clothes */}
+          <div className="path-card path-card-own" onClick={onOwn}>
+            <div className="path-icon">👗</div>
+            <div className="path-title">Use My Own Clothes</div>
+            <div className="path-desc">Add your real wardrobe by dropping in photos — then plan any trip with personalized outfit suggestions.</div>
+            <div className="path-steps">
+              <div className="path-step"><div className="path-step-dot own-dot">1</div>Drop clothing photos into My Closet</div>
+              <div className="path-step"><div className="path-step-dot own-dot">2</div>Add inspiration images (optional)</div>
+              <div className="path-step"><div className="path-step-dot own-dot">3</div>Plan your trip → get your list</div>
+            </div>
+            <button className="btn btn-sky path-cta" style={{pointerEvents:'none'}}>Start My Closet →</button>
+          </div>
 
- </div>
- </div>
- <div className="welcome-bottom">
- <div className="welcome-features">
- {[['\uc0\u55356 \u57124 ','Live Weather','Real forecast data for your destination'],['\u10024 ','Outfit Combos','AI-ranked looks tailored to your trip'],['\u55357 \u56510 ','Save & Resume','Pick up packing anytime'],['\u55357 \u56561 ','Works Offline','All data stays in your browser']].map(([icon,t,d])=>(
- <div key={t} className="feat"><div className="feat-icon">{icon}</div><div className="feat-title">{t}</div><div className="feat-desc">{d}</div></div>
- ))}
- </div>
- </div>
- </div>
- );
+        </div>
+      </div>
+      <div className="welcome-bottom">
+        <div className="welcome-features">
+          {[['🌤','Live Weather','Real forecast data for your destination'],['✨','Outfit Combos','AI-ranked looks tailored to your trip'],['💾','Save & Resume','Pick up packing anytime'],['📱','Works Offline','All data stays in your browser']].map(([icon,t,d])=>(
+            <div key={t} className="feat"><div className="feat-icon">{icon}</div><div className="feat-title">{t}</div><div className="feat-desc">{d}</div></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-// \uc0\u9472 \u9472 \u9472 App \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 
+// ─── App ──────────────────────────────────────────────────────────────────────
 function App() {
- const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')||d;}catch{return d;}};
- const [wardrobe,setWardrobe]=useState(()=>load('packed_wardrobe',[]));
- const [savedOutfits,setSavedOutfits]=useState(()=>load('packed_sets',[]));
- const [board,setBoard]=useState(()=>load('packed_inspo',[]));
- const [trips,setTrips]=useState(()=>load('packed_trips',[]));
- const [curTrip,setCurTrip]=useState(null);
- const [curChecked,setCurChecked]=useState(null);
- const [nav,setNav]=useState('welcome');
- const [isDemo,setIsDemo]=useState(false);
+  const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')||d;}catch{return d;}};
+  const [wardrobe,setWardrobe]=useState(()=>load('packed_wardrobe',[]));
+  const [savedOutfits,setSavedOutfits]=useState(()=>load('packed_sets',[]));
+  const [board,setBoard]=useState(()=>load('packed_inspo',[]));
+  const [trips,setTrips]=useState(()=>load('packed_trips',[]));
+  const [curTrip,setCurTrip]=useState(null);
+  const [curChecked,setCurChecked]=useState(null);
+  const [nav,setNav]=useState('welcome');
+  const [isDemo,setIsDemo]=useState(false);
 
- useEffect(()=>{localStorage.setItem('packed_wardrobe',JSON.stringify(wardrobe));},[wardrobe]);
- useEffect(()=>{localStorage.setItem('packed_sets',JSON.stringify(savedOutfits));},[savedOutfits]);
- useEffect(()=>{localStorage.setItem('packed_inspo',JSON.stringify(board));},[board]);
- useEffect(()=>{localStorage.setItem('packed_trips',JSON.stringify(trips));},[trips]);
+  useEffect(()=>{localStorage.setItem('packed_wardrobe',JSON.stringify(wardrobe));},[wardrobe]);
+  useEffect(()=>{localStorage.setItem('packed_sets',JSON.stringify(savedOutfits));},[savedOutfits]);
+  useEffect(()=>{localStorage.setItem('packed_inspo',JSON.stringify(board));},[board]);
+  useEffect(()=>{localStorage.setItem('packed_trips',JSON.stringify(trips));},[trips]);
 
- const startDemo=()=>{setWardrobe(DEMO_WARDROBE);setSavedOutfits(DEMO_SETS);setIsDemo(true);setNav('closet');};
- const clearDemo=()=>{setWardrobe([]);setSavedOutfits([]);setIsDemo(false);setNav('welcome');};
- const startOwn=()=>{setIsDemo(false);setNav('closet');};
+  const startDemo=()=>{setWardrobe(DEMO_WARDROBE);setSavedOutfits(DEMO_SETS);setIsDemo(true);setNav('closet');};
+  const clearDemo=()=>{setWardrobe([]);setSavedOutfits([]);setIsDemo(false);setNav('welcome');};
+  const startOwn=()=>{setIsDemo(false);setNav('closet');};
 
- const handleTrip=trip=>{setCurTrip(trip);setCurChecked(null);setNav('packing');};
- const handleSaveTrip=(trip,arr)=>{const rec={id:trip.id,destination:trip.dest,trip,checkedItems:arr,updatedAt:new Date().toISOString()};setTrips(p=>[rec,...p.filter(t=>t.id!==trip.id)]);};
- const handleLoadTrip=st=>{setCurTrip(st.trip);setCurChecked(new Set(st.checkedItems));setNav('packing');};
+  const handleTrip=trip=>{setCurTrip(trip);setCurChecked(null);setNav('packing');};
+  const handleSaveTrip=(trip,arr)=>{const rec={id:trip.id,destination:trip.dest,trip,checkedItems:arr,updatedAt:new Date().toISOString()};setTrips(p=>[rec,...p.filter(t=>t.id!==trip.id)]);};
+  const handleLoadTrip=st=>{setCurTrip(st.trip);setCurChecked(new Set(st.checkedItems));setNav('packing');};
 
- const showHeader=nav!=='welcome';
- return (
- <div className="app">
- {showHeader&&(
- <div className="app-header">
- <div className="logo" onClick={()=>setNav('welcome')} style={{cursor:'pointer'}}>
- <div className="logo-mark">\uc0\u55358 \u56819 </div>
- <span className="logo-text">Packed.</span>
- {isDemo&&<span className="logo-badge">DEMO</span>}
- </div>
- <nav className="app-nav">
- <button className={`nav-btn${nav==='closet'?' active':''}`} onClick={()=>setNav('closet')}>\uc0\u55357 \u56407 Closet {wardrobe.length>0&&<span className="nav-count">{wardrobe.length}</span>}</button>
- <button className={`nav-btn${nav==='inspo'?' active':''}`} onClick={()=>setNav('inspo')}>\uc0\u55357 \u56764 \u65039 Inspo</button>
- <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>setNav('plan')}>\uc0\u55357 \u56826 \u65039 Plan Trip</button>
- <button className={`nav-btn${nav==='trips'?' active':''}`} onClick={()=>setNav('trips')}>\uc0\u55357 \u56510 Trips {trips.length>0&&<span className="nav-count">{trips.length}</span>}</button>
- </nav>
- </div>
- )}
+  const showHeader=nav!=='welcome';
+  return (
+    <div className="app">
+      {showHeader&&(
+        <div className="app-header">
+          <div className="logo" onClick={()=>setNav('welcome')} style={{cursor:'pointer'}}>
+            <div className="logo-mark">🧳</div>
+            <span className="logo-text">Packed.</span>
+            {isDemo&&<span className="logo-badge">DEMO</span>}
+          </div>
+          <nav className="app-nav">
+            <button className={`nav-btn${nav==='closet'?' active':''}`} onClick={()=>setNav('closet')}>👗 Closet {wardrobe.length>0&&<span className="nav-count">{wardrobe.length}</span>}</button>
+            <button className={`nav-btn${nav==='inspo'?' active':''}`} onClick={()=>setNav('inspo')}>🖼️ Inspo</button>
+            <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>setNav('plan')}>🗺️ Plan Trip</button>
+            <button className={`nav-btn${nav==='trips'?' active':''}`} onClick={()=>setNav('trips')}>💾 Trips {trips.length>0&&<span className="nav-count">{trips.length}</span>}</button>
+          </nav>
+        </div>
+      )}
 
- {isDemo&&showHeader&&(
- <div className="demo-banner">
- <div className="demo-banner-icon">\uc0\u55356 \u57261 </div>
- <div className="demo-banner-text"><strong>Demo Mode</strong><span> You're exploring with 20 sample items. Go to Plan Trip to see it all in action.</span></div>
- <button className="btn btn-outline btn-sm" onClick={clearDemo} style={{flexShrink:0}}>Exit Demo</button>
- <button className="btn btn-sky btn-sm" onClick={()=>setNav('plan')} style={{flexShrink:0}}>Plan a Trip \uc0\u8594 </button>
- </div>
- )}
+      {isDemo&&showHeader&&(
+        <div className="demo-banner">
+          <div className="demo-banner-icon">🎭</div>
+          <div className="demo-banner-text"><strong>Demo Mode</strong><span>— You're exploring with 20 sample items. Go to Plan Trip to see it all in action.</span></div>
+          <button className="btn btn-outline btn-sm" onClick={clearDemo} style={{flexShrink:0}}>Exit Demo</button>
+          <button className="btn btn-sky btn-sm" onClick={()=>setNav('plan')} style={{flexShrink:0}}>Plan a Trip →</button>
+        </div>
+      )}
 
- <div className="app-content">
- {nav==='welcome'&&<Welcome onDemo={startDemo} onOwn={startOwn} isDemo={isDemo} onClearDemo={clearDemo}/>}
- {nav==='closet'&&<ClosetView wardrobe={wardrobe} setWardrobe={setWardrobe} savedOutfits={savedOutfits} setSavedOutfits={setSavedOutfits}/>}
- {nav==='inspo'&&<InspoView board={board} setBoard={setBoard}/>}
- {nav==='plan'&&<TripSetup wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} onTrip={handleTrip}/>}
- {nav==='packing'&&curTrip&&<PackingView trip={curTrip} wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} initChecked={curChecked} onSave={handleSaveTrip} onBack={()=>setNav('plan')}/>}
- {nav==='trips'&&<TripsView trips={trips} onLoad={handleLoadTrip} onDelete={id=>setTrips(p=>p.filter(t=>t.id!==id))}/>}
- </div>
- </div>
- );
+      <div className="app-content">
+        {nav==='welcome'&&<Welcome onDemo={startDemo} onOwn={startOwn} isDemo={isDemo} onClearDemo={clearDemo}/>}
+        {nav==='closet'&&<ClosetView wardrobe={wardrobe} setWardrobe={setWardrobe} savedOutfits={savedOutfits} setSavedOutfits={setSavedOutfits}/>}
+        {nav==='inspo'&&<InspoView board={board} setBoard={setBoard}/>}
+        {nav==='plan'&&<TripSetup wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} onTrip={handleTrip}/>}
+        {nav==='packing'&&curTrip&&<PackingView trip={curTrip} wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} initChecked={curChecked} onSave={handleSaveTrip} onBack={()=>setNav('plan')}/>}
+        {nav==='trips'&&<TripsView trips={trips} onLoad={handleLoadTrip} onDelete={id=>setTrips(p=>p.filter(t=>t.id!==id))}/>}
+      </div>
+    </div>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
