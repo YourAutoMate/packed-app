@@ -893,9 +893,10 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
   const [tab,setTab]=useState('outfits');
   const [checked,setChecked]=useState(initChecked||new Set());
   const [justSaved,setJustSaved]=useState(false);
-  const [approvedOutfits,setApprovedOutfits]=useState(new Set());
+  const [selectedOutfits,setSelectedOutfits]=useState(new Set());
   const [showSticky,setShowSticky]=useState(false);
   const tripHeaderRef=useRef();
+
   useEffect(()=>{
     const el=document.querySelector('.app-content');
     if(!el)return;
@@ -903,56 +904,65 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
     el.addEventListener('scroll',check,{passive:true});
     return()=>el.removeEventListener('scroll',check);
   },[]);
-  const approveOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.add(id);return n;});
-  const skipOutfit=id=>setApprovedOutfits(s=>{const n=new Set(s);n.has(id)&&n.delete(id);return n;});
+
   const outfits=useMemo(()=>buildOutfits(wardrobe,trip,trip.weather),[wardrobe,trip]);
   const essentials=useMemo(()=>buildEssentials(trip,trip.weather),[trip]);
+
+  // Outfit selection helpers
+  const togOutfit=id=>setSelectedOutfits(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
+  const allOutfitsSelected=outfits.length>0&&outfits.every(o=>selectedOutfits.has(o.id));
+  const toggleAllOutfits=()=>{ if(allOutfitsSelected){setSelectedOutfits(new Set());}else{setSelectedOutfits(new Set(outfits.map(o=>o.id)));} };
+
+  // Derive pack items from selected outfits — deduplicated by item id
+  const packItems=useMemo(()=>{
+    const map=new Map();
+    outfits.filter(o=>selectedOutfits.has(o.id)).forEach(o=>o.items.forEach(item=>{if(!map.has(item.id))map.set(item.id,item);}));
+    // Always include pinned hero items even if not in a selected outfit
+    (trip.heroItems||[]).forEach(id=>{if(!map.has(id)){const item=wardrobe.find(i=>i.id===id);if(item)map.set(id,item);}});
+    return [...map.values()];
+  },[outfits,selectedOutfits,trip.heroItems,wardrobe]);
+
+  // Checklist helpers
   const tog=id=>setChecked(s=>{const n=new Set(s);n.has(id)?n.delete(id):n.add(id);return n;});
   const togAll=ids=>setChecked(s=>{const n=new Set(s);ids.every(id=>n.has(id))?ids.forEach(id=>n.delete(id)):ids.forEach(id=>n.add(id));return n;});
-  const heroSets=(trip.heroSets||[]).map(id=>savedOutfits.find(s=>s.id===id)).filter(Boolean);
-  const clothes=wardrobe.filter(i=>!['accessory','bag'].includes(i.type));
+
+  // Progress across clothes + essentials
   const essIds=essentials.flatMap(c=>c.items.map(i=>`ess-${i}`));
-  const total=clothes.length+essIds.length;
-  const done=clothes.filter(i=>checked.has(i.id)).length+essIds.filter(id=>checked.has(id)).length;
+  const total=packItems.length+essIds.length;
+  const done=packItems.filter(i=>checked.has(i.id)).length+essIds.filter(id=>checked.has(id)).length;
   const pct=total>0?Math.round(done/total*100):0;
+
   const handleSave=()=>{onSave(trip,[...checked]);setJustSaved(true);setTimeout(()=>setJustSaved(false),3000);};
-  const JOURNEY=[{n:1,l:'Trip Details',icon:'🗺️'},{n:2,l:'Approve Outfits',icon:'👗'},{n:3,l:'Pack Clothes',icon:'🧺'},{n:4,l:'Pack Essentials',icon:'🎒'}];
-  const journeyStep=tab==='outfits'?2:tab==='clothes'?3:4;
+
+  // Tab labels
+  const clothesLabel=packItems.length>0?`🧺 My Pack (${packItems.length})`:'🧺 My Pack';
+  const outfitsLabel=`👗 Outfits${outfits.length>0?` (${outfits.length})`:''}${selectedOutfits.size>0?` · ${selectedOutfits.size} ✓`:''}`;
+
   return (
     <div>
-      {/* Sticky Progress Bar — only shown after trip header scrolls out */}
-      {showSticky&&<div className="sticky-progress">
-        <div className="sticky-progress-inner">
-          <div className="prog-row">
-            <span className="prog-label">🧳 {trip.dest} — {done} of {total} packed</span>
-            <span className="prog-pct" style={{color:pct===100?'var(--green)':pct>=60?'var(--sky)':'var(--coral)'}}>{pct}%{pct===100?' 🎉':''}</span>
+      {/* Sticky Progress Bar */}
+      {showSticky&&total>0&&(
+        <div className="sticky-progress">
+          <div className="sticky-progress-inner">
+            <div className="prog-row">
+              <span className="prog-label">🧳 {trip.dest} — {done} of {total} packed</span>
+              <span className="prog-pct" style={{color:pct===100?'var(--green)':pct>=60?'var(--sky)':'var(--coral)'}}>{pct}%{pct===100?' 🎉':''}</span>
+            </div>
+            <div className="prog-bar"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
           </div>
-          <div className="prog-bar"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
         </div>
-      </div>}
+      )}
 
       <div className="page">
-        {/* Journey stepper */}
-        <div style={{display:'flex',alignItems:'flex-start',marginBottom:24,gap:0}}>
-          {JOURNEY.map((js,i)=>(
-            <React.Fragment key={js.n}>
-              {i>0&&<div style={{flex:1,height:2,background:journeyStep>js.n-1?'var(--mint)':'var(--border)',marginTop:15,transition:'background .3s'}}/>}
-              <div style={{display:'flex',flexDirection:'column',alignItems:'center',cursor:js.n<journeyStep?'pointer':'default'}} onClick={()=>{if(js.n===2)setTab('outfits');else if(js.n===3)setTab('clothes');else if(js.n===4)setTab('essentials');}}>
-                <div style={{width:30,height:30,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:700,border:`2px solid ${journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--border2)'}`,background:journeyStep>js.n?'var(--mint)':journeyStep===js.n?'var(--sky)':'var(--bg2)',color:journeyStep>=js.n?'#fff':'var(--text3)',boxShadow:journeyStep===js.n?'0 0 0 4px rgba(41,128,196,0.18)':'none',transition:'all .3s',flexShrink:0,marginBottom:4}}>{journeyStep>js.n?'✓':js.icon}</div>
-                <span style={{fontSize:'0.6rem',fontWeight:600,color:journeyStep===js.n?'var(--sky)':journeyStep>js.n?'var(--mint)':'var(--text3)',textAlign:'center',maxWidth:56,lineHeight:1.2}}>{js.l}</span>
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-
+        {/* Trip header */}
         <div className="flex-between mb-8" ref={tripHeaderRef}>
           <div>
-            <h2 style={{fontSize:'1.4rem'}}>Packing List</h2>
+            <h2 style={{fontSize:'1.4rem'}}>🧳 {trip.dest}</h2>
             <p className="text-sm mt-8">{fmtDate(trip.startDate)} – {fmtDate(trip.endDate)} · {trip.days} night{trip.days!==1?'s':''}</p>
           </div>
           <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
             {justSaved&&<span className="badge badge-green">✓ Saved!</span>}
-            <button className="btn btn-outline btn-sm" onClick={handleSave}>💾 Save Trip</button>
+            <button className="btn btn-outline btn-sm" onClick={handleSave}>💾 Save</button>
             <button className="btn btn-ghost btn-sm" onClick={onBack}>← New Trip</button>
           </div>
         </div>
@@ -964,98 +974,198 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
           </div>
         )}
 
+        {/* Overall progress bar (always visible) */}
+        {total>0&&(
+          <div style={{marginBottom:20}}>
+            <div className="prog-row" style={{marginBottom:6}}>
+              <span style={{fontSize:'0.8rem',color:'var(--text2)',fontWeight:500}}>{done} of {total} items packed</span>
+              <span style={{fontSize:'0.8rem',fontWeight:700,color:pct===100?'var(--green)':pct>=60?'var(--sky)':'var(--coral)'}}>{pct}%{pct===100?' 🎉':''}</span>
+            </div>
+            <div className="prog-bar" style={{height:8,borderRadius:6}}><div className="prog-fill" style={{width:`${pct}%`,borderRadius:6}}/></div>
+          </div>
+        )}
+
         <div className="tabs">
-          <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>👗 Outfits{outfits.length>0&&` (${outfits.length})`}</button>
-          <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>🧺 Clothes ({clothes.length})</button>
+          <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>{outfitsLabel}</button>
+          <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>{clothesLabel}</button>
           <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>🎒 Essentials</button>
         </div>
 
+        {/* ── OUTFITS TAB ── */}
         {tab==='outfits'&&(
           <div>
-            {heroSets.length>0&&(
-              <div className="pack-section">
-                <div className="sec-head"><div className="sec-title">⭐ Pinned Outfit Sets</div><span className="badge badge-sun">{heroSets.length} pinned</span></div>
+            {outfits.length===0?(
+              <div className="empty">
+                <div className="empty-icon">👗</div>
+                <div className="empty-title">Add tops, bottoms & shoes to your closet</div>
+                <div className="empty-sub">Once you have clothing items, we'll generate outfit combinations ranked for your trip.</div>
+              </div>
+            ):(
+              <>
+                {/* Header row */}
+                <div className="flex-between mb-16">
+                  <p className="text-sm" style={{color:'var(--text2)'}}>
+                    {selectedOutfits.size===0?'Tap outfits to select what you\'re packing':`${selectedOutfits.size} of ${outfits.length} outfit${outfits.length!==1?'s':''} selected`}
+                  </p>
+                  <div style={{display:'flex',gap:8}}>
+                    <button className="btn btn-outline btn-sm" onClick={toggleAllOutfits}>
+                      {allOutfitsSelected?'Deselect All':'Select All'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Outfit grid — tap to select */}
                 <div className="outfit-grid">
-                  {heroSets.map(set=>{
-                    const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
-                    const key=`set-${set.id}`;const isPacked=checked.has(key);
-                    return (
-                      <div key={set.id} className={`outfit-card hero${isPacked?' packed':''}`}>
-                        <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
-                        <div className="outfit-body"><div className="outfit-name">⭐ {set.name} <span className="badge badge-sun">Pinned</span></div><div className="outfit-pieces">{items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div></div>
-                        <div className="outfit-footer"><label className={`pack-label${isPacked?' done':''}`}><input type="checkbox" checked={isPacked} onChange={()=>tog(key)}/>{isPacked?'Packed ✓':'Mark as packed'}</label></div>
+                  {outfits.map(o=>{
+                    const isSel=selectedOutfits.has(o.id);
+                    return(
+                      <div key={o.id}
+                        className={`outfit-card${o.hero?' hero':''}${isSel?' packed':''}`}
+                        style={{cursor:'pointer',border:isSel?'2px solid var(--sky)':undefined,transition:'border .15s,box-shadow .15s',boxShadow:isSel?'0 0 0 3px rgba(41,128,196,0.15)':undefined}}
+                        onClick={()=>togOutfit(o.id)}>
+                        <div className="outfit-photos">
+                          {o.items.slice(0,4).map(item=>(
+                            <div key={item.id} className="outfit-photo">
+                              <div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>
+                                {item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="outfit-body">
+                          <div className="outfit-name">
+                            {o.label}
+                            {o.hero&&<span className="badge badge-sun" style={{marginLeft:4}}>⭐ Hero</span>}
+                          </div>
+                          <div className="outfit-score-row">
+                            <div className="score-bar"><div className="score-fill" style={{width:`${o.pct}%`}}/></div>
+                            <span className="score-pct">{o.pct}% match</span>
+                          </div>
+                          <div className="outfit-pieces">{o.items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div>
+                        </div>
+                        <div className="outfit-footer">
+                          <div style={{display:'flex',alignItems:'center',gap:8,width:'100%'}}>
+                            <div style={{width:20,height:20,borderRadius:5,border:`2px solid ${isSel?'var(--sky)':'var(--border2)'}`,background:isSel?'var(--sky)':'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,transition:'all .15s'}}>
+                              {isSel&&<span style={{color:'#fff',fontSize:'0.72rem',fontWeight:800,lineHeight:1}}>✓</span>}
+                            </div>
+                            <span style={{fontSize:'0.79rem',fontWeight:600,color:isSel?'var(--sky)':'var(--text3)'}}>
+                              {isSel?'Selected to pack':'Tap to select'}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
                 </div>
-              </div>
+
+                {/* Sticky CTA */}
+                {selectedOutfits.size>0&&(
+                  <div style={{position:'sticky',bottom:24,display:'flex',justifyContent:'center',marginTop:28,zIndex:10}}>
+                    <button
+                      className="btn btn-sky"
+                      style={{fontSize:'1rem',padding:'13px 32px',boxShadow:'0 4px 24px rgba(41,128,196,0.4)',borderRadius:14}}
+                      onClick={()=>setTab('clothes')}>
+                      👜 Build My Pack List ({selectedOutfits.size} outfit{selectedOutfits.size!==1?'s':''}) →
+                    </button>
+                  </div>
+                )}
+              </>
             )}
-            <div className="pack-section">
-              <div className="sec-head"><div className="sec-title">✨ Suggested Outfits <span style={{fontWeight:400,color:'var(--text3)'}}>— ranked by match</span></div></div>
-              {outfits.length===0?(
-                <div className="empty"><div className="empty-icon">👗</div><div className="empty-title">Add tops, bottoms & shoes</div><div className="empty-sub">Once you have clothing items in your closet, we'll build outfit combinations for your trip.</div></div>
-              ):(
-                {approvedOutfits.size>0&&<p className="text-xs mb-12" style={{color:'var(--mint)'}}>✓ {approvedOutfits.size} outfit{approvedOutfits.size!==1?'s':''} approved — head to <strong>Pack Clothes</strong> to check them off.</p>}
-                <div className="outfit-grid">
-                  {outfits.map(o=>{const isApproved=approvedOutfits.has(o.id);return(
-                    <div key={o.id} className={`outfit-card${o.hero?' hero':''}${isApproved?' packed':''}`} style={{border:isApproved?'2px solid var(--mint)':undefined}}>
-                      <div className="outfit-photos">{o.items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
-                      <div className="outfit-body">
-                        <div className="outfit-name">{o.label}{o.hero&&<span className="badge badge-sun" style={{marginLeft:4}}>Hero</span>}{isApproved&&<span className="badge badge-green" style={{marginLeft:4}}>✓ Approved</span>}</div>
-                        <div className="outfit-score-row"><div className="score-bar"><div className="score-fill" style={{width:`${o.pct}%`}}/></div><span className="score-pct">{o.pct}%</span></div>
-                        <div className="outfit-pieces">{o.items.map(i=><span key={i.id} className="piece-tag">{i.name}</span>)}</div>
-                      </div>
-                      <div className="outfit-footer" style={{gap:8}}>
-                        {isApproved
-                          ?<><span className="text-xs" style={{color:'var(--mint)',flex:1}}>✓ Packed into trip</span><button className="btn btn-ghost btn-xs" onClick={()=>skipOutfit(o.id)}>Remove</button></>
-                          :<><button className="btn btn-sm" style={{background:'var(--mint)',color:'#fff',flex:1}} onClick={()=>approveOutfit(o.id)}>✓ Approve</button><button className="btn btn-outline btn-sm" onClick={()=>{}}>Skip</button></>
-                        }
-                      </div>
-                    </div>
-                  );})}
-                </div>
-              )}
-            </div>
           </div>
         )}
 
+        {/* ── MY PACK (CLOTHES) TAB ── */}
         {tab==='clothes'&&(
           <div>
-            <div className="flex-between mb-16"><p className="text-sm">{clothes.filter(i=>checked.has(i.id)).length} of {clothes.length} packed</p><button className="btn btn-ghost btn-sm" onClick={()=>togAll(clothes.map(i=>i.id))}>{clothes.every(i=>checked.has(i.id))?'Uncheck All':'Check All'}</button></div>
-            {['top','bottom','dress','outerwear','shoes','swimwear','set'].map(type=>{
-              const items=clothes.filter(i=>i.type===type);if(!items.length)return null;
-              const ti=ITEM_TYPES.find(t=>t.value===type);
-              return(
-                <div key={type} className="pack-section">
-                  <div className="sec-head"><div className="sec-title">{ti?.emoji} {ti?.label}</div><span className="text-xs">{items.filter(i=>checked.has(i.id)).length}/{items.length}</span></div>
-                  {items.map(item=>(
-                    <div key={item.id} className={`pack-item${checked.has(item.id)?' done':''}`} style={{cursor:'pointer'}} onClick={()=>tog(item.id)}>
-                      <input type="checkbox" checked={checked.has(item.id)} onChange={()=>tog(item.id)} onClick={e=>e.stopPropagation()}/>
-                      <div className="pi-thumb" style={{background:item.bg||'var(--bg4)'}}>{item.photo?<img src={item.photo} alt={item.name}/>:<span style={{fontSize:'1.1rem'}}>{typeEmoji(item.type)}</span>}</div>
-                      <div style={{flex:1,minWidth:0}}><div className="pi-name">{item.name}</div>{item.color&&<div className="pi-color">{item.color}</div>}</div>
-                      {trip.heroItems?.includes(item.id)&&<span className="badge badge-sun">⭐ Hero</span>}
-                    </div>
-                  ))}
+            {packItems.length===0?(
+              <div className="empty">
+                <div className="empty-icon">👜</div>
+                <div className="empty-title">No outfits selected yet</div>
+                <div className="empty-sub">Go back to Outfits, tap the ones you're bringing, then come back here to see your full packing list.</div>
+                <button className="btn btn-sky" style={{marginTop:16}} onClick={()=>setTab('outfits')}>← Choose Outfits</button>
+              </div>
+            ):(
+              <>
+                <div className="flex-between mb-12">
+                  <div>
+                    <p style={{fontWeight:700,fontSize:'0.9rem'}}>{packItems.filter(i=>checked.has(i.id)).length} of {packItems.length} items packed</p>
+                    <p className="text-xs mt-4" style={{color:'var(--lavender)'}}>
+                      From {selectedOutfits.size} outfit{selectedOutfits.size!==1?'s':''} · duplicates removed automatically
+                    </p>
+                  </div>
+                  <div style={{display:'flex',gap:8}}>
+                    <button className="btn btn-ghost btn-sm" onClick={()=>setTab('outfits')}>← Edit Outfits</button>
+                    <button className="btn btn-ghost btn-sm" onClick={()=>togAll(packItems.map(i=>i.id))}>
+                      {packItems.every(i=>checked.has(i.id))?'Uncheck All':'Check All'}
+                    </button>
+                  </div>
                 </div>
-              );
-            })}
-            {!clothes.length&&<div className="empty"><div className="empty-icon">🧺</div><div className="empty-title">No clothing items</div></div>}
+
+                {/* Summary pill */}
+                <div style={{display:'flex',alignItems:'center',gap:10,background:'rgba(41,128,196,0.07)',borderRadius:10,padding:'10px 14px',marginBottom:20,border:'1px solid rgba(41,128,196,0.15)'}}>
+                  <span style={{fontSize:'1.3rem'}}>📦</span>
+                  <span style={{fontSize:'0.82rem',color:'var(--text2)'}}>
+                    <strong style={{color:'var(--sky)'}}>{packItems.length} unique item{packItems.length!==1?'s':''}</strong> across {selectedOutfits.size} outfit{selectedOutfits.size!==1?'s':''} — each item listed once, no matter how many looks it's in.
+                  </span>
+                </div>
+
+                {/* Items by category */}
+                {['top','bottom','dress','set','outerwear','shoes','swimwear','accessory','bag'].map(type=>{
+                  const items=packItems.filter(i=>i.type===type);
+                  if(!items.length)return null;
+                  const ti=ITEM_TYPES.find(t=>t.value===type);
+                  return(
+                    <div key={type} className="pack-section">
+                      <div className="sec-head">
+                        <div className="sec-title">{ti?.emoji} {ti?.label}</div>
+                        <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                          <span className="text-xs">{items.filter(i=>checked.has(i.id)).length}/{items.length}</span>
+                          <button className="btn btn-ghost btn-xs" onClick={()=>togAll(items.map(i=>i.id))}>
+                            {items.every(i=>checked.has(i.id))?'Uncheck':'Check all'}
+                          </button>
+                        </div>
+                      </div>
+                      {items.map(item=>(
+                        <div key={item.id} className={`pack-item${checked.has(item.id)?' done':''}`} style={{cursor:'pointer'}} onClick={()=>tog(item.id)}>
+                          <input type="checkbox" checked={checked.has(item.id)} onChange={()=>tog(item.id)} onClick={e=>e.stopPropagation()}/>
+                          <div className="pi-thumb" style={{background:item.bg||'var(--bg4)'}}>
+                            {item.photo?<img src={item.photo} alt={item.name}/>:<span style={{fontSize:'1.1rem'}}>{typeEmoji(item.type)}</span>}
+                          </div>
+                          <div style={{flex:1,minWidth:0}}>
+                            <div className="pi-name">{item.name}</div>
+                            {item.color&&<div className="pi-color">{item.color}</div>}
+                          </div>
+                          {trip.heroItems?.includes(item.id)&&<span className="badge badge-sun">⭐</span>}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </>
+            )}
           </div>
         )}
 
+        {/* ── ESSENTIALS TAB ── */}
         {tab==='essentials'&&(
           <div>
             <p className="text-sm mb-20" style={{background:'rgba(53,184,154,0.08)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--mint)'}}>
-              Automatically generated based on your activities, weather, and trip duration.
+              Auto-generated based on your destination, weather, activities, and trip length.
             </p>
             {essentials.map(cat=>{
               const ids=cat.items.map(i=>`ess-${i}`);
               return(
                 <div key={cat.cat} className="pack-section">
-                  <div className="sec-head"><div className="sec-title">{cat.cat}</div><div style={{display:'flex',gap:8,alignItems:'center'}}><span className="text-xs">{ids.filter(id=>checked.has(id)).length}/{ids.length}</span><button className="btn btn-ghost btn-xs" onClick={()=>togAll(ids)}>{ids.every(id=>checked.has(id))?'Uncheck':'Check all'}</button></div></div>
+                  <div className="sec-head">
+                    <div className="sec-title">{cat.cat}</div>
+                    <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                      <span className="text-xs">{ids.filter(id=>checked.has(id)).length}/{ids.length}</span>
+                      <button className="btn btn-ghost btn-xs" onClick={()=>togAll(ids)}>{ids.every(id=>checked.has(id))?'Uncheck':'Check all'}</button>
+                    </div>
+                  </div>
                   {cat.items.map(item=>{const id=`ess-${item}`;return(
-                    <div key={item} className={`pack-item${checked.has(id)?' done':''}`}>
-                      <input type="checkbox" checked={checked.has(id)} onChange={()=>tog(id)}/>
+                    <div key={item} className={`pack-item${checked.has(id)?' done':''}`} style={{cursor:'pointer'}} onClick={()=>tog(id)}>
+                      <input type="checkbox" checked={checked.has(id)} onChange={()=>tog(id)} onClick={e=>e.stopPropagation()}/>
                       <span className="pi-name">{item}</span>
                     </div>
                   );})}
