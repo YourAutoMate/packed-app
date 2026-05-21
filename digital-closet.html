@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ Digital Closet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0c0c12;
+      --bg2: #13131c;
+      --bg3: #1a1a26;
+      --bg4: #222232;
+      --glass: rgba(255,255,255,0.04);
+      --glass2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.15);
+      --text: #f2f0fa;
+      --text2: #9b97b8;
+      --text3: #5c5878;
+      --gold: #c9a96e;
+      --gold2: #e8c98a;
+      --violet: #9b7fe0;
+      --violet2: #b99ef5;
+      --rose: #e07faa;
+      --teal: #6ecdc0;
+      --green: #72c47a;
+      --red: #e07070;
+      --r: 14px;
+      --r2: 9px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.5);
+      --shadow2: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    #root { height: 100%; }
+
+    /* ── Layout ── */
+    .app { display: flex; flex-direction: column; height: 100vh; max-width: 1140px; margin: 0 auto; }
+    .app-header { padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); flex-shrink: 0; background: rgba(12,12,18,0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; }
+    .app-logo { display: flex; align-items: center; gap: 10px; }
+    .app-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--gold), var(--violet)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .app-title { font-size: 1.15rem; font-family: 'Playfair Display', serif; background: linear-gradient(135deg, var(--gold2), var(--violet2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.01em; }
+    .app-nav { display: flex; gap: 2px; background: var(--bg3); border-radius: 12px; padding: 4px; border: 1px solid var(--border); }
+    .nav-btn { padding: 7px 15px; border-radius: 9px; border: none; background: transparent; color: var(--text2); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all .18s; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+    .nav-btn.active { background: linear-gradient(135deg, rgba(201,169,110,0.2), rgba(155,127,224,0.2)); color: var(--text); border: 1px solid rgba(201,169,110,0.25); }
+    .nav-btn:hover:not(.active) { background: var(--glass2); color: var(--text); }
+    .nav-badge { background: var(--violet); color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 0.65rem; font-weight: 700; }
+    .app-content { flex: 1; overflow-y: auto; padding: 28px 28px 48px; }
+
+    /* ── Welcome Screen ── */
+    .welcome { min-height: calc(100vh - 62px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; }
+    .welcome-glow { position: absolute; width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(155,127,224,0.12) 0%, transparent 70%); pointer-events: none; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .welcome h1 { font-size: 3rem; background: linear-gradient(135deg, var(--gold2), var(--violet2), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; line-height: 1.15; }
+    .welcome-sub { font-size: 1.05rem; color: var(--text2); max-width: 480px; line-height: 1.65; margin-bottom: 36px; }
+    .welcome-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 56px; }
+    .welcome-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; max-width: 700px; width: 100%; }
+    .welcome-feature { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 16px; text-align: center; }
+    .welcome-feature .feat-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .welcome-feature h4 { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+    .welcome-feature p { font-size: 0.76rem; color: var(--text3); line-height: 1.5; }
+    .demo-bar { background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(155,127,224,0.12)); border: 1px solid rgba(201,169,110,0.25); border-radius: 10px; padding: 10px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 0.82rem; color: var(--text2); }
+    .demo-bar strong { color: var(--gold); }
+
+    /* ── Buttons ── */
+    .btn { padding: 10px 22px; border-radius: 10px; border: none; font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all .18s; display: inline-flex; align-items: center; gap: 7px; font-family: 'Inter', sans-serif; letter-spacing: 0.01em; }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--violet)); color: #fff; box-shadow: 0 4px 16px rgba(155,127,224,0.3); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(155,127,224,0.4); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-demo { background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(155,127,224,0.15)); border: 1px solid rgba(201,169,110,0.4); color: var(--gold2); }
+    .btn-demo:hover { background: linear-gradient(135deg, rgba(201,169,110,0.25), rgba(155,127,224,0.25)); transform: translateY(-1px); }
+    .btn-secondary { background: var(--bg4); border: 1px solid var(--border2); color: var(--text); }
+    .btn-secondary:hover { background: var(--bg3); border-color: var(--border2); }
+    .btn-ghost { background: transparent; color: var(--text2); padding: 7px 14px; }
+    .btn-ghost:hover { color: var(--text); background: var(--glass2); }
+    .btn-danger { background: rgba(224,112,112,0.1); border: 1px solid rgba(224,112,112,0.25); color: var(--red); }
+    .btn-danger:hover { background: rgba(224,112,112,0.2); }
+    .btn-sm { padding: 6px 13px; font-size: 0.78rem; border-radius: 8px; }
+    .btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--glass2); border: 1px solid var(--border); color: var(--text2); cursor: pointer; transition: all .15s; font-size: 0.85rem; }
+    .btn-icon:hover { color: var(--text); background: var(--bg4); }
+
+    /* ── Cards / Glass ── */
+    .card { background: var(--glass); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
+    .glass-card { background: var(--glass2); border: 1px solid var(--border2); border-radius: var(--r); padding: 24px; backdrop-filter: blur(8px); }
+
+    /* ── Forms ── */
+    input, select, textarea { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r2); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.87rem; padding: 10px 13px; width: 100%; outline: none; transition: border .15s; }
+    input[type=date] { background: var(--bg3); }
+    input:focus, select:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(155,127,224,0.12); }
+    textarea { resize: vertical; min-height: 72px; }
+    label { font-size: 0.79rem; color: var(--text2); display: block; margin-bottom: 5px; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 16px; }
+    select option { background: var(--bg2); }
+
+    /* ── Tags / Pills / Badges ── */
+    .tag { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: var(--bg4); border: 1px solid var(--border2); color: var(--text2); cursor: pointer; transition: all .14s; user-select: none; }
+    .tag.active { background: rgba(155,127,224,0.18); border-color: rgba(155,127,224,0.5); color: var(--violet2); }
+    .tag.active-gold { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.45); color: var(--gold2); }
+    .tag:hover:not(.active):not(.active-gold) { background: var(--glass2); color: var(--text); }
+    .tag-wrap { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .badge-gold { background: rgba(201,169,110,0.18); color: var(--gold2); border: 1px solid rgba(201,169,110,0.3); }
+    .badge-violet { background: rgba(155,127,224,0.18); color: var(--violet2); border: 1px solid rgba(155,127,224,0.3); }
+    .badge-green { background: rgba(114,196,122,0.18); color: var(--green); border: 1px solid rgba(114,196,122,0.25); }
+    .badge-rose { background: rgba(224,127,170,0.18); color: var(--rose); border: 1px solid rgba(224,127,170,0.25); }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+    .tab { padding: 10px 20px; border: none; background: transparent; color: var(--text3); font-size: 0.84rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; font-family: 'Inter', sans-serif; }
+    .tab.active { color: var(--text); border-bottom-color: var(--gold); }
+    .tab:hover:not(.active) { color: var(--text2); }
+
+    /* ── Modals ── */
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; backdrop-filter: blur(6px); }
+    .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; padding: 30px; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .modal-title { font-size: 1.3rem; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
+
+    /* ── Drop Zone ── */
+    .drop-zone { border: 2px dashed var(--border2); border-radius: var(--r); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; overflow: hidden; position: relative; }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--violet); background: rgba(155,127,224,0.06); }
+    .drop-zone.drag-over { transform: scale(1.01); border-style: solid; }
+    .drop-zone img { width: 100%; height: 100%; object-fit: cover; }
+    .drop-hint { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 16px; text-align: center; pointer-events: none; }
+    .drop-hint .dh-icon { font-size: 2rem; }
+    .drop-hint .dh-main { font-size: 0.82rem; font-weight: 600; color: var(--text2); }
+    .drop-hint .dh-sub { font-size: 0.74rem; color: var(--text3); }
+
+    /* ── Item Cards ── */
+    .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    .item-card { background: var(--bg3); border: 2px solid var(--border); border-radius: var(--r); overflow: hidden; cursor: pointer; transition: all .18s; position: relative; }
+    .item-card:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .item-card.hero { border-color: var(--gold); box-shadow: 0 0 16px rgba(201,169,110,0.2); }
+    .item-card.selected { border-color: var(--violet); box-shadow: 0 0 14px rgba(155,127,224,0.25); }
+    .item-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .item-thumb .item-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .item-thumb .item-emoji { font-size: 2.6rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    .item-info { padding: 9px 10px 10px; }
+    .item-info .item-name { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .item-info .item-sub { font-size: 0.68rem; color: var(--text3); }
+    .item-sel-check { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; background: var(--violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #fff; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+    .item-hero-star { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+
+    /* ── Outfit Cards ── */
+    .outfit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .outfit-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden; transition: all .2s; position: relative; }
+    .outfit-card:hover { border-color: var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,0.45); transform: translateY(-2px); }
+    .outfit-card.hero-outfit { border-color: rgba(201,169,110,0.45); background: linear-gradient(160deg, rgba(201,169,110,0.06) 0%, var(--bg3) 60%); }
+    .outfit-card.is-packed { border-color: rgba(114,196,122,0.4); }
+    .outfit-photos { display: flex; height: 130px; }
+    .outfit-photo { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--border); position: relative; }
+    .outfit-photo:last-child { border-right: none; }
+    .outfit-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .outfit-photo .op-swatch { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .outfit-photo .op-emoji { font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+    .outfit-photo .op-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 100%); }
+    .outfit-body { padding: 14px; }
+    .outfit-name { font-size: 0.95rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .outfit-score { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .outfit-score-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .outfit-score-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--violet), var(--rose)); }
+    .outfit-score-pct { font-size: 0.75rem; font-weight: 700; color: var(--violet2); min-width: 36px; }
+    .outfit-pieces { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+    .outfit-piece-tag { font-size: 0.7rem; padding: 2px 8px; background: var(--bg4); border-radius: 20px; color: var(--text3); white-space: nowrap; }
+    .outfit-footer { padding: 10px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; }
+    .pack-label { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text2); cursor: pointer; flex: 1; user-select: none; }
+    .pack-label input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--green); }
+
+    /* ── Packing List ── */
+    .section-title { font-size: 0.88rem; font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .pack-item { display: flex; align-items: center; gap: 11px; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 7px; transition: all .14s; }
+    .pack-item.is-checked { opacity: 0.45; }
+    .pack-item.is-checked .pack-item-name { text-decoration: line-through; }
+    .pack-item input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--green); flex-shrink: 0; }
+    .pack-thumb { width: 38px; height: 38px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pack-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .pack-item-name { font-size: 0.86rem; font-weight: 500; flex: 1; }
+    .progress-wrap { margin-bottom: 20px; }
+    .progress-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text2); margin-bottom: 7px; }
+    .progress-bar { height: 7px; background: var(--bg4); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--violet), var(--green)); border-radius: 4px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+
+    /* ── Sliders ── */
+    .slider-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.79rem; color: var(--text2); }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--bg4); border-radius: 2px; outline: none; padding: 0; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 17px; height: 17px; border-radius: 50%; background: var(--violet2); cursor: pointer; border: 2px solid var(--bg2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+
+    /* ── DNA bars ── */
+    .dna-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .dna-lbl { width: 100px; font-size: 0.77rem; color: var(--text2); text-transform: capitalize; flex-shrink: 0; }
+    .dna-track { flex: 1; height: 9px; background: var(--bg4); border-radius: 5px; overflow: hidden; }
+    .dna-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--violet), var(--rose)); transition: width .6s; }
+    .dna-pct { width: 38px; text-align: right; font-size: 0.74rem; color: var(--text3); }
+
+    /* ── Inspiration ── */
+    .inspo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 11px; }
+    .inspo-card { border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 3/4; cursor: pointer; border: 2px solid transparent; transition: all .18s; }
+    .inspo-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .inspo-card.tagged { border-color: rgba(155,127,224,0.5); }
+    .inspo-card img { width: 100%; height: 100%; object-fit: cover; }
+    .inspo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%); opacity: 0; transition: opacity .18s; display: flex; flex-direction: column; justify-content: flex-end; padding: 9px; }
+    .inspo-card:hover .inspo-overlay, .inspo-card.tagged .inspo-overlay { opacity: 1; }
+    .inspo-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+    .inspo-tag { font-size: 0.64rem; padding: 2px 7px; background: rgba(155,127,224,0.6); border-radius: 10px; color: #fff; font-weight: 500; }
+    .inspo-notag { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+
+    /* ── Wizard ── */
+    .wizard-track { display: flex; align-items: center; margin-bottom: 28px; gap: 0; }
+    .wiz-step { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .wiz-dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; border: 2px solid var(--border2); color: var(--text3); background: var(--bg3); transition: all .3s; margin-bottom: 5px; }
+    .wiz-dot.done { background: var(--violet); border-color: var(--violet); color: #fff; }
+    .wiz-dot.active { background: var(--gold); border-color: var(--gold); color: #fff; box-shadow: 0 0 12px rgba(201,169,110,0.4); }
+    .wiz-label { font-size: 0.7rem; color: var(--text3); white-space: nowrap; }
+    .wiz-label.active { color: var(--gold); font-weight: 600; }
+    .wiz-label.done { color: var(--violet2); }
+    .wiz-line { flex: 1; height: 2px; background: var(--border); margin-top: -22px; transition: background .3s; }
+    .wiz-line.done { background: var(--violet); }
+
+    /* ── Weather ── */
+    .weather-card { display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg, rgba(110,205,192,0.08), rgba(155,127,224,0.08)); border: 1px solid rgba(110,205,192,0.2); border-radius: var(--r); padding: 16px 20px; }
+    .weather-icon { font-size: 2.4rem; }
+    .weather-temp { font-size: 1.6rem; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+    .weather-desc { font-size: 0.82rem; color: var(--text2); margin-top: 2px; }
+    .weather-note { font-size: 0.71rem; color: var(--text3); margin-top: 2px; }
+
+    /* ── Trip list ── */
+    .trip-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--r); padding: 18px; display: flex; align-items: center; gap: 16px; transition: all .18s; cursor: pointer; }
+    .trip-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: var(--shadow2); }
+    .trip-icon-wrap { width: 54px; height: 54px; background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(155,127,224,0.15)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
+    .trip-meta { flex: 1; min-width: 0; }
+    .trip-dest { font-size: 1.05rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .trip-dates { font-size: 0.8rem; color: var(--text2); }
+    .trip-prog { font-size: 0.73rem; color: var(--text3); margin-top: 3px; }
+
+    /* ── Misc ── */
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+    .empty-state { text-align: center; padding: 52px 24px; }
+    .empty-state .es-icon { font-size: 3.2rem; margin-bottom: 14px; }
+    .empty-state .es-title { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .empty-state .es-sub { font-size: 0.84rem; color: var(--text3); line-height: 1.6; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .flex-center { display: flex; align-items: center; }
+    .gap-8 { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-12 { margin-bottom: 12px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .text-sm { font-size: 0.83rem; color: var(--text2); }
+    .text-xs { font-size: 0.74rem; color: var(--text3); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+// ─── Constants ──────────────────────────────────────────────────────────────
+const LUGGAGE_OPTIONS = [
+  { value:'personal', label:'🎒 Personal Item Only', days:'1–2 nights' },
+  { value:'carry-on', label:'🧳 Carry-On', days:'3–7 nights' },
+  { value:'checked', label:'🗃️ Checked Bag', days:'1+ weeks' },
+  { value:'carry-on+personal', label:'🧳🎒 Carry-On + Personal', days:'flexible' },
+];
+const VACATION_TYPES = [
+  { value:'beach', label:'🏖️ Beach & Resort', icon:'🏖️' },
+  { value:'adventure', label:'🏕️ Adventure & Nature', icon:'🏕️' },
+  { value:'city', label:'🏙️ City Break', icon:'🏙️' },
+  { value:'cultural', label:'🏛️ Cultural & Historical', icon:'🏛️' },
+  { value:'wellness', label:'🧘 Wellness & Retreat', icon:'🧘' },
+  { value:'mixed', label:'✨ Mixed / Everything', icon:'✨' },
+];
+const ACTIVITIES = [
+  { value:'sightseeing', label:'🗺️ Sightseeing', formality:2 },
+  { value:'dining', label:'🍽️ Fine Dining', formality:4 },
+  { value:'beach', label:'🏖️ Beach & Sunbathing', formality:1 },
+  { value:'swimming', label:'🌊 Swimming & Snorkeling', formality:1 },
+  { value:'hiking', label:'🥾 Hiking & Trails', formality:1 },
+  { value:'cenotes', label:'💧 Cenotes & Caves', formality:1 },
+  { value:'nature', label:'🌿 Nature & Wildlife', formality:1 },
+  { value:'nightlife', label:'🎶 Bars & Nightlife', formality:4 },
+  { value:'water-sports', label:'🏄 Water Sports', formality:1 },
+  { value:'shopping', label:'🛍️ Shopping', formality:2 },
+  { value:'museums', label:'🎨 Museums & Galleries', formality:3 },
+  { value:'wellness', label:'🧘 Spa & Yoga', formality:2 },
+  { value:'rooftop', label:'🌇 Rooftop Cocktails', formality:4 },
+  { value:'casual', label:'☕ Cafés & Casual', formality:2 },
+];
+const AESTHETICS = [
+  { value:'old-money', label:'Old Money', emoji:'💎' },
+  { value:'chic', label:'Chic & Elevated', emoji:'✨' },
+  { value:'casual', label:'Casual Comfort', emoji:'☁️' },
+  { value:'artsy', label:'Artsy & Creative', emoji:'🎨' },
+  { value:'bold', label:'Bold & Statement', emoji:'🔥' },
+  { value:'boho', label:'Boho & Free Spirit', emoji:'🌸' },
+  { value:'minimalist', label:'Minimalist', emoji:'◻️' },
+  { value:'resort', label:'Resort & Tropical', emoji:'🌴' },
+];
+const ITEM_TYPES = [
+  { value:'top', label:'Top / Shirt', emoji:'👕' },
+  { value:'bottom', label:'Pants / Skirt', emoji:'👖' },
+  { value:'dress', label:'Dress / Jumpsuit', emoji:'👗' },
+  { value:'shoes', label:'Shoes', emoji:'👟' },
+  { value:'outerwear', label:'Outerwear / Jacket', emoji:'🧥' },
+  { value:'accessory', label:'Accessory / Jewelry', emoji:'💍' },
+  { value:'swimwear', label:'Swimwear', emoji:'👙' },
+  { value:'bag', label:'Bag / Purse', emoji:'👜' },
+  { value:'set', label:'Matching Set', emoji:'✨' },
+];
+const WMO_MAP = {0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Light showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
+
+// ─── Demo Data ───────────────────────────────────────────────────────────────
+const DEMO_WARDROBE = [
+  { id:'d01', name:'White Linen Shirt', type:'top', color:'White', bg:'#f5f2eb', warmth:1, formality:2, aesthetics:['old-money','chic','minimalist'], photo:null },
+  { id:'d02', name:'Striped Breton Top', type:'top', color:'Navy & White', bg:'#c8d8ea', warmth:2, formality:2, aesthetics:['chic','casual'], photo:null },
+  { id:'d03', name:'Black Silk Blouse', type:'top', color:'Black', bg:'#1e1e1e', warmth:2, formality:4, aesthetics:['chic','old-money','bold'], photo:null },
+  { id:'d04', name:'Terracotta Crop', type:'top', color:'Terracotta', bg:'#c1684a', warmth:1, formality:1, aesthetics:['bold','boho','resort'], photo:null },
+  { id:'d05', name:'Crochet Cover-up', type:'top', color:'Cream', bg:'#e8dfca', warmth:1, formality:1, aesthetics:['boho','resort'], photo:null },
+  { id:'d06', name:'White Wide-Leg Trousers', type:'bottom', color:'White', bg:'#f0ede8', warmth:2, formality:3, aesthetics:['old-money','chic','minimalist'], photo:null },
+  { id:'d07', name:'Linen Mini Skirt', type:'bottom', color:'Sand', bg:'#d4c5a9', warmth:1, formality:2, aesthetics:['resort','boho','casual'], photo:null },
+  { id:'d08', name:'Denim Cut-offs', type:'bottom', color:'Blue Denim', bg:'#5a7bbf', warmth:1, formality:1, aesthetics:['casual','resort'], photo:null },
+  { id:'d09', name:'Dusty Rose Midi Skirt', type:'bottom', color:'Dusty Rose', bg:'#d4a0a0', warmth:2, formality:3, aesthetics:['boho','chic','artsy'], photo:null },
+  { id:'d10', name:'Floral Sundress', type:'dress', color:'Floral Multi', bg:'#8fbc7a', warmth:1, formality:2, aesthetics:['resort','boho','artsy'], photo:null },
+  { id:'d11', name:'White Wrap Dress', type:'dress', color:'White', bg:'#f7f4ef', warmth:1, formality:3, aesthetics:['chic','old-money','resort'], photo:null },
+  { id:'d12', name:'Gold Strappy Sandals', type:'shoes', color:'Gold', bg:'#c8a84b', warmth:1, formality:3, aesthetics:['old-money','chic','resort'], photo:null },
+  { id:'d13', name:'White Leather Sneakers', type:'shoes', color:'White', bg:'#e8e8e8', warmth:2, formality:1, aesthetics:['casual','minimalist'], photo:null },
+  { id:'d14', name:'Espadrille Wedges', type:'shoes', color:'Natural', bg:'#c4a882', warmth:1, formality:2, aesthetics:['resort','boho','chic'], photo:null },
+  { id:'d15', name:'Black One-Piece', type:'swimwear', color:'Black', bg:'#2a2a2a', warmth:1, formality:1, aesthetics:['chic','minimalist'], photo:null },
+  { id:'d16', name:'Bikini Set', type:'swimwear', color:'Coral', bg:'#e8836a', warmth:1, formality:1, aesthetics:['resort','bold'], photo:null },
+  { id:'d17', name:'Rattan Sun Hat', type:'accessory', color:'Natural', bg:'#c4a458', warmth:1, formality:1, aesthetics:['resort','boho'], photo:null },
+  { id:'d18', name:'Gold Hoop Earrings', type:'accessory', color:'Gold', bg:'#d4a84b', warmth:3, formality:3, aesthetics:['old-money','chic','bold'], photo:null },
+  { id:'d19', name:'Linen Blazer', type:'outerwear', color:'Cream', bg:'#e4ddd0', warmth:3, formality:3, aesthetics:['old-money','chic','minimalist'], photo:null },
+  { id:'d20', name:'Raffia Tote Bag', type:'bag', color:'Natural', bg:'#c8aa7a', warmth:1, formality:1, aesthetics:['resort','boho'], photo:null },
+];
+const DEMO_SETS = [
+  { id:'ds1', name:'Resort Chic', itemIds:['d01','d06','d12','d17'] },
+  { id:'ds2', name:'Beach Day', itemIds:['d04','d08','d13','d16'] },
+  { id:'ds3', name:'Sundowner', itemIds:['d11','d12','d18'] },
+  { id:'ds4', name:'City Explorer', itemIds:['d02','d09','d14','d19'] },
+];
+
+// ─── Utilities ──────────────────────────────────────────────────────────────
+function uid() { return Math.random().toString(36).slice(2,10); }
+function fmtDate(d) { return d ? new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : ''; }
+function getTypeEmoji(t) { return ITEM_TYPES.find(x=>x.value===t)?.emoji||'👗'; }
+
+function calcDNA(board) {
+  const counts = {}; let total = 0;
+  AESTHETICS.forEach(a => { counts[a.value]=0; });
+  board.forEach(img => (img.aesthetics||[]).forEach(a => { counts[a]=(counts[a]||0)+1; total++; }));
+  if(!total) return null;
+  const dna = {};
+  AESTHETICS.forEach(a => { dna[a.value]=Math.round((counts[a.value]/total)*100); });
+  return dna;
+}
+
+async function fetchWeatherData(destination, startDate, days) {
+  const gr = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(destination)}&count=1&language=en&format=json`);
+  const gd = await gr.json();
+  if(!gd.results?.length) throw new Error('Location not found — try a different city name');
+  const {latitude:lat,longitude:lon,name,country} = gd.results[0];
+  const start = new Date(startDate); const today = new Date(); today.setHours(0,0,0,0);
+  const isForecast = Math.floor((start-today)/86400000) <= 15;
+  const fmt = d => d.toISOString().split('T')[0];
+  let url;
+  if(isForecast) {
+    const end = new Date(start); end.setDate(end.getDate()+days-1);
+    url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(start)}&end_date=${fmt(end)}&timezone=auto`;
+  } else {
+    const hs = new Date(start); hs.setFullYear(hs.getFullYear()-1);
+    const he = new Date(hs); he.setDate(he.getDate()+days-1);
+    url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=celsius&start_date=${fmt(hs)}&end_date=${fmt(he)}&timezone=auto`;
+  }
+  const wd = await (await fetch(url)).json();
+  const maxs=wd.daily?.temperature_2m_max||[]; const mins=wd.daily?.temperature_2m_min||[]; const codes=wd.daily?.weathercode||[];
+  const avgMax=maxs.reduce((a,b)=>a+b,0)/maxs.length||22; const avgMin=mins.reduce((a,b)=>a+b,0)/mins.length||16;
+  const cc={}; codes.forEach(c=>{cc[c]=(cc[c]||0)+1;});
+  const mainCode=Object.entries(cc).sort((a,b)=>b[1]-a[1])[0]?.[0];
+  return { min:Math.round(avgMin), max:Math.round(avgMax), conditions:WMO_MAP[+mainCode]||'Variable', hasRain:codes.some(c=>c>=51), fetched:true, isForecast, location:`${name}, ${country}` };
+}
+
+function generateOutfits(wardrobe, trip, weather) {
+  if(!wardrobe?.length) return [];
+  const avgTemp = weather?(weather.min+weather.max)/2:22;
+  const aw = trip?.aesthetics||{};
+  const heroIds = new Set(trip?.heroItems||[]);
+  const acts = trip?.activities||[];
+  const avgF = acts.length ? acts.map(a=>ACTIVITIES.find(x=>x.value===a)?.formality||2).reduce((a,b)=>a+b,0)/acts.length : 2;
+  const score = item => {
+    let s=0;
+    (item.aesthetics||[]).forEach(a=>{ s+=(aw[a]||0)/100*4; });
+    const wt = avgTemp>26?1:avgTemp>20?2:avgTemp>14?3:avgTemp>8?4:5;
+    s-=Math.abs((item.warmth||3)-wt)*0.6;
+    s-=Math.abs((item.formality||2)-avgF)*0.4;
+    if(heroIds.has(item.id)) s+=6;
+    return s;
+  };
+  const byType = t => wardrobe.filter(i=>i.type===t).sort((a,b)=>score(b)-score(a));
+  const tops=byType('top'), bottoms=byType('bottom'), dresses=wardrobe.filter(i=>['dress','set'].includes(i.type)).sort((a,b)=>score(b)-score(a));
+  const shoes=byType('shoes'), outer=byType('outerwear'), acc=byType('accessory');
+  const needOuter=avgTemp<16;
+  const combos=[]; const seen=new Set();
+  tops.forEach(top=>{ bottoms.forEach(bottom=>{
+    const k=[top.id,bottom.id].sort().join('|'); if(seen.has(k)) return; seen.add(k);
+    const items=[top,bottom,...(shoes[0]?[shoes[0]]:[]),...(needOuter&&outer[0]?[outer[0]]:[]),...(acc[0]&&!heroIds.has(acc[0]?.id)?[acc[0]]:[])];
+    combos.push({id:`tb-${top.id}-${bottom.id}`,items,score:score(top)+score(bottom)+(shoes[0]?score(shoes[0])*.5:0),hasHero:items.some(i=>heroIds.has(i.id)),type:'top+bottom'});
+  });});
+  dresses.forEach(d=>{
+    const items=[d,...(shoes[0]?[shoes[0]]:[]),...(needOuter&&outer[0]?[outer[0]]:[]),...(acc[0]?[acc[0]]:[])];
+    combos.push({id:`d-${d.id}`,items,score:score(d)+(shoes[0]?score(shoes[0])*.5:0),hasHero:items.some(i=>heroIds.has(i.id)),type:'dress'});
+  });
+  combos.sort((a,b)=>{ if(a.hasHero&&!b.hasHero) return-1; if(!a.hasHero&&b.hasHero) return 1; return b.score-a.score; });
+  const mx=combos[0]?.score||10;
+  const names=['Effortless','Polished','Breezy','Classic','Vibrant','Sunset','Garden','Coastal','Urban','Chic','Resort','Golden','Riviera','Terrazzo'];
+  return combos.slice(0,14).map((c,i)=>({...c, pct:Math.max(30,Math.min(99,Math.round(c.score/mx*100))), label:c.hasHero?'⭐ Signature Look':`${names[i%names.length]} ${c.type==='dress'?'Look':'Outfit'}`}));
+}
+
+function generateEssentials(trip, weather) {
+  const acts=trip?.activities||[]; const avgTemp=weather?(weather.min+weather.max)/2:22;
+  const isHot=avgTemp>=24, isCold=avgTemp<=14, isRainy=weather?.hasRain;
+  const days=trip?.days||5;
+  const hasBeach=acts.includes('beach')||acts.includes('swimming')||acts.includes('water-sports')||trip?.vacationType==='beach';
+  const hasHike=acts.includes('hiking')||acts.includes('cenotes')||acts.includes('nature');
+  const result=[]; const add=(cat,items)=>{ const f=items.filter(i=>i[1]!==false); if(f.length) result.push({category:cat,items:f.map(i=>i[0])}); };
+  add('Skincare & Beauty',[['Sunscreen SPF 50+',isHot||hasBeach],['Moisturizer',true],['Lip balm w/ SPF',isHot],['After-sun lotion',hasBeach],['Aloe vera gel',hasBeach],['Night cream',days>=4],['Face mist',isHot],['Dry shampoo',days>=3],['Insect repellent',hasHike||trip?.vacationType==='adventure']]);
+  add('Health & Wellness',[['Pain reliever',true],['Antidiarrheal',true],['Antihistamine',true],['Blister bandages',hasHike],['Prescription meds',true],['Hand sanitizer',true],['Electrolyte packets',isHot]]);
+  add('Electronics',[['Phone + charger',true],['Portable power bank',true],['Universal adapter',true],['Earbuds / headphones',true],['Camera',days>=4],['Waterproof phone pouch',hasBeach||hasHike]]);
+  add('Beach & Water',[['Beach towel / sarong',hasBeach],['Snorkel gear',acts.includes('swimming')||acts.includes('cenotes')],['Waterproof bag',hasBeach||hasHike],['Flip flops',hasBeach],['Water shoes',acts.includes('cenotes')]]);
+  add('Adventure & Outdoors',[['Daypack',hasHike],['Water bottle (reusable)',hasHike||isHot],['Trail snacks',hasHike],['Headlamp',trip?.vacationType==='adventure'],['Quick-dry towel',hasHike||hasBeach]]);
+  add('Rain & Cold',[['Compact umbrella',isRainy],['Rain poncho',isRainy&&hasHike],['Warm layers',isCold],['Warm socks',isCold],['Gloves & scarf',isCold]]);
+  add('Documents & Money',[['Passport / ID',true],['Travel insurance docs',true],['Credit + debit cards',true],['Local cash',true],['Hotel confirmations',true]]);
+  add('Comfort & Misc',[['Reusable tote bags',true],['Laundry bag',days>=5],['Snacks for travel',true],['Neck pillow',days>=5],['Sleep mask',true],['Luggage lock',true]]);
+  return result;
+}
+
+// ─── DropZone ───────────────────────────────────────────────────────────────
+function DropZone({ onFile, preview, height=140, hint='Drag & drop or click to browse', multi=false }) {
+  const [drag, setDrag] = useState(false);
+  const ref = useRef();
+  const read = useCallback(file => {
+    if(!file||!file.type.startsWith('image/')) return;
+    const r=new FileReader(); r.onload=e=>onFile(e.target.result,file); r.readAsDataURL(file);
+  },[onFile]);
+  const onDrop = useCallback(e=>{ e.preventDefault(); setDrag(false); Array.from(e.dataTransfer.files).forEach(read); },[read]);
+  return (
+    <div className={`drop-zone${drag?' drag-over':''}`} style={{height}} onDragOver={e=>{e.preventDefault();setDrag(true);}} onDragEnter={e=>{e.preventDefault();setDrag(true);}} onDragLeave={()=>setDrag(false)} onDrop={onDrop} onClick={()=>ref.current.click()}>
+      {preview ? <img src={preview} alt="Preview" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : (
+        <div className="drop-hint">
+          <div className="dh-icon">{drag?'📂':'📎'}</div>
+          <div className="dh-main">{drag?'Drop it!':hint}</div>
+          {multi && <div className="dh-sub">Multiple images supported</div>}
+        </div>
+      )}
+      <input ref={ref} type="file" accept="image/*" multiple={multi} style={{display:'none'}} onChange={e=>{ Array.from(e.target.files).forEach(read); e.target.value=''; }} />
+    </div>
+  );
+}
+
+// ─── ItemThumb (inline) ──────────────────────────────────────────────────────
+function SwatchThumb({ item, size=56, radius=7 }) {
+  const style = { width:size, height:size, borderRadius:radius, overflow:'hidden', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center' };
+  if(item?.photo) return <div style={style}><img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>;
+  return (
+    <div style={{...style, background: item?.bg||'var(--bg4)'}}>
+      <span style={{fontSize:size*0.42, filter:'drop-shadow(0 1px 3px rgba(0,0,0,0.4))'}}>{getTypeEmoji(item?.type)}</span>
+    </div>
+  );
+}
+
+// ─── ItemModal ───────────────────────────────────────────────────────────────
+function ItemModal({ item, onSave, onDelete, onClose }) {
+  const [f, setF] = useState(item||{name:'',type:'top',color:'',brand:'',warmth:3,formality:2,aesthetics:[],notes:'',photo:null,bg:null});
+  const s = v => setF(p=>({...p,...v}));
+  const tog = a => s({aesthetics:f.aesthetics.includes(a)?f.aesthetics.filter(x=>x!==a):[...f.aesthetics,a]});
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal">
+        <div className="modal-header"><span className="modal-title">{item?'Edit Item':'Add Item'}</span><button className="btn-icon" onClick={onClose}>✕</button></div>
+        <div style={{display:'grid',gridTemplateColumns:'148px 1fr',gap:16,marginBottom:18}}>
+          <div>
+            <label>Photo</label>
+            <DropZone preview={f.photo} height={148} hint="Drop or click" onFile={src=>s({photo:src,bg:null})} />
+            {f.photo && <button className="btn btn-ghost btn-sm" style={{width:'100%',marginTop:5}} onClick={()=>s({photo:null})}>Remove</button>}
+          </div>
+          <div>
+            <div className="form-group"><label>Name *</label><input value={f.name} onChange={e=>s({name:e.target.value})} placeholder="e.g. White Linen Shirt"/></div>
+            <div className="form-group"><label>Type</label><select value={f.type} onChange={e=>s({type:e.target.value})}>{ITEM_TYPES.map(t=><option key={t.value} value={t.value}>{t.emoji} {t.label}</option>)}</select></div>
+            <div className="form-group"><label>Color</label><input value={f.color||''} onChange={e=>s({color:e.target.value})} placeholder="e.g. Cream, Navy"/></div>
+          </div>
+        </div>
+        <div className="form-group"><label>Warmth: {['❄️ Very Light','🌤 Light','☀️ Medium','🍂 Warm','🔥 Heavy'][f.warmth-1]}</label><input type="range" min={1} max={5} value={f.warmth} onChange={e=>s({warmth:+e.target.value})}/></div>
+        <div className="form-group"><label>Formality: {['👟 Casual','😊 Smart-casual','👔 Business-casual','✨ Semi-formal','🥂 Formal'][f.formality-1]}</label><input type="range" min={1} max={5} value={f.formality} onChange={e=>s({formality:+e.target.value})}/></div>
+        <div className="form-group"><label>Vibes</label><div className="tag-wrap mt-8">{AESTHETICS.map(a=><span key={a.value} className={`tag${f.aesthetics.includes(a.value)?' active':''}`} onClick={()=>tog(a.value)}>{a.emoji} {a.label}</span>)}</div></div>
+        <div className="form-group"><label>Notes</label><textarea value={f.notes||''} onChange={e=>s({notes:e.target.value})} placeholder="Styling tips, care notes..." rows={2}/></div>
+        <div className="modal-footer">
+          {item&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(item.id)}>🗑 Delete</button>}
+          <div style={{flex:1}}/>
+          <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn btn-primary" disabled={!f.name.trim()} onClick={()=>onSave({...f,id:item?.id||uid()})}>
+            {item?'Save Changes':'Add to Closet'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── OutfitSetModal ──────────────────────────────────────────────────────────
+function OutfitSetModal({ set, wardrobe, onSave, onDelete, onClose }) {
+  const [name, setName] = useState(set?.name||'');
+  const [sel, setSel] = useState(new Set(set?.itemIds||[]));
+  const tog = id => setSel(s=>{ const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n; });
+  const selItems = wardrobe.filter(i=>sel.has(i.id));
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal" style={{maxWidth:640}}>
+        <div className="modal-header"><span className="modal-title">{set?'Edit Outfit Set':'Create Outfit Set'}</span><button className="btn-icon" onClick={onClose}>✕</button></div>
+        <div className="form-group"><label>Set Name *</label><input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Beach Day, Date Night…"/></div>
+        {selItems.length>0 && (
+          <div style={{display:'flex',gap:7,flexWrap:'wrap',marginBottom:16}}>
+            {selItems.map(item=>(
+              <div key={item.id} style={{display:'flex',alignItems:'center',gap:6,background:'var(--bg4)',borderRadius:8,padding:'4px 10px',fontSize:'0.78rem'}}>
+                <SwatchThumb item={item} size={24} radius={4}/> <span>{item.name}</span>
+                <button className="btn-icon" style={{width:18,height:18,fontSize:'0.65rem'}} onClick={()=>tog(item.id)}>✕</button>
+              </div>
+            ))}
+          </div>
+        )}
+        <label>Select items from your closet:</label>
+        <div className="item-grid" style={{maxHeight:290,overflowY:'auto',marginTop:8}}>
+          {wardrobe.map(item=>(
+            <div key={item.id} className={`item-card${sel.has(item.id)?' selected':''}`} onClick={()=>tog(item.id)}>
+              <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)'}}><span className="item-emoji">{getTypeEmoji(item.type)}</span></div></div>
+              <div className="item-info"><div className="item-name">{item.name}</div></div>
+              {sel.has(item.id)&&<div className="item-sel-check">✓</div>}
+            </div>
+          ))}
+        </div>
+        <div className="modal-footer">
+          {set&&<button className="btn btn-danger btn-sm" onClick={()=>onDelete(set.id)}>🗑 Delete</button>}
+          <div style={{flex:1}}/><button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn btn-primary" disabled={!name.trim()||sel.size===0} onClick={()=>onSave({id:set?.id||uid(),name,itemIds:[...sel]})}>
+            {set?'Save Set':'Create Set'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── InspirationTagModal ─────────────────────────────────────────────────────
+function InspirationTagModal({ img, onSave, onClose }) {
+  const [sel, setSel] = useState(new Set(img.aesthetics||[]));
+  const tog = a => setSel(s=>{ const n=new Set(s); n.has(a)?n.delete(a):n.add(a); return n; });
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal" style={{maxWidth:440}}>
+        <div className="modal-header"><span className="modal-title">Tag the Vibe</span><button className="btn-icon" onClick={onClose}>✕</button></div>
+        <img src={img.photo} alt="" style={{width:'100%',borderRadius:10,marginBottom:18,maxHeight:250,objectFit:'cover'}}/>
+        <label>What aesthetics does this represent?</label>
+        <div className="tag-wrap mt-8">
+          {AESTHETICS.map(a=><span key={a.value} className={`tag${sel.has(a.value)?' active':''}`} style={{fontSize:'0.82rem',padding:'6px 14px'}} onClick={()=>tog(a.value)}>{a.emoji} {a.label}</span>)}
+        </div>
+        <div className="modal-footer"><button className="btn btn-secondary" onClick={onClose}>Cancel</button><button className="btn btn-primary" onClick={()=>onSave({...img,aesthetics:[...sel]})}>Save Tags</button></div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ClosetView ──────────────────────────────────────────────────────────────
+function ClosetView({ wardrobe, setWardrobe, savedOutfits, setSavedOutfits }) {
+  const [tab, setTab] = useState('items');
+  const [editItem, setEditItem] = useState(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [editSet, setEditSet] = useState(null);
+  const [showAddSet, setShowAddSet] = useState(false);
+  const [filter, setFilter] = useState('all');
+  const saveItem = item => { setWardrobe(w=>w.find(i=>i.id===item.id)?w.map(i=>i.id===item.id?item:i):[...w,item]); setEditItem(null); setShowAdd(false); };
+  const delItem = id => { setWardrobe(w=>w.filter(i=>i.id!==id)); setEditItem(null); };
+  const saveSet = s => { setSavedOutfits(o=>o.find(x=>x.id===s.id)?o.map(x=>x.id===s.id?s:x):[...o,s]); setEditSet(null); setShowAddSet(false); };
+  const delSet = id => { setSavedOutfits(o=>o.filter(s=>s.id!==id)); setEditSet(null); };
+  const filtered = filter==='all'?wardrobe:wardrobe.filter(i=>i.type===filter);
+  const FILTERS = [['all','All'],['top','Tops'],['bottom','Bottoms'],['dress','Dresses'],['shoes','Shoes'],['outerwear','Outerwear'],['accessory','Accessories'],['swimwear','Swimwear'],['bag','Bags']];
+  return (
+    <div>
+      <div className="flex-between mb-16">
+        <div><h2 style={{fontSize:'1.5rem'}}>My Closet</h2><p className="text-sm mt-8">{wardrobe.length} item{wardrobe.length!==1?'s':''} · {savedOutfits.length} outfit set{savedOutfits.length!==1?'s':''}</p></div>
+        <button className="btn btn-primary" onClick={()=>tab==='items'?setShowAdd(true):setShowAddSet(true)}>+ {tab==='items'?'Add Item':'Create Set'}</button>
+      </div>
+      <div className="tabs">
+        <button className={`tab${tab==='items'?' active':''}`} onClick={()=>setTab('items')}>👗 Items ({wardrobe.length})</button>
+        <button className={`tab${tab==='sets'?' active':''}`} onClick={()=>setTab('sets')}>🧩 Outfit Sets ({savedOutfits.length})</button>
+      </div>
+      {tab==='items' && (<>
+        <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:18}}>
+          {FILTERS.map(([v,l])=><span key={v} className={`tag${filter===v?' active-gold':''}`} onClick={()=>setFilter(v)}>{l} {v!=='all'&&<span style={{opacity:.6,fontSize:'0.7rem'}}>({wardrobe.filter(i=>v==='all'||i.type===v).length})</span>}</span>)}
+        </div>
+        {filtered.length===0 ? (
+          <div className="empty-state"><div className="es-icon">👗</div><div className="es-title">Your closet is empty</div><div className="es-sub">Add items to get personalized outfit suggestions for your trips.</div></div>
+        ) : (
+          <div className="item-grid">
+            {filtered.map(item=>(
+              <div key={item.id} className="item-card" onClick={()=>setEditItem(item)}>
+                <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{getTypeEmoji(item.type)}</span>}</div></div>
+                <div className="item-info"><div className="item-name">{item.name}</div><div className="item-sub">{item.color||ITEM_TYPES.find(t=>t.value===item.type)?.label}</div></div>
+              </div>
+            ))}
+          </div>
+        )}
+      </>)}
+      {tab==='sets' && (<>
+        {savedOutfits.length===0 ? (
+          <div className="empty-state"><div className="es-icon">🧩</div><div className="es-title">No outfit sets yet</div><div className="es-sub">Combine your items into named sets — they become your anchor pieces when packing.</div></div>
+        ) : (
+          <div className="outfit-grid">
+            {savedOutfits.map(set=>{
+              const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+              return (
+                <div key={set.id} className="outfit-card" style={{cursor:'pointer'}} onClick={()=>setEditSet(set)}>
+                  <div className="outfit-photos">
+                    {items.slice(0,4).map(item=>(
+                      <div key={item.id} className="outfit-photo">
+                        <div className="op-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>
+                          {item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="op-emoji">{getTypeEmoji(item.type)}</span>}
+                        </div>
+                        <div className="op-overlay"/>
+                      </div>
+                    ))}
+                    {items.length===0&&<div className="outfit-photo"><span className="op-emoji" style={{fontSize:'2rem'}}>🧩</span></div>}
+                  </div>
+                  <div className="outfit-body">
+                    <div className="outfit-name">{set.name}</div>
+                    <div className="outfit-pieces">{items.map(i=><span key={i.id} className="outfit-piece-tag">{i.name}</span>)}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </>)}
+      {(showAdd||editItem)&&<ItemModal item={editItem} onSave={saveItem} onDelete={delItem} onClose={()=>{setEditItem(null);setShowAdd(false);}}/>}
+      {(showAddSet||editSet)&&<OutfitSetModal set={editSet} wardrobe={wardrobe} onSave={saveSet} onDelete={delSet} onClose={()=>{setEditSet(null);setShowAddSet(false);}}/>}
+    </div>
+  );
+}
+
+// ─── InspirationView ─────────────────────────────────────────────────────────
+function InspirationView({ inspirationBoard, setInspirationBoard }) {
+  const [tagImg, setTagImg] = useState(null);
+  const add = useCallback(src => setInspirationBoard(b=>[...b,{id:uid(),photo:src,aesthetics:[]}]),[setInspirationBoard]);
+  const saveTag = img => { setInspirationBoard(b=>b.map(i=>i.id===img.id?img:i)); setTagImg(null); };
+  const remove = id => setInspirationBoard(b=>b.filter(i=>i.id!==id));
+  const dna = calcDNA(inspirationBoard);
+  return (
+    <div>
+      <div className="mb-16"><h2 style={{fontSize:'1.5rem'}}>Inspiration Board</h2><p className="text-sm mt-8">Upload Pinterest screenshots or style photos — we'll extract your aesthetic DNA</p></div>
+      <DropZone height={120} hint="Drag & drop inspiration images or click to browse" multi onFile={add}/>
+      {inspirationBoard.length>0 && (<>
+        <div className="flex-between mt-24 mb-12"><h3 style={{fontSize:'1.05rem',fontWeight:600}}>Your Board <span style={{color:'var(--text3)',fontFamily:'Inter',fontWeight:400,fontSize:'0.85rem'}}>({inspirationBoard.length})</span></h3><span className="text-xs">Click any image to tag its aesthetic</span></div>
+        <div className="inspo-grid">
+          {inspirationBoard.map(img=>(
+            <div key={img.id} className={`inspo-card${img.aesthetics.length?' tagged':''}`} onClick={()=>setTagImg(img)}>
+              <img src={img.photo} alt=""/>
+              <div className="inspo-overlay">
+                {img.aesthetics.length ? <div className="inspo-tags">{img.aesthetics.map(a=><span key={a} className="inspo-tag">{a}</span>)}</div> : <span className="inspo-notag">+ Tag vibe</span>}
+              </div>
+              <button style={{position:'absolute',top:6,right:6,background:'rgba(0,0,0,0.55)',border:'none',color:'#fff',borderRadius:'50%',width:22,height:22,cursor:'pointer',fontSize:'0.7rem',display:'flex',alignItems:'center',justifyContent:'center'}} onClick={e=>{e.stopPropagation();remove(img.id);}}>✕</button>
+            </div>
+          ))}
+        </div>
+        {dna && (
+          <div className="glass-card mt-24">
+            <div className="flex-between mb-16"><h3 style={{fontSize:'1.1rem'}}>✨ Your Style DNA</h3><span className="badge badge-violet">{inspirationBoard.filter(i=>i.aesthetics.length).length} images tagged</span></div>
+            {AESTHETICS.map(a=><div key={a.value} className="dna-row"><span className="dna-lbl">{a.emoji} {a.label}</span><div className="dna-track"><div className="dna-fill" style={{width:`${dna[a.value]||0}%`}}/></div><span className="dna-pct">{dna[a.value]||0}%</span></div>)}
+            <p className="text-xs mt-8">Use "Apply from Board" in Trip Setup → Step 2 to auto-fill your style preferences.</p>
+          </div>
+        )}
+      </>)}
+      {inspirationBoard.length===0&&<div className="empty-state mt-24"><div className="es-icon">🖼️</div><div className="es-title">Build your board</div><div className="es-sub">Upload Pinterest screenshots or style photos to extract your aesthetic profile and get better outfit suggestions.</div></div>}
+      {tagImg&&<InspirationTagModal img={tagImg} onSave={saveTag} onClose={()=>setTagImg(null)}/>}
+    </div>
+  );
+}
+
+// ─── TripSetupView ───────────────────────────────────────────────────────────
+function TripSetupView({ wardrobe, savedOutfits, inspirationBoard, onTrip }) {
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [wErr, setWErr] = useState(null);
+  const defAes = () => Object.fromEntries(AESTHETICS.map(a=>[a.value,0]));
+  const [form, setForm] = useState({destination:'',startDate:'',endDate:'',luggage:'carry-on',vacationType:'mixed',activities:[],aesthetics:defAes(),heroItems:[],heroSets:[],weather:null,inspoApplied:false});
+  const s = v => setForm(f=>({...f,...v}));
+  const days = useMemo(()=>{ if(!form.startDate||!form.endDate) return 0; return Math.max(1,Math.round((new Date(form.endDate)-new Date(form.startDate))/86400000)+1); },[form.startDate,form.endDate]);
+  const togAct = a => s({activities:form.activities.includes(a)?form.activities.filter(x=>x!==a):[...form.activities,a]});
+  const togHeroItem = id => s({heroItems:form.heroItems.includes(id)?form.heroItems.filter(x=>x!==id):[...form.heroItems,id]});
+  const togHeroSet = id => s({heroSets:form.heroSets.includes(id)?form.heroSets.filter(x=>x!==id):[...form.heroSets,id]});
+  const fetchW = async () => { if(!form.destination||!form.startDate||!days) return; setLoading(true); setWErr(null); try { s({weather:await fetchWeatherData(form.destination,form.startDate,days)}); } catch(e){setWErr(e.message);} finally{setLoading(false);} };
+  const applyDNA = () => { const dna=calcDNA(inspirationBoard); if(!dna) return; s({aesthetics:dna,inspoApplied:true}); };
+  const valid1=form.destination.trim()&&form.startDate&&form.endDate&&days>0;
+  const valid2=form.vacationType&&form.activities.length>0;
+  const WIZ_STEPS=[{n:1,label:'Trip Details'},{n:2,label:'Style & Activities'},{n:3,label:'Anchor Pieces'}];
+  const weatherIcon = form.weather ? (form.weather.conditions.toLowerCase().includes('rain')||form.weather.conditions.toLowerCase().includes('shower')?'🌧️':form.weather.conditions.toLowerCase().includes('cloud')?'⛅':'☀️') : '🌤';
+  return (
+    <div>
+      <div className="flex-between mb-24">{step>1&&<button className="btn btn-ghost btn-sm" onClick={()=>setStep(s=>s-1)}>← Back</button>}<div style={{flex:1}}/>
+        {step>1&&<span className="text-xs">Step {step} of 3</span>}
+      </div>
+      <div className="wizard-track">
+        {WIZ_STEPS.map((ws,i)=>(<React.Fragment key={ws.n}>
+          {i>0&&<div className={`wiz-line${step>ws.n-1?' done':''}`}/>}
+          <div className="wiz-step">
+            <div className={`wiz-dot${step>ws.n?' done':step===ws.n?' active':''}`}>{step>ws.n?'✓':ws.n}</div>
+            <div className={`wiz-label${step===ws.n?' active':step>ws.n?' done':''}`}>{ws.label}</div>
+          </div>
+        </React.Fragment>))}
+      </div>
+
+      {step===1&&(
+        <div>
+          <div className="form-group"><label>Destination *</label><input value={form.destination} onChange={e=>s({destination:e.target.value})} placeholder="e.g. Tulum, Mexico" style={{fontSize:'1rem',padding:'12px 14px'}}/></div>
+          <div className="form-row">
+            <div className="form-group"><label>Departure Date *</label><input type="date" value={form.startDate} onChange={e=>s({startDate:e.target.value})}/></div>
+            <div className="form-group"><label>Return Date *</label><input type="date" value={form.endDate} min={form.startDate} onChange={e=>s({endDate:e.target.value})}/></div>
+          </div>
+          {days>0&&<p className="text-sm mb-16">📅 {days} night{days!==1?'s':''}</p>}
+          <div className="form-group"><label>Luggage Size</label><select value={form.luggage} onChange={e=>s({luggage:e.target.value})}>{LUGGAGE_OPTIONS.map(l=><option key={l.value} value={l.value}>{l.label} ({l.days})</option>)}</select></div>
+          <div className="card mt-16">
+            <div className="flex-between mb-12"><span style={{fontWeight:600,fontSize:'0.9rem'}}>🌤 Weather Forecast</span><button className="btn btn-secondary btn-sm" onClick={fetchW} disabled={!valid1||loading}>{loading?'Fetching…':'Get Weather'}</button></div>
+            {wErr&&<p style={{color:'var(--red)',fontSize:'0.8rem',marginBottom:8}}>⚠️ {wErr}</p>}
+            {!form.weather&&!wErr&&<p className="text-xs">Enter your destination and dates above, then fetch live weather data for smarter packing suggestions.</p>}
+            {form.weather&&(
+              <div className="weather-card">
+                <div className="weather-icon">{weatherIcon}</div>
+                <div><div className="weather-temp">{form.weather.min}°–{form.weather.max}°C</div><div className="weather-desc">{form.weather.conditions} · {form.weather.location}</div>{!form.weather.isForecast&&<div className="weather-note">📊 Based on historical data (same dates last year)</div>}</div>
+              </div>
+            )}
+          </div>
+          <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-primary" disabled={!valid1} onClick={()=>setStep(2)}>Continue to Style →</button></div>
+        </div>
+      )}
+
+      {step===2&&(
+        <div>
+          <div className="form-group">
+            <label>Vacation Type</label>
+            <div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vacationType===v.value?' active-gold':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vacationType:v.value})}>{v.icon} {v.label}</span>)}</div>
+          </div>
+          <div className="form-group mt-16"><label>Activities (pick all that apply)</label><div className="tag-wrap mt-8">{ACTIVITIES.map(a=><span key={a.value} className={`tag${form.activities.includes(a.value)?' active':''}`} onClick={()=>togAct(a.value)}>{a.label}</span>)}</div></div>
+          <hr className="section-divider"/>
+          <div className="flex-between mb-12">
+            <label style={{margin:0}}>Style Mix</label>
+            {inspirationBoard.length>0&&<button className="btn btn-demo btn-sm" onClick={applyDNA}>{form.inspoApplied?'✓ Board Applied':'✨ Apply from Board'}</button>}
+          </div>
+          {form.inspoApplied&&<p style={{fontSize:'0.78rem',color:'var(--violet2)',marginBottom:12}}>Style sliders auto-filled from your inspiration board</p>}
+          {AESTHETICS.map(a=>(
+            <div key={a.value} className="form-group">
+              <div className="slider-label"><span>{a.emoji} {a.label}</span><span style={{fontWeight:600}}>{form.aesthetics[a.value]}%</span></div>
+              <input type="range" min={0} max={100} step={5} value={form.aesthetics[a.value]} onChange={e=>s({aesthetics:{...form.aesthetics,[a.value]:+e.target.value}})}/>
+            </div>
+          ))}
+          <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-primary" disabled={!valid2} onClick={()=>setStep(3)}>Continue to Anchors →</button></div>
+        </div>
+      )}
+
+      {step===3&&(
+        <div>
+          <p className="text-sm mb-24">Pin your hero pieces — they'll appear first in your packing list and be prioritized in outfit suggestions.</p>
+          {savedOutfits.length>0&&(<>
+            <label>Pin an Outfit Set</label>
+            <div className="outfit-grid mt-8 mb-16">
+              {savedOutfits.map(set=>{
+                const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+                const isH=form.heroSets.includes(set.id);
+                return (
+                  <div key={set.id} className={`outfit-card${isH?' hero-outfit':''}`} style={{cursor:'pointer'}} onClick={()=>togHeroSet(set.id)}>
+                    <div className="outfit-photos">
+                      {items.slice(0,4).map(item=>(
+                        <div key={item.id} className="outfit-photo"><div className="op-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="op-emoji">{getTypeEmoji(item.type)}</span>}</div><div className="op-overlay"/></div>
+                      ))}
+                    </div>
+                    <div className="outfit-body"><div className="outfit-name">{isH&&'⭐ '}{set.name}</div></div>
+                  </div>
+                );
+              })}
+            </div>
+          </>)}
+          {wardrobe.length>0&&(<>
+            <label>Pin Individual Items</label>
+            <div className="item-grid mt-8">
+              {wardrobe.map(item=>{
+                const isH=form.heroItems.includes(item.id);
+                return (
+                  <div key={item.id} className={`item-card${isH?' hero':''}`} onClick={()=>togHeroItem(item.id)}>
+                    <div className="item-thumb"><div className="item-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="item-emoji">{getTypeEmoji(item.type)}</span>}</div></div>
+                    <div className="item-info"><div className="item-name">{item.name}</div></div>
+                    {isH&&<div className="item-hero-star">⭐</div>}
+                  </div>
+                );
+              })}
+            </div>
+          </>)}
+          {wardrobe.length===0&&savedOutfits.length===0&&<div className="card" style={{textAlign:'center',padding:32,color:'var(--text3)'}}>Add items to your closet first to pin hero pieces.</div>}
+          <div style={{textAlign:'right',marginTop:28}}><button className="btn btn-primary" style={{fontSize:'1rem',padding:'12px 28px'}} onClick={()=>onTrip({...form,days,id:uid()})}>🧳 Generate My Packing List</button></div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── PackingListView ──────────────────────────────────────────────────────────
+function PackingListView({ trip, wardrobe, savedOutfits, inspirationBoard, initChecked, onSaveTrip, onBack }) {
+  const [tab, setTab] = useState('outfits');
+  const [checked, setChecked] = useState(initChecked||new Set());
+  const [justSaved, setJustSaved] = useState(false);
+  const outfits = useMemo(()=>generateOutfits(wardrobe,trip,trip.weather),[wardrobe,trip]);
+  const essentials = useMemo(()=>generateEssentials(trip,trip.weather),[trip]);
+  const tog = id => setChecked(s=>{ const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n; });
+  const togAll = ids => setChecked(s=>{ const n=new Set(s); ids.every(id=>n.has(id))?ids.forEach(id=>n.delete(id)):ids.forEach(id=>n.add(id)); return n; });
+  const heroSets=(trip.heroSets||[]).map(id=>savedOutfits.find(s=>s.id===id)).filter(Boolean);
+  const clothes=wardrobe.filter(i=>!['accessory','bag'].includes(i.type));
+  const essIds=essentials.flatMap(c=>c.items.map(i=>`ess-${i}`));
+  const total=clothes.length+essIds.length;
+  const done=clothes.filter(i=>checked.has(i.id)).length+essIds.filter(id=>checked.has(id)).length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const handleSave=()=>{ onSaveTrip(trip,[...checked]); setJustSaved(true); setTimeout(()=>setJustSaved(false),3000); };
+  const wIcon=trip.weather?(trip.weather.conditions.toLowerCase().includes('rain')?'🌧️':trip.weather.conditions.toLowerCase().includes('cloud')?'⛅':'☀️'):'✈️';
+  return (
+    <div>
+      <div className="flex-between mb-8">
+        <div>
+          <h2 style={{fontSize:'1.5rem'}}>🧳 {trip.destination}</h2>
+          <p className="text-sm mt-8">{fmtDate(trip.startDate)} – {fmtDate(trip.endDate)} · {trip.days} night{trip.days!==1?'s':''}</p>
+        </div>
+        <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+          {justSaved&&<span className="badge badge-green" style={{animation:'none'}}>✓ Saved!</span>}
+          <button className="btn btn-secondary btn-sm" onClick={handleSave}>💾 Save Trip</button>
+          <button className="btn btn-ghost btn-sm" onClick={onBack}>← New Trip</button>
+        </div>
+      </div>
+
+      <div className="progress-wrap">
+        <div className="progress-info"><span>{done} of {total} items packed</span><span style={{fontWeight:700,color:pct===100?'var(--green)':'var(--text2)'}}>{pct}%{pct===100?' 🎉':''}</span></div>
+        <div className="progress-bar"><div className="progress-fill" style={{width:`${pct}%`}}/></div>
+      </div>
+
+      {trip.weather&&(
+        <div className="weather-card mb-16">
+          <div className="weather-icon">{wIcon}</div>
+          <div><div className="weather-temp">{trip.weather.min}°–{trip.weather.max}°C</div><div className="weather-desc">{trip.weather.conditions} · {trip.weather.location}</div></div>
+        </div>
+      )}
+
+      <div className="tabs">
+        <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>👗 Outfits {outfits.length>0&&`(${outfits.length})`}</button>
+        <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>🧺 Clothes ({clothes.length})</button>
+        <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>🎒 Essentials</button>
+      </div>
+
+      {tab==='outfits'&&(
+        <div>
+          {heroSets.length>0&&(
+            <div style={{marginBottom:28}}>
+              <div className="flex-between mb-12"><div className="section-title">⭐ Pinned Outfit Sets</div><span className="badge badge-gold">{heroSets.length} set{heroSets.length!==1?'s':''}</span></div>
+              <div className="outfit-grid">
+                {heroSets.map(set=>{
+                  const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
+                  const key=`set-${set.id}`; const isPacked=checked.has(key);
+                  return (
+                    <div key={set.id} className={`outfit-card hero-outfit${isPacked?' is-packed':''}`}>
+                      <div className="outfit-photos">
+                        {items.slice(0,4).map(item=>(
+                          <div key={item.id} className="outfit-photo"><div className="op-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="op-emoji">{getTypeEmoji(item.type)}</span>}</div><div className="op-overlay"/></div>
+                        ))}
+                      </div>
+                      <div className="outfit-body">
+                        <div className="outfit-name">⭐ {set.name} <span className="badge badge-gold">Pinned</span></div>
+                        <div className="outfit-pieces">{items.map(i=><span key={i.id} className="outfit-piece-tag">{i.name}</span>)}</div>
+                      </div>
+                      <div className="outfit-footer">
+                        <label className="pack-label"><input type="checkbox" checked={isPacked} onChange={()=>tog(key)}/>{isPacked?'Packed ✓':'Mark as packed'}</label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <div>
+            <div className="flex-between mb-12"><div className="section-title">✨ Suggested Outfits <span style={{fontWeight:400,color:'var(--text3)',fontSize:'0.78rem'}}>— ranked by match</span></div></div>
+            {outfits.length===0?(
+              <div className="empty-state"><div className="es-icon">👗</div><div className="es-title">Add tops, bottoms & shoes</div><div className="es-sub">Once your closet has clothing items, we'll generate outfit combinations tailored to your trip.</div></div>
+            ):(
+              <div className="outfit-grid">
+                {outfits.map(o=>{
+                  const key=`outfit-${o.id}`; const isPacked=checked.has(key);
+                  return (
+                    <div key={o.id} className={`outfit-card${o.hasHero?' hero-outfit':''}${isPacked?' is-packed':''}`}>
+                      <div className="outfit-photos">
+                        {o.items.slice(0,4).map(item=>(
+                          <div key={item.id} className="outfit-photo"><div className="op-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="op-emoji">{getTypeEmoji(item.type)}</span>}</div><div className="op-overlay"/></div>
+                        ))}
+                      </div>
+                      <div className="outfit-body">
+                        <div className="outfit-name">{o.label}{o.hasHero&&<span className="badge badge-gold" style={{marginLeft:4}}>Hero</span>}</div>
+                        <div className="outfit-score">
+                          <div className="outfit-score-bar"><div className="outfit-score-fill" style={{width:`${o.pct}%`}}/></div>
+                          <span className="outfit-score-pct">{o.pct}%</span>
+                        </div>
+                        <div className="outfit-pieces">{o.items.map(i=><span key={i.id} className="outfit-piece-tag">{i.name}</span>)}</div>
+                      </div>
+                      <div className="outfit-footer">
+                        <label className="pack-label"><input type="checkbox" checked={isPacked} onChange={()=>tog(key)}/>{isPacked?'Packed ✓':'Add to packing list'}</label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          {trip.inspoApplied&&inspirationBoard.length>0&&(
+            <div style={{marginTop:20,padding:'14px 16px',background:'rgba(155,127,224,0.07)',border:'1px solid rgba(155,127,224,0.2)',borderRadius:10}}>
+              <p style={{fontSize:'0.8rem',color:'var(--violet2)',marginBottom:10}}>✨ Styled from your inspiration board</p>
+              <div style={{display:'flex',gap:8}}>{inspirationBoard.slice(0,8).map(img=><img key={img.id} src={img.photo} alt="" style={{width:48,height:62,objectFit:'cover',borderRadius:6,border:'1px solid var(--border)'}}/>)}</div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab==='clothes'&&(
+        <div>
+          <div className="flex-between mb-16">
+            <p className="text-sm">{clothes.filter(i=>checked.has(i.id)).length} of {clothes.length} packed</p>
+            <button className="btn btn-ghost btn-sm" onClick={()=>togAll(clothes.map(i=>i.id))}>{clothes.every(i=>checked.has(i.id))?'Uncheck All':'Check All'}</button>
+          </div>
+          {['top','bottom','dress','outerwear','shoes','swimwear','set'].map(type=>{
+            const items=clothes.filter(i=>i.type===type); if(!items.length) return null;
+            const ti=ITEM_TYPES.find(t=>t.value===type);
+            return (
+              <div key={type} style={{marginBottom:22}}>
+                <div className="flex-between mb-8"><div className="section-title">{ti?.emoji} {ti?.label}</div><span className="text-xs">{items.filter(i=>checked.has(i.id)).length}/{items.length}</span></div>
+                {items.map(item=>(
+                  <div key={item.id} className={`pack-item${checked.has(item.id)?' is-checked':''}`}>
+                    <input type="checkbox" checked={checked.has(item.id)} onChange={()=>tog(item.id)}/>
+                    <div className="pack-thumb" style={{background:item.bg||'var(--bg4)'}}>{item.photo?<img src={item.photo} alt={item.name}/>:<span style={{fontSize:'1.1rem'}}>{getTypeEmoji(item.type)}</span>}</div>
+                    <div style={{flex:1,minWidth:0}}><div className="pack-item-name">{item.name}</div>{item.color&&<div className="text-xs">{item.color}</div>}</div>
+                    {trip.heroItems?.includes(item.id)&&<span className="badge badge-gold">⭐ Hero</span>}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+          {clothes.length===0&&<div className="empty-state"><div className="es-icon">🧺</div><div className="es-title">No clothing items</div><div className="es-sub">Add items to your closet to build your clothes packing list.</div></div>}
+        </div>
+      )}
+
+      {tab==='essentials'&&(
+        <div>
+          <p className="text-sm mb-20">Auto-generated based on your destination, activities, and weather forecast.</p>
+          {essentials.map(cat=>{
+            const ids=cat.items.map(i=>`ess-${i}`);
+            return (
+              <div key={cat.category} style={{marginBottom:22}}>
+                <div className="flex-between mb-8">
+                  <div className="section-title">{cat.category}</div>
+                  <div style={{display:'flex',gap:8,alignItems:'center'}}><span className="text-xs">{ids.filter(id=>checked.has(id)).length}/{ids.length}</span><button className="btn btn-ghost btn-sm" style={{fontSize:'0.72rem',padding:'3px 9px'}} onClick={()=>togAll(ids)}>{ids.every(id=>checked.has(id))?'Uncheck':'Check all'}</button></div>
+                </div>
+                {cat.items.map(item=>{ const id=`ess-${item}`; return (
+                  <div key={item} className={`pack-item${checked.has(id)?' is-checked':''}`}>
+                    <input type="checkbox" checked={checked.has(id)} onChange={()=>tog(id)}/>
+                    <span className="pack-item-name">{item}</span>
+                  </div>
+                );})}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── SavedTripsView ───────────────────────────────────────────────────────────
+function SavedTripsView({ savedTrips, onLoad, onDelete }) {
+  if(!savedTrips.length) return (
+    <div>
+      <h2 style={{fontSize:'1.5rem',marginBottom:16}}>My Trips</h2>
+      <div className="empty-state"><div className="es-icon">🗺️</div><div className="es-title">No saved trips yet</div><div className="es-sub">Plan a trip and hit "Save Trip" in the packing list to resume your progress anytime.</div></div>
+    </div>
+  );
+  return (
+    <div>
+      <div className="flex-between mb-24"><h2 style={{fontSize:'1.5rem'}}>My Trips</h2><span className="badge badge-violet">{savedTrips.length} saved</span></div>
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        {savedTrips.map(st=>{
+          const vt=VACATION_TYPES.find(v=>v.value===st.trip.vacationType);
+          const prog=st.checkedItems.length>0?`${st.checkedItems.length} items checked`:'Not started';
+          return (
+            <div key={st.id} className="trip-card" onClick={()=>onLoad(st)}>
+              <div className="trip-icon-wrap">{vt?.icon||'✈️'}</div>
+              <div className="trip-meta">
+                <div className="trip-dest">{st.destination||st.trip.destination}</div>
+                <div className="trip-dates">{fmtDate(st.trip.startDate)} – {fmtDate(st.trip.endDate)} · {st.trip.days} nights</div>
+                <div className="trip-prog">{prog} · Last updated {new Date(st.updatedAt).toLocaleDateString()}</div>
+              </div>
+              <div style={{display:'flex',gap:8}}>
+                <button className="btn btn-primary btn-sm" onClick={e=>{e.stopPropagation();onLoad(st);}}>Resume →</button>
+                <button className="btn btn-danger btn-sm" onClick={e=>{e.stopPropagation();onDelete(st.id);}}>🗑</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── Welcome Screen ───────────────────────────────────────────────────────────
+function WelcomeScreen({ onStart, onDemo, isDemo }) {
+  return (
+    <div className="welcome" style={{position:'relative'}}>
+      <div className="welcome-glow"/>
+      {isDemo&&(
+        <div className="demo-bar" style={{marginBottom:28}}>
+          <span>🎭</span><span><strong>Demo mode active</strong> — 20 sample items loaded. Explore freely, then add your own!</span>
+          <button className="btn btn-ghost btn-sm" onClick={onStart} style={{marginLeft:'auto',color:'var(--text3)',whiteSpace:'nowrap'}}>Clear Demo</button>
+        </div>
+      )}
+      <h1>Your Smart<br/>Travel Closet</h1>
+      <p className="welcome-sub">Catalog your wardrobe, build outfits, fetch live weather, and generate a perfect packing list — all in one place.</p>
+      <div className="welcome-ctas">
+        <button className="btn btn-primary" style={{fontSize:'1rem',padding:'13px 30px'}} onClick={()=>onStart('plan')}>🗺️ Plan a Trip</button>
+        {!isDemo&&<button className="btn btn-demo" style={{fontSize:'1rem',padding:'13px 30px'}} onClick={onDemo}>🎭 Try the Demo</button>}
+        <button className="btn btn-secondary" style={{fontSize:'1rem',padding:'13px 30px'}} onClick={()=>onStart('closet')}>👗 Open My Closet</button>
+      </div>
+      <div className="welcome-features">
+        {[['👗','Closet Catalog','Upload photos, tag aesthetics, log warmth & formality'],['🌤','Live Weather','Real forecast data auto-populates your packing list'],['✨','Outfit Suggestions','AI-ranked combos built around your anchor pieces'],['💾','Save & Resume','Save trips and pick up packing where you left off']].map(([icon,title,desc])=>(
+          <div key={title} className="welcome-feature"><div className="feat-icon">{icon}</div><h4>{title}</h4><p>{desc}</p></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── App ─────────────────────────────────────────────────────────────────────
+function App() {
+  const load = (k,d) => { try { return JSON.parse(localStorage.getItem(k)||'null')||d; } catch { return d; } };
+  const [wardrobe, setWardrobe] = useState(()=>load('packed_wardrobe',[]));
+  const [savedOutfits, setSavedOutfits] = useState(()=>load('packed_sets',[]));
+  const [inspirationBoard, setInspirationBoard] = useState(()=>load('packed_inspo',[]));
+  const [savedTrips, setSavedTrips] = useState(()=>load('packed_trips',[]));
+  const [currentTrip, setCurrentTrip] = useState(null);
+  const [currentChecked, setCurrentChecked] = useState(null);
+  const [nav, setNav] = useState('welcome');
+  const [isDemo, setIsDemo] = useState(false);
+
+  useEffect(()=>{ localStorage.setItem('packed_wardrobe',JSON.stringify(wardrobe)); },[wardrobe]);
+  useEffect(()=>{ localStorage.setItem('packed_sets',JSON.stringify(savedOutfits)); },[savedOutfits]);
+  useEffect(()=>{ localStorage.setItem('packed_inspo',JSON.stringify(inspirationBoard)); },[inspirationBoard]);
+  useEffect(()=>{ localStorage.setItem('packed_trips',JSON.stringify(savedTrips)); },[savedTrips]);
+
+  const loadDemo = () => {
+    setWardrobe(DEMO_WARDROBE);
+    setSavedOutfits(DEMO_SETS);
+    setIsDemo(true);
+    setNav('welcome');
+  };
+  const clearDemo = () => { setWardrobe([]); setSavedOutfits([]); setIsDemo(false); };
+
+  const handleTrip = trip => { setCurrentTrip(trip); setCurrentChecked(null); setNav('packing'); };
+  const handleSaveTrip = (trip, arr) => {
+    setSavedTrips(prev=>{
+      const rec={id:trip.id,destination:trip.destination,trip,checkedItems:arr,updatedAt:new Date().toISOString()};
+      return [rec,...prev.filter(t=>t.id!==trip.id)];
+    });
+  };
+  const handleLoadTrip = st => { setCurrentTrip(st.trip); setCurrentChecked(new Set(st.checkedItems)); setNav('packing'); };
+
+  const showHeader = nav !== 'welcome';
+  const hasItems = wardrobe.length > 0;
+
+  return (
+    <div className="app">
+      {showHeader && (
+        <div className="app-header">
+          <div className="app-logo">
+            <div className="app-logo-icon">✨</div>
+            <span className="app-title">Digital Closet</span>
+            {isDemo&&<span className="badge" style={{background:'rgba(201,169,110,0.2)',color:'var(--gold)',border:'1px solid rgba(201,169,110,0.3)',fontSize:'0.68rem'}}>Demo</span>}
+          </div>
+          <nav className="app-nav">
+            <button className={`nav-btn${nav==='welcome'?' active':''}`} onClick={()=>setNav('welcome')}>🏠</button>
+            <button className={`nav-btn${nav==='closet'?' active':''}`} onClick={()=>setNav('closet')}>👗 Closet {wardrobe.length>0&&<span className="nav-badge">{wardrobe.length}</span>}</button>
+            <button className={`nav-btn${nav==='inspiration'?' active':''}`} onClick={()=>setNav('inspiration')}>🖼️ Inspo</button>
+            <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>setNav('plan')}>🗺️ Plan Trip</button>
+            <button className={`nav-btn${nav==='trips'?' active':''}`} onClick={()=>setNav('trips')}>💾 My Trips {savedTrips.length>0&&<span className="nav-badge">{savedTrips.length}</span>}</button>
+          </nav>
+        </div>
+      )}
+      <div className="app-content">
+        {nav==='welcome'&&<WelcomeScreen onStart={dest=>{ if(dest==='plan'&&!hasItems&&!isDemo){ loadDemo(); setNav('plan'); } else setNav(dest||'closet'); }} onDemo={loadDemo} isDemo={isDemo}/>}
+        {nav==='closet'&&<ClosetView wardrobe={wardrobe} setWardrobe={setWardrobe} savedOutfits={savedOutfits} setSavedOutfits={setSavedOutfits}/>}
+        {nav==='inspiration'&&<InspirationView inspirationBoard={inspirationBoard} setInspirationBoard={setInspirationBoard}/>}
+        {nav==='plan'&&<TripSetupView wardrobe={wardrobe} savedOutfits={savedOutfits} inspirationBoard={inspirationBoard} onTrip={handleTrip}/>}
+        {nav==='packing'&&currentTrip&&<PackingListView trip={currentTrip} wardrobe={wardrobe} savedOutfits={savedOutfits} inspirationBoard={inspirationBoard} initChecked={currentChecked} onSaveTrip={handleSaveTrip} onBack={()=>setNav('plan')}/>}
+        {nav==='trips'&&<SavedTripsView savedTrips={savedTrips} onLoad={handleLoadTrip} onDelete={id=>setSavedTrips(p=>p.filter(t=>t.id!==id))}/>}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
