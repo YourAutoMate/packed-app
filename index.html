@@ -734,7 +734,7 @@ function InspoTagSheet({ img, onSave, onClose }) {
         <div style={{display:'flex',gap:10}}>
           <button className="btn btn-outline" style={{flex:1}} onClick={onClose}>Cancel</button>
           <button className="btn btn-sky" style={{flex:2}} onClick={()=>onSave({...img,aesthetics:[...sel]})}>
-            Save {sel.size>0?`(${sel.size} tag${sel.size!==1?'s':''})':''}
+            Save {sel.size>0?`(${sel.size} tag${sel.size!==1?'s':''})`:''}
           </button>
         </div>
       </div>
