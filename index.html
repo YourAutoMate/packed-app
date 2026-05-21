@@ -44,18 +44,16 @@
     /* ── App shell ── */
     .app { display: flex; flex-direction: column; height: 100vh; }
     .app-header {
-      background: rgba(247,244,238,0.96); backdrop-filter: blur(12px);
+      background: rgba(246,243,237,0.97); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 20px; height: 58px;
+      padding: 0 20px; height: 72px;
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100; flex-shrink: 0;
     }
-    .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer; }
-    .logo-mark { width: 34px; height: 34px; background: var(--brand); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(26,22,36,0.22); }
-    .logo-mark svg { width: 18px; height: 18px; }
-    .logo-text { font-family: 'Cormorant Garamond', 'Playfair Display', serif; font-size: 1.55rem; font-style: italic; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1; }
-    .logo-text em { color: var(--coral); font-style: normal; }
-    .logo-badge { font-size: 0.62rem; font-weight: 700; color: var(--coral); background: rgba(201,83,58,0.1); border: 1px solid rgba(201,83,58,0.28); border-radius: 20px; padding: 2px 7px; letter-spacing: 0.04em; }
+    .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; cursor: pointer; }
+    .logo-mark { width: 44px; height: 44px; background: linear-gradient(135deg, #FF7043 0%, #D84315 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 3px 12px rgba(255,112,67,0.35); font-size: 1.45rem; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-style: normal; font-weight: 700; background: linear-gradient(110deg, #FF7043 0%, #D84315 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.02em; line-height: 1; }
+    .logo-badge { font-size: 0.65rem; font-weight: 700; color: var(--coral); background: rgba(201,83,58,0.1); border: 1px solid rgba(201,83,58,0.28); border-radius: 20px; padding: 2px 8px; letter-spacing: 0.04em; align-self: flex-start; margin-top: 4px; }
     /* Page-level brand watermark */
     .page-brand { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
     .page-brand-text { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; font-weight: 600; color: var(--text3); letter-spacing: 0.01em; }
@@ -86,8 +84,8 @@
     .btn-sky:hover { background: #1f70b0; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(41,128,196,0.35); }
     .btn-coral { background: var(--coral); color: #fff; box-shadow: 0 3px 12px rgba(232,115,78,0.28); }
     .btn-coral:hover { background: #d45e3a; transform: translateY(-1px); }
-    .btn-outline { background: var(--bg2); border: 1.5px solid var(--border2); color: var(--text); }
-    .btn-outline:hover { background: var(--bg3); border-color: var(--text3); }
+    .btn-outline { background: #edf4fb; border: 1.5px solid #c8dff2; color: var(--text); }
+    .btn-outline:hover { background: #deeefa; border-color: var(--sky); }
     .btn-ghost { background: transparent; color: var(--text2); padding: 7px 13px; }
     .btn-ghost:hover { background: var(--bg3); color: var(--text); }
     .btn-danger { background: rgba(217,79,79,0.1); border: 1px solid rgba(217,79,79,0.25); color: var(--red); }
@@ -98,18 +96,18 @@
     .icon-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
 
     /* ── Cards ── */
-    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; box-shadow: var(--shadow-sm); }
-    .card-flat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); }
+    .card { background: linear-gradient(135deg, #edf5fc 0%, #f0faf7 100%); border: 1px solid #c8dff2; border-radius: var(--r); padding: 20px; box-shadow: var(--shadow-sm); }
+    .card-flat { background: linear-gradient(135deg, #edf5fc 0%, #f0faf7 100%); border: 1px solid #c8dff2; border-radius: var(--r); }
 
     /* ── Forms ── */
-    input, select, textarea { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--r2); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 10px 13px; width: 100%; outline: none; transition: border .15s, box-shadow .15s; }
-    input[type=date] { background: var(--bg2); }
-    input:focus, select:focus, textarea:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(41,128,196,0.12); }
+    input, select, textarea { background: #edf4fb; border: 1.5px solid #c8dff2; border-radius: var(--r2); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 10px 13px; width: 100%; outline: none; transition: border .15s, box-shadow .15s; }
+    input[type=date] { background: #edf4fb; }
+    input:focus, select:focus, textarea:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(41,128,196,0.14); background: #e5f0fa; }
     textarea { resize: vertical; min-height: 70px; }
     label { font-size: 0.76rem; font-weight: 600; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .form-group { margin-bottom: 16px; }
-    select option { background: var(--bg2); }
+    select option { background: #edf4fb; }
 
     /* ── Tags / Badges ── */
     .tag { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; transition: all .14s; user-select: none; }
@@ -133,14 +131,14 @@
 
     /* ── Modal ── */
     .modal-bg { position: fixed; inset: 0; background: rgba(28,24,40,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(4px); }
-    .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; max-width: 520px; width: 100%; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+    .modal { background: linear-gradient(160deg, #edf5fc 0%, #f0faf7 60%, #fdf0ec 100%); border: 1px solid #c8dff2; border-radius: 18px; padding: 28px; max-width: 520px; width: 100%; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
     .modal-title { font-size: 1.25rem; }
     .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
 
     /* ── Drop Zone ── */
-    .dz { border: 2px dashed var(--border2); border-radius: var(--r); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; overflow: hidden; background: var(--bg3); }
-    .dz:hover, .dz.over { border-color: var(--sky); background: rgba(41,128,196,0.05); }
+    .dz { border: 2px dashed #a8cfc0; border-radius: var(--r); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; overflow: hidden; background: linear-gradient(135deg, #e8f4f1, #edf5fc); }
+    .dz:hover, .dz.over { border-color: var(--sky); background: rgba(29,143,114,0.07); }
     .dz.over { transform: scale(1.01); border-style: solid; }
     .dz img { width: 100%; height: 100%; object-fit: cover; }
     .dz-hint { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px; text-align: center; pointer-events: none; }
@@ -223,7 +221,7 @@
     .pack-section { margin-bottom: 24px; }
     .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .sec-title { font-size: 0.85rem; font-weight: 700; color: var(--text2); display: flex; align-items: center; gap: 7px; }
-    .pack-item { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 9px; margin-bottom: 6px; transition: all .13s; box-shadow: var(--shadow-sm); }
+    .pack-item { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: linear-gradient(135deg, #edf5fc, #f0faf7); border: 1.5px solid #c8dff2; border-radius: 9px; margin-bottom: 6px; transition: all .13s; box-shadow: var(--shadow-sm); }
     .pack-item.done { opacity: 0.42; }
     .pack-item.done .pi-name { text-decoration: line-through; }
     .pack-item input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--mint); flex-shrink: 0; cursor: pointer; }
@@ -242,7 +240,7 @@
     /* ── Wizard steps ── */
     .wiz-row { display: flex; align-items: flex-start; margin-bottom: 28px; gap: 0; }
     .wiz-step-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .wiz-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid var(--border2); color: var(--text3); background: var(--bg2); transition: all .3s; margin-bottom: 5px; flex-shrink: 0; }
+    .wiz-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid #c8dff2; color: var(--text3); background: #edf4fb; transition: all .3s; margin-bottom: 5px; flex-shrink: 0; }
     .wiz-dot.done { background: var(--mint); border-color: var(--mint); color: #fff; }
     .wiz-dot.active { background: var(--sky); border-color: var(--sky); color: #fff; box-shadow: 0 0 0 4px rgba(41,128,196,0.18); }
     .wiz-lbl { font-size: 0.68rem; font-weight: 600; color: var(--text3); text-align: center; }
@@ -279,10 +277,8 @@
     .welcome { min-height: calc(100vh - 58px); display: flex; flex-direction: column; }
     .welcome-hero { background: linear-gradient(160deg, #edf4fb 0%, #f6f3ed 45%, #faeee8 100%); padding: 60px 20px 52px; text-align: center; border-bottom: 1px solid var(--border); }
     .welcome-brand-mark { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 22px; }
-    .welcome-brand-icon { width: 44px; height: 44px; background: var(--brand); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(26,22,36,0.22); }
-    .welcome-brand-icon svg { width: 22px; height: 22px; }
-    .welcome-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; }
-    .welcome-brand-name em { color: var(--coral); font-style: normal; }
+    .welcome-brand-icon { width: 58px; height: 58px; background: linear-gradient(135deg, #FF7043 0%, #D84315 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(255,112,67,0.38); font-size: 1.9rem; }
+    .welcome-brand-name { font-family: 'Playfair Display', serif; font-size: 4.2rem; font-style: normal; font-weight: 700; background: linear-gradient(110deg, #FF7043 0%, #D84315 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.02em; line-height: 1; }
     .welcome-title { font-size: clamp(1.9rem, 5.5vw, 3rem); color: var(--text); line-height: 1.2; margin-bottom: 14px; }
     .welcome-title span { color: var(--sky); font-style: italic; }
     .welcome-sub { font-size: 1rem; color: var(--text2); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
@@ -597,6 +593,25 @@ function buildEssentials(trip, weather) {
   return res;
 }
 
+// ─── Outfit count recommendation ─────────────────────────────────────────────
+function calcOutfitRange(days=5, luggage='carry-on', weather=null){
+  const luggageArr=Array.isArray(luggage)?luggage:[luggage];
+  const avg=weather?(weather.min+weather.max)/2:22;
+  const hot=avg>=26, cold=avg<=14, variable=weather?.hasRain;
+  let base=Math.ceil(days*0.7);
+  const CAP={personal:3,'carry-on':6,checked:12,both:10};
+  // If user brings both personal + carry-on, use the 'both' cap (10)
+  const hasBothPersonalCarry=luggageArr.includes('personal')&&luggageArr.includes('carry-on');
+  const maxCap=hasBothPersonalCarry?10:Math.max(...luggageArr.map(l=>CAP[l]||6));
+  if(hot||variable)base=Math.ceil(base*1.2);
+  if(cold)base=Math.max(base,Math.ceil(days*0.5));
+  const min=Math.max(2,Math.min(base,maxCap));
+  // Always guarantee a true range (max at least min+1)
+  let max=Math.min(maxCap,min+Math.max(1,Math.ceil(days*0.3)));
+  if(max<=min) max=min+1;
+  return {min,max};
+}
+
 // ─── DropZone ─────────────────────────────────────────────────────────────────
 function DZ({ onFile, preview, height=130, hint='Drag & drop or click to browse', multi=false }) {
   const [over, setOver] = useState(false);
@@ -751,24 +766,49 @@ function ClosetView({ wardrobe, setWardrobe, savedOutfits, setSavedOutfits }) {
   const [showAddSet,setShowAddSet]=useState(false);
   const [filter,setFilter]=useState('all');
   const [pageDragOver,setPageDragOver]=useState(false);
+  const [bulkAdding,setBulkAdding]=useState(false);
   const saveItem=item=>{setWardrobe(w=>w.find(i=>i.id===item.id)?w.map(i=>i.id===item.id?item:i):[...w,item]);setEditItem(null);setShowAdd(false);};
-  // Drop photo directly onto the closet page → open add-item modal with suggestions
+  // Single drop → open modal immediately
   const handlePageDrop=useCallback(async(src,file)=>{
     setPageDragOver(false);
     const suggestions=await analyzePhoto(src,file?.name||'');
     setEditItem({__new:true,photo:src,bg:suggestions.bg,name:suggestions.name,type:suggestions.type,color:suggestions.colorName,warmth:suggestions.warmth,formality:2,aesthetics:[],notes:'',__suggestions:suggestions});
   },[]);
+  // Multi-file drop/select → add all instantly, edit details later
+  const handleMultiDrop=useCallback(async(files)=>{
+    if(!files||!files.length)return;
+    if(files.length===1){
+      const f=files[0];const r=new FileReader();
+      r.onload=ev=>handlePageDrop(ev.target.result,f);r.readAsDataURL(f);return;
+    }
+    setBulkAdding(true);
+    const newItems=await Promise.all(Array.from(files).filter(f=>f.type.startsWith('image/')).map(f=>new Promise(res=>{
+      const r=new FileReader();
+      r.onload=async ev=>{
+        const analysis=await analyzePhoto(ev.target.result,f.name);
+        res({id:uid(),photo:ev.target.result,bg:analysis.bg,name:analysis.name||cleanFilename(f.name)||'New Item',type:analysis.type,color:analysis.colorName,warmth:analysis.warmth,formality:2,aesthetics:[],notes:''});
+      };r.readAsDataURL(f);
+    })));
+    setWardrobe(w=>[...w,...newItems]);
+    setBulkAdding(false);
+  },[handlePageDrop]);
   const delItem=id=>{setWardrobe(w=>w.filter(i=>i.id!==id));setEditItem(null);};
   const saveSet=s=>{setSavedOutfits(o=>o.find(x=>x.id===s.id)?o.map(x=>x.id===s.id?s:x):[...o,s]);setEditSet(null);setShowAddSet(false);};
   const delSet=id=>{setSavedOutfits(o=>o.filter(s=>s.id!==id));setEditSet(null);};
   const filtered=filter==='all'?wardrobe:wardrobe.filter(i=>i.type===filter);
   const FILTERS=[['all','All'],['top','Tops'],['bottom','Bottoms'],['dress','Dresses'],['shoes','Shoes'],['outerwear','Outerwear'],['accessory','Accessories'],['swimwear','Swimwear'],['bag','Bags']];
+  const multiRef=useRef();
   return (
-    <div className="page" onDragOver={e=>{if(tab==='items'){e.preventDefault();setPageDragOver(true);}}} onDragLeave={()=>setPageDragOver(false)} onDrop={e=>{if(tab!=='items')return;e.preventDefault();setPageDragOver(false);const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/')){const r=new FileReader();r.onload=ev=>handlePageDrop(ev.target.result,f);r.readAsDataURL(f);}}} style={{position:'relative'}}>
-      {pageDragOver&&<div style={{position:'absolute',inset:0,background:'rgba(41,128,196,0.12)',border:'3px dashed var(--sky)',borderRadius:16,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><div style={{textAlign:'center'}}><div style={{fontSize:'3rem'}}>📸</div><div style={{fontWeight:700,color:'var(--sky)',fontSize:'1.1rem'}}>Drop photo to add item</div><div style={{fontSize:'0.8rem',color:'var(--text2)',marginTop:4}}>Fields will be auto-suggested from the image</div></div></div>}
+    <div className="page" onDragOver={e=>{if(tab==='items'){e.preventDefault();setPageDragOver(true);}}} onDragLeave={e=>{if(!e.currentTarget.contains(e.relatedTarget))setPageDragOver(false);}} onDrop={e=>{if(tab!=='items')return;e.preventDefault();setPageDragOver(false);handleMultiDrop(e.dataTransfer.files);}} style={{position:'relative'}}>
+      {pageDragOver&&<div style={{position:'absolute',inset:0,background:'rgba(30,111,181,0.10)',border:'3px dashed var(--sky)',borderRadius:16,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><div style={{textAlign:'center'}}><div style={{fontSize:'3rem'}}>📸</div><div style={{fontWeight:700,color:'var(--sky)',fontSize:'1.1rem'}}>Drop photos to add items</div><div style={{fontSize:'0.8rem',color:'var(--text2)',marginTop:4}}>Multiple photos OK — auto-analyzed instantly</div></div></div>}
+      {bulkAdding&&<div style={{position:'fixed',inset:0,background:'rgba(26,22,36,0.45)',zIndex:500,display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(4px)'}}><div style={{background:'var(--bg2)',borderRadius:16,padding:'28px 36px',textAlign:'center',boxShadow:'var(--shadow-lg)'}}><div style={{fontSize:'2rem',marginBottom:10}}>⚙️</div><div style={{fontWeight:700,fontSize:'1rem'}}>Analyzing your photos…</div><div style={{fontSize:'0.82rem',color:'var(--text2)',marginTop:6}}>Adding items to your closet</div></div></div>}
+      <input ref={multiRef} type="file" accept="image/*" multiple style={{display:'none'}} onChange={e=>{handleMultiDrop(e.target.files);e.target.value='';}}/>
       <div className="flex-between mb-16">
         <div><h2 style={{fontSize:'1.5rem'}}>My Closet</h2><p className="text-sm mt-8">{wardrobe.length} item{wardrobe.length!==1?'s':''} · {savedOutfits.length} outfit set{savedOutfits.length!==1?'s':''}</p></div>
-        <button className="btn btn-sky" onClick={()=>tab==='items'?setShowAdd(true):setShowAddSet(true)}>+ {tab==='items'?'Add Item':'New Set'}</button>
+        <div style={{display:'flex',gap:8}}>
+          {tab==='items'&&<button className="btn btn-outline btn-sm" onClick={()=>multiRef.current.click()}>📸 Upload Photos</button>}
+          <button className="btn btn-sky" onClick={()=>tab==='items'?setShowAdd(true):setShowAddSet(true)}>+ {tab==='items'?'Add Item':'New Set'}</button>
+        </div>
       </div>
       <div className="tabs">
         <button className={`tab${tab==='items'?' active':''}`} onClick={()=>setTab('items')}>👗 Items ({wardrobe.length})</button>
@@ -783,8 +823,8 @@ function ClosetView({ wardrobe, setWardrobe, savedOutfits, setSavedOutfits }) {
           <div style={{display:'flex',alignItems:'center',gap:10,background:'linear-gradient(135deg,rgba(30,111,181,0.06),rgba(29,143,114,0.06))',border:'1.5px dashed rgba(30,111,181,0.3)',borderRadius:11,padding:'10px 16px',marginBottom:14,cursor:'pointer'}} onClick={()=>setShowAdd(true)}>
             <span style={{fontSize:'1.4rem'}}>📸</span>
             <div style={{flex:1}}>
-              <div style={{fontSize:'0.8rem',fontWeight:700,color:'var(--sky)'}}>Drag photos here to add clothing</div>
-              <div style={{fontSize:'0.72rem',color:'var(--text3)',marginTop:2}}>Drop any image onto this page — fields are auto-suggested from the photo</div>
+              <div style={{fontSize:'0.8rem',fontWeight:700,color:'var(--sky)'}}>Drag photos here — one or many at once</div>
+              <div style={{fontSize:'0.72rem',color:'var(--text3)',marginTop:2}}>Bulk upload supported · name, type & color auto-suggested · tap any card to edit details</div>
             </div>
             <button className="btn btn-sky btn-sm" style={{flexShrink:0}}>+ Add Item</button>
           </div>
@@ -879,12 +919,18 @@ function InspoView({ board, setBoard }) {
 }
 
 // ─── Trip Setup View ──────────────────────────────────────────────────────────
-function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
+function TripSetup({ wardrobe, savedOutfits, board, onTrip, onBack, initialTrip }) {
   const [step,setStep]=useState(1);
   const [loading,setLoading]=useState(false);
   const [wErr,setWErr]=useState(null);
   const defAes=()=>Object.fromEntries(AESTHETICS.map(a=>[a.value,0]));
-  const [form,setForm]=useState({dest:'',start:'',end:'',luggage:'carry-on',vtype:'mixed',acts:[],aes:defAes(),hi:[],hs:[],weather:null,dnaApplied:false});
+  // Pre-fill form from initialTrip (when editing an existing trip) or start fresh
+  const [form,setForm]=useState(()=>{
+    if(!initialTrip) return {dest:'',start:'',end:'',luggage:['carry-on'],vtype:'mixed',acts:[],aes:defAes(),hi:[],hs:[],weather:null,dnaApplied:false};
+    const lug=initialTrip.luggage;
+    const lugArr=Array.isArray(lug)?lug:(lug?[lug]:['carry-on']);
+    return {dest:initialTrip.dest||'',start:initialTrip.startDate||'',end:initialTrip.endDate||'',luggage:lugArr,vtype:initialTrip.vacationType||'mixed',acts:initialTrip.activities||[],aes:initialTrip.aesthetics||defAes(),hi:initialTrip.heroItems||[],hs:[],weather:initialTrip.weather||null,dnaApplied:initialTrip.dnaApplied||false};
+  });
   const s=v=>setForm(f=>({...f,...v}));
   const days=useMemo(()=>{if(!form.start||!form.end)return 0;return Math.max(1,Math.round((new Date(form.end)-new Date(form.start))/86400000)+1);},[form.start,form.end]);
   const togAct=a=>s({acts:form.acts.includes(a)?form.acts.filter(x=>x!==a):[...form.acts,a]});
@@ -898,7 +944,14 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
     const t=setTimeout(fetchW,800);
     return()=>clearTimeout(t);
   },[form.dest,form.start,form.end,days]);
-  const applyDNA=()=>{const dna=calcDNA(board);if(!dna)return;s({aes:dna,dnaApplied:true});};
+  const snap5=v=>Math.round(v/5)*5;
+  const applyDNA=()=>{
+    if(form.dnaApplied){s({aes:defAes(),dnaApplied:false});return;}
+    const dna=calcDNA(board);if(!dna)return;
+    // Round all values to nearest 5
+    const snapped=Object.fromEntries(Object.entries(dna).map(([k,v])=>[k,snap5(v)]));
+    s({aes:snapped,dnaApplied:true});
+  };
   const ok1=form.dest.trim()&&form.start&&form.end&&days>0;
   const ok2=form.vtype&&form.acts.length>0;
   const STEPS=[{n:1,l:'Trip Details'},{n:2,l:'Style & Activities'},{n:3,l:'Anchor Pieces'}];
@@ -906,7 +959,7 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
     <div className="page">
       <div className="flex-between mb-24">
         <h2 style={{fontSize:'1.5rem'}}>Plan a Trip</h2>
-        {step>1&&<button className="btn btn-ghost btn-sm" onClick={()=>setStep(p=>p-1)}>← Back</button>}
+        <button className="btn btn-ghost btn-sm" onClick={step>1?()=>setStep(p=>p-1):onBack}>← Back</button>
       </div>
       <div className="wiz-row">
         {STEPS.map((ws,i)=>(<React.Fragment key={ws.n}>
@@ -920,7 +973,20 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
           <div className="form-group"><label>Where are you going? *</label><input value={form.dest} onChange={e=>s({dest:e.target.value})} placeholder="e.g. Tulum, Mexico" style={{fontSize:'1rem',padding:'12px 14px'}}/></div>
           <div className="form-row"><div className="form-group"><label>Departure *</label><input type="date" value={form.start} onChange={e=>s({start:e.target.value})}/></div><div className="form-group"><label>Return *</label><input type="date" value={form.end} min={form.start} onChange={e=>s({end:e.target.value})}/></div></div>
           {days>0&&<p className="text-sm mb-16">📅 {days} night{days!==1?'s':''}</p>}
-          <div className="form-group"><label>Luggage</label><select value={form.luggage} onChange={e=>s({luggage:e.target.value})}>{LUGGAGE.map(l=><option key={l.value} value={l.value}>{l.label} ({l.note})</option>)}</select></div>
+          <div className="form-group">
+            <label>Luggage (select all you're bringing)</label>
+            <div className="tag-wrap mt-8">
+              {LUGGAGE.filter(l=>l.value!=='both').map(l=>{
+                const sel=form.luggage.includes(l.value);
+                return(
+                  <span key={l.value} className={`tag${sel?' sel':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}}
+                    onClick={()=>{const curr=form.luggage;const upd=sel?curr.filter(x=>x!==l.value):[...curr,l.value];s({luggage:upd.length>0?upd:['carry-on']});}}>
+                    {l.label} <span style={{fontSize:'0.7rem',opacity:0.65}}>({l.note})</span>
+                  </span>
+                );
+              })}
+            </div>
+          </div>
           <div className="card mt-16">
             <div className="flex-between mb-12"><span style={{fontWeight:700,fontSize:'0.9rem'}}>🌤 Weather Forecast</span>{loading&&<span className="text-xs" style={{color:'var(--sky)'}}>Fetching…</span>}{!loading&&form.weather&&<span className="text-xs" style={{color:'var(--mint)'}}>✓ Auto-fetched</span>}{!loading&&!form.weather&&ok1&&!wErr&&<span className="text-xs" style={{color:'var(--text3)'}}>Auto-fetching…</span>}</div>
             {wErr&&<p style={{color:'var(--red)',fontSize:'0.8rem',marginBottom:8}}>⚠️ {wErr} <button className="btn btn-ghost btn-xs" onClick={fetchW}>Retry</button></p>}
@@ -939,12 +1005,32 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
 
       {step===2&&(
         <div>
+          <p style={{fontSize:'0.9rem',fontWeight:500,color:'var(--text)',background:'var(--bg2)',borderRadius:10,padding:'12px 16px',borderLeft:'3px solid var(--coral)',marginBottom:20,boxShadow:'var(--shadow-sm)'}}>
+            Pick your trip vibe and activities — we'll use these to match outfits and build your essentials list.
+          </p>
           <div className="form-group"><label>Trip Vibe</label><div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vtype===v.value?' sel-coral':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vtype:v.value})}>{v.label}</span>)}</div></div>
           <div className="form-group mt-16"><label>Activities (select all that apply)</label><div className="tag-wrap mt-8">{ACTIVITIES.map(a=><span key={a.value} className={`tag${form.acts.includes(a.value)?' sel':''}`} onClick={()=>togAct(a.value)}>{a.label}</span>)}</div></div>
           <hr className="divider"/>
-          <div className="flex-between mb-12"><label style={{margin:0}}>Style Mix</label>{board.length>0&&<button className="btn btn-outline btn-sm" onClick={applyDNA}>{form.dnaApplied?'✓ Board Applied':'✨ Apply from Board'}</button>}</div>
-          {form.dnaApplied&&<p style={{fontSize:'0.78rem',color:'var(--lavender)',marginBottom:12}}>✨ Sliders filled from your inspiration board</p>}
-          {AESTHETICS.map(a=>(<div key={a.value} className="slider-row"><div className="slider-lbl"><span className="slider-lbl-left">{a.emoji} {a.label}</span><span className="slider-lbl-right">{form.aes[a.value]}%</span></div><input type="range" min={0} max={100} step={5} value={form.aes[a.value]} onChange={e=>s({aes:{...form.aes,[a.value]:+e.target.value}})}/></div>))}
+          <div className="flex-between mb-12">
+            <label style={{margin:0,color:'var(--text)',fontWeight:700}}>Style Mix</label>
+            <div style={{display:'flex',gap:8}}>
+              {board.length>0&&<button className="btn btn-outline btn-sm" onClick={applyDNA}>✨ Apply from Board</button>}
+              <button className="btn btn-sm" style={{background:'rgba(201,83,58,0.1)',border:'1px solid rgba(201,83,58,0.3)',color:'var(--coral)'}} onClick={()=>s({aes:defAes(),dnaApplied:false})}>↺ Reset</button>
+            </div>
+          </div>
+          {form.dnaApplied&&<p style={{fontSize:'0.82rem',color:'var(--lavender)',fontWeight:600,marginBottom:12}}>✨ Sliders filled from your inspiration board — rounded to nearest 5.</p>}
+          {AESTHETICS.map(a=>(
+            <div key={a.value} className="slider-row">
+              <div className="slider-lbl">
+                <span className="slider-lbl-left">{a.emoji} {a.label}</span>
+                <input type="number" min={0} max={100} step={5}
+                  value={form.aes[a.value]}
+                  onChange={e=>{const v=Math.min(100,Math.max(0,snap5(+e.target.value||0)));s({aes:{...form.aes,[a.value]:v}});}}
+                  style={{width:52,padding:'2px 6px',fontSize:'0.8rem',fontWeight:700,color:'var(--sky)',textAlign:'center',border:'1.5px solid var(--border)',borderRadius:6,height:28}}/>
+              </div>
+              <input type="range" min={0} max={100} step={5} value={form.aes[a.value]} onChange={e=>s({aes:{...form.aes,[a.value]:+e.target.value}})}/>
+            </div>
+          ))}
           {/* Style Mix Total Indicator */}
           {(()=>{
             const total=Object.values(form.aes).reduce((a,b)=>a+b,0);
@@ -969,26 +1055,33 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
 
       {step===3&&(
         <div>
-          <p className="text-sm mb-24" style={{background:'rgba(41,128,196,0.07)',borderRadius:10,padding:'12px 14px',borderLeft:'3px solid var(--sky)'}}>
-            <strong>Optional:</strong> Pin your must-pack hero pieces — they'll appear first in your packing list and be prioritized in outfit combos.
-          </p>
-          {savedOutfits.length>0&&(<>
-            <label style={{marginBottom:10}}>Pin Outfit Sets</label>
-            <div className="outfit-grid mb-16">
-              {savedOutfits.map(set=>{
-                const items=set.itemIds.map(id=>wardrobe.find(i=>i.id===id)).filter(Boolean);
-                const isH=form.hs.includes(set.id);
-                return (
-                  <div key={set.id} className={`outfit-card${isH?' hero':''}`} style={{cursor:'pointer'}} onClick={()=>togHS(set.id)}>
-                    <div className="outfit-photos">{items.slice(0,4).map(item=><div key={item.id} className="outfit-photo"><div className="outfit-swatch" style={{background:item.bg||'var(--bg4)',width:'100%',height:'100%'}}>{item.photo?<img src={item.photo} alt={item.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:<span className="outfit-emoji">{typeEmoji(item.type)}</span>}</div></div>)}</div>
-                    <div className="outfit-body"><div className="outfit-name">{isH&&'⭐ '}{set.name}</div></div>
-                  </div>
-                );
-              })}
-            </div>
-          </>)}
+          {/* Outfit count recommendation + hero pieces — unified card */}
+          {(()=>{
+            const {min,max}=calcOutfitRange(days,form.luggage,form.weather);
+            const luggageArr=Array.isArray(form.luggage)?form.luggage:[form.luggage];
+            const luggageLabel=luggageArr.map(l=>({personal:'personal item','carry-on':'carry-on',checked:'checked bag',both:'carry-on + personal item'}[l]||l)).join(' + ');
+            return(
+              <div style={{background:'linear-gradient(135deg,rgba(30,111,181,0.07),rgba(29,143,114,0.07))',border:'1.5px solid rgba(30,111,181,0.2)',borderRadius:12,padding:'18px 20px',marginBottom:20,boxShadow:'var(--shadow-sm)'}}>
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                  <span style={{fontSize:'1.4rem'}}>🎯</span>
+                  <span style={{fontWeight:700,fontSize:'0.95rem',color:'var(--sky)'}}>Outfit recommendation for this trip</span>
+                </div>
+                <div style={{fontSize:'0.88rem',color:'var(--text)',marginBottom:8}}>
+                  Based on <strong>{days} night{days!==1?'s':''}</strong>{form.weather?<>, <strong>{form.weather.min}–{form.weather.max}°C</strong> weather</>:null} and <strong>{luggageLabel}</strong>:
+                </div>
+                <div style={{display:'flex',alignItems:'baseline',gap:6,marginBottom:6}}>
+                  <span style={{fontSize:'1.8rem',fontWeight:800,color:'var(--sky)',lineHeight:1}}>{min}–{max}</span>
+                  <span style={{fontSize:'0.88rem',color:'var(--text2)'}}>outfits recommended</span>
+                </div>
+                <div style={{fontSize:'0.76rem',color:'var(--text3)',marginBottom:14}}>You'll choose which ones to pack in the next step. Aim for the middle of this range.</div>
+                <div style={{borderTop:'1px solid rgba(30,111,181,0.15)',paddingTop:12,fontSize:'0.88rem',fontWeight:500,color:'var(--text)',borderLeft:'3px solid var(--sky)',paddingLeft:12,background:'rgba(30,111,181,0.04)',borderRadius:'0 8px 8px 0'}}>
+                  <strong>Optional:</strong> Pin your must-pack hero pieces below — they'll appear first in your packing list and be prioritized in outfit combos.
+                </div>
+              </div>
+            );
+          })()}
           {wardrobe.length>0&&(<>
-            <label style={{marginBottom:10}}>Pin Individual Items</label>
+            <label style={{marginBottom:10,color:'var(--text)',fontWeight:700,fontSize:'0.85rem'}}>Tap items to pin as must-haves</label>
             <div className="item-grid mt-8">
               {wardrobe.map(item=>{const isH=form.hi.includes(item.id);return(
                 <div key={item.id} className={`item-card${isH?' hero':''}`} onClick={()=>togHI(item.id)}>
@@ -999,9 +1092,9 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
               );})}
             </div>
           </>)}
-          {!wardrobe.length&&!savedOutfits.length&&<div className="card" style={{textAlign:'center',padding:28,color:'var(--text3)'}}>Add items to your closet first to pin hero pieces.</div>}
+          {!wardrobe.length&&<div className="card" style={{textAlign:'center',padding:28,color:'var(--text2)',fontSize:'0.88rem'}}>Add items to your closet first to pin hero pieces.</div>}
           <div style={{textAlign:'right',marginTop:28}}>
-            <button className="btn btn-coral" style={{fontSize:'1rem',padding:'12px 28px'}} onClick={()=>onTrip({dest:form.dest,startDate:form.start,endDate:form.end,days,luggage:form.luggage,vacationType:form.vtype,activities:form.acts,aesthetics:form.aes,heroItems:form.hi,heroSets:form.hs,weather:form.weather,dnaApplied:form.dnaApplied,id:uid()})}>
+            <button className="btn btn-coral" style={{fontSize:'1rem',padding:'12px 28px'}} onClick={()=>onTrip({dest:form.dest,startDate:form.start,endDate:form.end,days,luggage:Array.isArray(form.luggage)?form.luggage:[form.luggage],vacationType:form.vtype,activities:form.acts,aesthetics:form.aes,heroItems:form.hi,weather:form.weather,dnaApplied:form.dnaApplied,id:uid()})}>
               🧳 Generate My Packing List
             </button>
           </div>
@@ -1012,7 +1105,7 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
 }
 
 // ─── Packing List View ────────────────────────────────────────────────────────
-function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave, onBack }) {
+function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave, onBack, onGoTrips, onEditTrip }) {
   const [tab,setTab]=useState('outfits');
   const [checked,setChecked]=useState(initChecked||new Set());
   const [justSaved,setJustSaved]=useState(false);
@@ -1057,12 +1150,69 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
 
   const handleSave=()=>{onSave(trip,[...checked]);setJustSaved(true);setTimeout(()=>setJustSaved(false),3000);};
 
-  // Tab labels
-  const clothesLabel=packItems.length>0?`🧺 My Pack (${packItems.length})`:'🧺 My Pack';
+  // Outfit count recommendation for this trip
+  const {min:outMin,max:outMax}=calcOutfitRange(trip.days,trip.luggage,trip.weather);
+
+  // Tab labels — show ✓ when fully checked
+  const allPackDone=packItems.length>0&&packItems.every(i=>checked.has(i.id));
+  const allEssDone=essIds.length>0&&essIds.every(id=>checked.has(id));
+  const clothesLabel=`🧺 My Pack${packItems.length>0?` (${packItems.length})`:''}${allPackDone?' ✓':''}`;
+  const essLabel=`🎒 Essentials${essIds.length>0?` (${essIds.length})`:''}${allEssDone?' ✓':''}`;
   const outfitsLabel=`👗 Outfits${outfits.length>0?` (${outfits.length})`:''}${selectedOutfits.size>0?` · ${selectedOutfits.size} ✓`:''}`;
+
+  // Celebration: fire once when everything checked
+  const [celebrated,setCelebrated]=useState(false);
+  const [showCelebration,setShowCelebration]=useState(false);
+  useEffect(()=>{
+    if(pct===100&&total>0&&!celebrated){setCelebrated(true);setShowCelebration(true);}
+  },[pct,total,celebrated]);
 
   return (
     <div>
+      {/* Celebration modal */}
+      {showCelebration&&(
+        <div className="modal-bg" onClick={()=>setShowCelebration(false)}>
+          <div className="modal" style={{textAlign:'center',maxWidth:460}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:'3.2rem',marginBottom:10}}>🎉✈️</div>
+            <h2 style={{fontSize:'1.7rem',fontWeight:800,fontFamily:'Playfair Display,serif',marginBottom:10,lineHeight:1.2,color:'var(--text)'}}>
+              Congrats! You're packed and ready for your trip!
+            </h2>
+            <p style={{fontSize:'1.05rem',color:'var(--mint)',fontWeight:700,marginBottom:16,lineHeight:1.5}}>
+              Every item checked, every look sorted. You did it — stress-free packing complete. 🌿
+            </p>
+            {/* Destination-specific eco + fee quote */}
+            <div style={{background:'linear-gradient(135deg,rgba(29,143,114,0.08),rgba(201,83,58,0.06))',border:'1.5px solid rgba(29,143,114,0.2)',borderRadius:12,padding:'14px 16px',marginBottom:16,textAlign:'left'}}>
+              <p style={{fontSize:'0.95rem',color:'var(--text)',fontStyle:'italic',lineHeight:1.65,marginBottom:0}}>
+                {(()=>{
+                  const d=(trip.dest||'').toLowerCase();
+                  if(/pereira|armenia|manizales|eje cafetero|coffee|risaralda/i.test(d))
+                    return `"${trip.dest}'s coffee highlands deserve light shoulders. Packing smart means no checked-bag fees — keep that money for a proper tinto and a mountain view. Less weight, less carbon, more Colombia. ☕🌿"`;
+                  if(/cartagena|barranquilla|santa marta|colombia/i.test(d))
+                    return `"${trip.dest} shines brightest when you travel light. Skip the bag fees, skip the baggage carousel, and put that money toward ceviche on the coast. Light packing = lower emissions. 🐟🌊"`;
+                  if(/medellin|bogota/i.test(d))
+                    return `"${trip.dest} rewards the light traveler — no bag fees, no waiting at the carousel, and a smaller carbon footprint. More money for the trip, less weight on the planet. 🌺"`;
+                  if(/beach|cancun|tulum|bali|hawaii|miami|ibiza|maldives|phuket|cabo|playa|coast/i.test(d))
+                    return `"The best souvenir from ${trip.dest} is the money you saved on bag fees. Packing light keeps emissions low and your wallet full for the real adventures. 🌊"`;
+                  if(/paris|rome|london|barcelona|amsterdam|berlin|madrid|florence|venice|tokyo|seoul/i.test(d))
+                    return `"${trip.dest} was made for light packers — no bag fees, smoother metros, smaller footprint. Every kilo you skip saves CO₂ and puts money back in your pocket. 🗺️"`;
+                  if(/mountain|alps|aspen|whistler|banff|colorado|rockies/i.test(d))
+                    return `"The mountains of ${trip.dest} don't need your extra baggage — and neither does the planet. Light pack = lower emissions, zero bag fees, and more for the après. 🏔️"`;
+                  return `"Packing light for ${trip.dest||'your trip'} means no surprise bag fees at the gate — put that money toward something worth remembering. Fewer bags, lower CO₂ emissions, smaller carbon footprint. Better trip. 🌍"`;
+                })()}
+              </p>
+            </div>
+            {/* Session warning / save reminder */}
+            <div style={{background:'rgba(30,111,181,0.07)',borderRadius:10,padding:'12px 14px',marginBottom:20,fontSize:'0.83rem',color:'var(--text2)',textAlign:'left',border:'1px solid rgba(30,111,181,0.18)',lineHeight:1.6}}>
+              <strong style={{color:'var(--sky)'}}>💾 Save before you close —</strong> Data lives in this tab only. Download your trip file under the <strong>My Trips</strong> tab — upload it there anytime to pick right back up.
+            </div>
+            <div style={{display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap'}}>
+              <button className="btn btn-outline" onClick={()=>setShowCelebration(false)}>Keep Packing</button>
+              <button className="btn btn-sky" onClick={()=>{handleSave();setShowCelebration(false);}}>💾 Save This Trip</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Sticky Progress Bar */}
       {showSticky&&total>0&&(
         <div className="sticky-progress">
@@ -1085,6 +1235,7 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
           </div>
           <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
             {justSaved&&<span className="badge badge-green">✓ Saved!</span>}
+            <button className="btn btn-outline btn-sm" onClick={onEditTrip||onBack}>← Edit Trip</button>
             <button className="btn btn-outline btn-sm" onClick={handleSave}>💾 Save</button>
             <button className="btn btn-ghost btn-sm" onClick={onBack}>← New Trip</button>
           </div>
@@ -1111,7 +1262,7 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
         <div className="tabs">
           <button className={`tab${tab==='outfits'?' active':''}`} onClick={()=>setTab('outfits')}>{outfitsLabel}</button>
           <button className={`tab${tab==='clothes'?' active':''}`} onClick={()=>setTab('clothes')}>{clothesLabel}</button>
-          <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>🎒 Essentials</button>
+          <button className={`tab${tab==='essentials'?' active':''}`} onClick={()=>setTab('essentials')}>{essLabel}</button>
         </div>
 
         {/* ── OUTFITS TAB ── */}
@@ -1125,15 +1276,23 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
               </div>
             ):(
               <>
-                {/* Header row */}
-                <div className="flex-between mb-16">
-                  <p className="text-sm" style={{color:'var(--text2)'}}>
-                    {selectedOutfits.size===0?'Tap outfits to select what you\'re packing':`${selectedOutfits.size} of ${outfits.length} outfit${outfits.length!==1?'s':''} selected`}
-                  </p>
-                  <div style={{display:'flex',gap:8}}>
-                    <button className="btn btn-outline btn-sm" onClick={toggleAllOutfits}>
-                      {allOutfitsSelected?'Deselect All':'Select All'}
-                    </button>
+                {/* Unified selection card: instruction + aim range + controls */}
+                <div style={{background:'linear-gradient(135deg,rgba(201,83,58,0.06),rgba(30,111,181,0.05))',border:'1.5px solid rgba(201,83,58,0.18)',borderRadius:12,padding:'14px 16px',marginBottom:16}}>
+                  <div className="flex-between mb-8">
+                    <div>
+                      <p style={{fontWeight:700,fontSize:'0.9rem',color:'var(--text)',marginBottom:3}}>
+                        {selectedOutfits.size===0?'Tap outfits to select what you\'re packing':`${selectedOutfits.size} of ${outfits.length} outfit${outfits.length!==1?'s':''} selected`}
+                      </p>
+                      <p style={{fontSize:'0.82rem',color:'var(--coral)',fontWeight:600}}>
+                        🎯 Aim for <strong>{outMin}–{outMax} outfits</strong> for your {trip.days}-day trip
+                      </p>
+                    </div>
+                    <div style={{display:'flex',gap:8,flexShrink:0}}>
+                      <button className="btn btn-outline btn-sm" onClick={onEditTrip||onBack}>← Edit Trip</button>
+                      <button className="btn btn-outline btn-sm" onClick={toggleAllOutfits}>
+                        {allOutfitsSelected?'Deselect All':'Select All'}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -1212,9 +1371,6 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
                 <div className="flex-between mb-12">
                   <div>
                     <p style={{fontWeight:700,fontSize:'0.9rem'}}>{packItems.filter(i=>checked.has(i.id)).length} of {packItems.length} items packed</p>
-                    <p className="text-xs mt-4" style={{color:'var(--lavender)'}}>
-                      From {selectedOutfits.size} outfit{selectedOutfits.size!==1?'s':''} · duplicates removed automatically
-                    </p>
                   </div>
                   <div style={{display:'flex',gap:8}}>
                     <button className="btn btn-ghost btn-sm" onClick={()=>setTab('outfits')}>← Edit Outfits</button>
@@ -1298,29 +1454,55 @@ function PackingView({ trip, wardrobe, savedOutfits, board, initChecked, onSave,
           </div>
         )}
       </div>
+
+      {/* Bottom nav — always visible so users never need browser back */}
+      <div style={{display:'flex',justifyContent:'center',gap:12,padding:'28px 20px 48px',borderTop:'1px solid var(--border)',marginTop:8}}>
+        <button className="btn btn-outline btn-sm" onClick={onBack}>← Plan New Trip</button>
+        <button className="btn btn-outline btn-sm" onClick={onGoTrips}>💾 My Trips</button>
+      </div>
     </div>
   );
 }
 
 // ─── Saved Trips View ─────────────────────────────────────────────────────────
-function TripsView({ trips, onLoad, onDelete }) {
+function TripsView({ trips, onLoad, onDelete, onExportAll, onImport, onExportTrip, downloadedTrips }) {
   return (
     <div className="page">
-      <div className="flex-between mb-24"><h2 style={{fontSize:'1.5rem'}}>My Trips</h2>{trips.length>0&&<span className="badge badge-sky">{trips.length} saved</span>}</div>
+      <div className="flex-between mb-16">
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <h2 style={{fontSize:'1.5rem'}}>My Trips</h2>
+          {trips.length>0&&<span className="badge badge-sky">{trips.length} saved</span>}
+        </div>
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn btn-outline btn-sm" onClick={onImport} title="Restore a previously downloaded backup">📤 Upload Backup</button>
+          <button className="btn btn-sm" style={{background:'rgba(201,83,58,0.1)',border:'1px solid rgba(201,83,58,0.3)',color:'var(--coral)'}} onClick={onExportAll} title="Download all your trips, closet & inspo as a backup file">📥 Download All</button>
+        </div>
+      </div>
+      <div style={{background:'rgba(30,111,181,0.06)',border:'1px solid rgba(30,111,181,0.15)',borderRadius:10,padding:'10px 14px',marginBottom:20,fontSize:'0.82rem',color:'var(--text2)'}}>
+        💡 Your closet & trips live only in this browser tab. Download a backup before closing — you can restore it anytime.
+      </div>
       {!trips.length?(
         <div className="empty"><div className="empty-icon">🗺️</div><div className="empty-title">No saved trips yet</div><div className="empty-sub">Plan a trip and tap "Save Trip" in the packing list to pick up where you left off anytime.</div></div>
       ):(
         trips.map(st=>{
           const vt=VACATION_TYPES.find(v=>v.value===st.trip.vacationType);
+          const isDl=downloadedTrips&&downloadedTrips.has(st.id);
           return(
             <div key={st.id} className="trip-card" onClick={()=>onLoad(st)}>
-              <div className="trip-icon">{vt?.icon||'✈️'}</div>
+              <div className="trip-icon">✈️</div>
               <div className="trip-meta">
                 <div className="trip-dest">{st.destination||st.trip.dest}</div>
                 <div className="trip-dates">{fmtDate(st.trip.startDate)} – {fmtDate(st.trip.endDate)} · {st.trip.days} nights</div>
                 <div className="trip-prog">{st.checkedItems.length} items checked · {new Date(st.updatedAt).toLocaleDateString()}</div>
               </div>
-              <div style={{display:'flex',gap:7}}>
+              <div style={{display:'flex',gap:7,alignItems:'center',flexWrap:'wrap',justifyContent:'flex-end'}}>
+                {isDl?(
+                  <span style={{fontSize:'0.75rem',color:'var(--text3)',display:'flex',alignItems:'center',gap:4,textDecoration:'line-through',opacity:0.6}}>
+                    <span>📥</span> Downloaded
+                  </span>
+                ):(
+                  <button className="btn btn-outline btn-sm" onClick={e=>{e.stopPropagation();onExportTrip(st);}} title="Download this trip as a backup">📥</button>
+                )}
                 <button className="btn btn-sky btn-sm" onClick={e=>{e.stopPropagation();onLoad(st);}}>Resume →</button>
                 <button className="btn btn-danger btn-sm" onClick={e=>{e.stopPropagation();onDelete(st.id);}}>🗑</button>
               </div>
@@ -1338,17 +1520,10 @@ function Welcome({ onDemo, onOwn, isDemo, onClearDemo }) {
     <div className="welcome">
       <div className="welcome-hero">
         <div className="welcome-brand-mark">
-          <div className="welcome-brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="8" width="18" height="13" rx="2.5" fill="white" opacity="0.92"/>
-              <rect x="8" y="4" width="8" height="5" rx="2" fill="none" stroke="white" strokeWidth="1.8"/>
-              <line x1="3" y1="13" x2="21" y2="13" stroke="rgba(26,22,36,0.25)" strokeWidth="1.2"/>
-              <circle cx="12" cy="16.5" r="1.3" fill="rgba(26,22,36,0.3)"/>
-            </svg>
-          </div>
-          <span className="welcome-brand-name">Packed<em>.</em></span>
+          <div className="welcome-brand-icon">🧳</div>
+          <span className="welcome-brand-name">Packed.</span>
         </div>
-        <h1 className="welcome-title">Pack smarter,<br/><span>travel better.</span></h1>
+        <h1 className="welcome-title">Pack smart, skip the bag fees —<br/><span>save it for the next trip 🌍</span></h1>
         <p className="welcome-sub">Catalog your wardrobe, plan outfits by weather and activities, and generate a complete packing list — in minutes.</p>
         <div className="onboard-paths">
 
@@ -1437,9 +1612,23 @@ function App() {
     };input.click();
   };
 
-  const handleTrip=trip=>{setCurTrip(trip);setCurChecked(null);setNav('packing');};
+  const [downloadedTrips,setDownloadedTrips]=useState(new Set());
+
+  const exportTripData=useCallback(st=>{
+    const blob=new Blob([JSON.stringify({...st,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=`packed-${(st.destination||st.trip.dest).replace(/\s+/g,'-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();URL.revokeObjectURL(a.href);
+    setDownloadedTrips(prev=>new Set([...prev,st.id]));
+  },[]);
+
+  const [editTrip,setEditTrip]=useState(null);
+
+  const handleTrip=trip=>{setCurTrip(trip);setCurChecked(null);setEditTrip(null);setNav('packing');};
   const handleSaveTrip=(trip,arr)=>{const rec={id:trip.id,destination:trip.dest,trip,checkedItems:arr,updatedAt:new Date().toISOString()};setTrips(p=>[rec,...p.filter(t=>t.id!==trip.id)]);};
-  const handleLoadTrip=st=>{setCurTrip(st.trip);setCurChecked(new Set(st.checkedItems));setNav('packing');};
+  const handleLoadTrip=st=>{setCurTrip(st.trip);setCurChecked(new Set(st.checkedItems));setEditTrip(null);setNav('packing');};
+  // "← Edit Trip" in PackingView — go back to plan form pre-filled with current trip data
+  const handleEditTrip=()=>{setEditTrip(curTrip);setNav('plan');};
 
   const showHeader=nav!=='welcome';
   return (
@@ -1447,25 +1636,15 @@ function App() {
       {showHeader&&(
         <div className="app-header">
           <div className="logo" onClick={()=>setNav('welcome')}>
-            <div className="logo-mark">
-              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="7" width="14" height="10" rx="2" fill="white" opacity="0.9"/>
-                <rect x="7" y="4" width="6" height="4" rx="1.5" fill="none" stroke="white" strokeWidth="1.5"/>
-                <line x1="3" y1="11" x2="17" y2="11" stroke="rgba(26,22,36,0.3)" strokeWidth="1"/>
-                <circle cx="10" cy="13.5" r="1" fill="rgba(26,22,36,0.35)"/>
-              </svg>
-            </div>
-            <span className="logo-text">Packed<em>.</em></span>
+            <div className="logo-mark">🧳</div>
+            <span className="logo-text">Packed.</span>
             {isDemo&&<span className="logo-badge">DEMO</span>}
           </div>
           <nav className="app-nav">
             <button className={`nav-btn${nav==='closet'?' active':''}`} onClick={()=>setNav('closet')}>👗 Closet {wardrobe.length>0&&<span className="nav-count">{wardrobe.length}</span>}</button>
             <button className={`nav-btn${nav==='inspo'?' active':''}`} onClick={()=>setNav('inspo')}>🖼️ Inspo</button>
-            <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>setNav('plan')}>🗺️ Plan Trip</button>
+            <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>{setEditTrip(null);setNav('plan');}}>🗺️ Plan Trip</button>
             <button className={`nav-btn${nav==='trips'?' active':''}`} onClick={()=>setNav('trips')}>💾 Trips {trips.length>0&&<span className="nav-count">{trips.length}</span>}</button>
-            <div style={{width:'1px',height:20,background:'var(--border)',margin:'0 4px'}}/>
-            <button className="nav-btn" title="Backup all your data" onClick={exportData} style={{fontSize:'0.78rem'}}>⬇ Export</button>
-            <button className="nav-btn" title="Restore from backup" onClick={importData} style={{fontSize:'0.78rem'}}>⬆ Import</button>
           </nav>
         </div>
       )}
@@ -1483,9 +1662,9 @@ function App() {
         {nav==='welcome'&&<Welcome onDemo={startDemo} onOwn={startOwn} isDemo={isDemo} onClearDemo={clearDemo}/>}
         {nav==='closet'&&<ClosetView wardrobe={wardrobe} setWardrobe={setWardrobe} savedOutfits={savedOutfits} setSavedOutfits={setSavedOutfits}/>}
         {nav==='inspo'&&<InspoView board={board} setBoard={setBoard}/>}
-        {nav==='plan'&&<TripSetup wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} onTrip={handleTrip}/>}
-        {nav==='packing'&&curTrip&&<PackingView trip={curTrip} wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} initChecked={curChecked} onSave={handleSaveTrip} onBack={()=>setNav('plan')}/>}
-        {nav==='trips'&&<TripsView trips={trips} onLoad={handleLoadTrip} onDelete={id=>setTrips(p=>p.filter(t=>t.id!==id))}/>}
+        {nav==='plan'&&<TripSetup wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} onTrip={handleTrip} onBack={()=>setNav('closet')} initialTrip={editTrip}/>}
+        {nav==='packing'&&curTrip&&<PackingView trip={curTrip} wardrobe={wardrobe} savedOutfits={savedOutfits} board={board} initChecked={curChecked} onSave={handleSaveTrip} onBack={()=>setNav('plan')} onGoTrips={()=>setNav('trips')} onEditTrip={handleEditTrip}/>}
+        {nav==='trips'&&<TripsView trips={trips} onLoad={handleLoadTrip} onDelete={id=>setTrips(p=>p.filter(t=>t.id!==id))} onExportAll={exportData} onImport={importData} onExportTrip={exportTripData} downloadedTrips={downloadedTrips}/>}
       </div>
     </div>
   );
