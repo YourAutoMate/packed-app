@@ -4,35 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Packed. — Your Smart Trip Planner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      /* Travel-friendly light palette */
-      --bg:      #f7f4ee;   /* warm cream */
-      --bg2:     #ffffff;   /* card white */
-      --bg3:     #f0ebe1;   /* sand */
-      --bg4:     #e8e2d6;   /* border fill */
-      --border:  #e2dbd0;
-      --border2: #cfc7b8;
-      --text:    #1c1828;
-      --text2:   #6b5f72;
-      --text3:   #a89cb0;
-      --sky:     #2980c4;   /* mediterranean blue */
-      --sky2:    #4da3e8;
-      --coral:   #e8734e;   /* sunset coral */
-      --coral2:  #f09070;
-      --sun:     #f5b93e;   /* warm sun */
-      --mint:    #35b89a;   /* tropical water */
-      --lavender:#8b74d4;
-      --green:   #3daa6a;
-      --red:     #d94f4f;
-      --shadow-sm: 0 1px 4px rgba(28,24,40,0.08);
-      --shadow:    0 4px 16px rgba(28,24,40,0.10);
-      --shadow-lg: 0 8px 32px rgba(28,24,40,0.14);
+      /* Packed. — Refined Travel Palette */
+      --bg:      #f6f3ed;   /* warm linen */
+      --bg2:     #ffffff;
+      --bg3:     #eee9de;   /* sand dune */
+      --bg4:     #e5dfd3;
+      --border:  #ddd7ca;
+      --border2: #c9c1b0;
+      --text:    #1a1624;   /* deep ink */
+      --text2:   #5c5168;
+      --text3:   #a094aa;
+      --sky:     #1e6fb5;   /* deep mediterranean */
+      --sky2:    #3b90d4;
+      --coral:   #c9533a;   /* terracotta */
+      --coral2:  #e07255;
+      --sun:     #e8a020;   /* warm amber */
+      --mint:    #1d8f72;   /* deep botanical */
+      --lavender:#7459c8;
+      --green:   #2d9455;
+      --red:     #c94040;
+      --brand:   #1a1624;   /* brand mark color */
+      --shadow-sm: 0 1px 4px rgba(26,22,36,0.07);
+      --shadow:    0 4px 16px rgba(26,22,36,0.10);
+      --shadow-lg: 0 8px 32px rgba(26,22,36,0.14);
       --r: 14px;
       --r2: 9px;
     }
@@ -49,10 +50,15 @@
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 100; flex-shrink: 0;
     }
-    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .logo-mark { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
-    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-style: italic; font-weight: 700; background: linear-gradient(90deg, var(--sky) 0%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.01em; }
-    .logo-badge { font-size: 0.65rem; font-weight: 700; color: var(--coral); background: rgba(232,115,78,0.12); border: 1px solid rgba(232,115,78,0.3); border-radius: 20px; padding: 2px 7px; }
+    .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer; }
+    .logo-mark { width: 34px; height: 34px; background: var(--brand); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 8px rgba(26,22,36,0.22); }
+    .logo-mark svg { width: 18px; height: 18px; }
+    .logo-text { font-family: 'Cormorant Garamond', 'Playfair Display', serif; font-size: 1.55rem; font-style: italic; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1; }
+    .logo-text em { color: var(--coral); font-style: normal; }
+    .logo-badge { font-size: 0.62rem; font-weight: 700; color: var(--coral); background: rgba(201,83,58,0.1); border: 1px solid rgba(201,83,58,0.28); border-radius: 20px; padding: 2px 7px; letter-spacing: 0.04em; }
+    /* Page-level brand watermark */
+    .page-brand { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+    .page-brand-text { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; font-weight: 600; color: var(--text3); letter-spacing: 0.01em; }
     .app-nav { display: flex; gap: 2px; }
     .nav-btn { padding: 6px 13px; border-radius: 8px; border: none; background: transparent; color: var(--text2); font-size: 0.79rem; font-weight: 500; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; white-space: nowrap; }
     .nav-btn.active { background: var(--sky); color: #fff; box-shadow: 0 2px 8px rgba(41,128,196,0.3); }
@@ -271,8 +277,13 @@
 
     /* ── Welcome ── */
     .welcome { min-height: calc(100vh - 58px); display: flex; flex-direction: column; }
-    .welcome-hero { background: linear-gradient(160deg, #e8f4fd 0%, #fef9ee 50%, #fef0e8 100%); padding: 52px 20px 48px; text-align: center; border-bottom: 1px solid var(--border); }
-    .welcome-title { font-size: clamp(2rem, 6vw, 3.2rem); color: var(--text); line-height: 1.2; margin-bottom: 14px; }
+    .welcome-hero { background: linear-gradient(160deg, #edf4fb 0%, #f6f3ed 45%, #faeee8 100%); padding: 60px 20px 52px; text-align: center; border-bottom: 1px solid var(--border); }
+    .welcome-brand-mark { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 22px; }
+    .welcome-brand-icon { width: 44px; height: 44px; background: var(--brand); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(26,22,36,0.22); }
+    .welcome-brand-icon svg { width: 22px; height: 22px; }
+    .welcome-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; }
+    .welcome-brand-name em { color: var(--coral); font-style: normal; }
+    .welcome-title { font-size: clamp(1.9rem, 5.5vw, 3rem); color: var(--text); line-height: 1.2; margin-bottom: 14px; }
     .welcome-title span { color: var(--sky); font-style: italic; }
     .welcome-sub { font-size: 1rem; color: var(--text2); max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
     .onboard-paths { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 700px; margin: 0 auto; }
@@ -439,8 +450,7 @@ async function analyzePhoto(src,filename=''){
   });
 }
 
-// ─── Demo Wardrobe (20 items with color swatches) ─────────────────────────────
-// To replace swatches with real photos: fill in DEMO_PHOTOS above with GitHub URLs
+// ─── Demo Wardrobe (10 items with real photos) ────────────────────────────────
 const DEMO_WARDROBE = [
   {id:'d01',name:'Oatmeal Linen Top',type:'top',color:'Oatmeal',bg:'#e8e0cc',warmth:1,formality:2,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d01},
   {id:'d02',name:'Sage Embroidery Top',type:'top',color:'Sage Green',bg:'#9ab89a',warmth:2,formality:2,aesthetics:['chic','casual','boho'],photo:DEMO_PHOTOS.d02},
@@ -450,24 +460,14 @@ const DEMO_WARDROBE = [
   {id:'d06',name:'Pink Linen Set',type:'set',color:'Blush Pink',bg:'#e8c4c4',warmth:2,formality:2,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d06},
   {id:'d07',name:'Light Brown Mini Skort',type:'bottom',color:'Light Brown',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','casual','minimalist'],photo:DEMO_PHOTOS.d07},
   {id:'d08',name:'Red Vest & Shorts Set',type:'set',color:'Red',bg:'#c0392b',warmth:1,formality:1,aesthetics:['bold','resort','casual'],photo:DEMO_PHOTOS.d08},
-  {id:'d09',name:'Dusty Rose Midi Skirt',type:'bottom',color:'Dusty Rose',bg:'#d4a0a0',warmth:2,formality:3,aesthetics:['boho','chic','artsy'],photo:DEMO_PHOTOS.d09},
   {id:'d10',name:'Floral Mini Dress',type:'dress',color:'Floral Multi',bg:'#8fbc7a',warmth:1,formality:2,aesthetics:['resort','boho','artsy'],photo:DEMO_PHOTOS.d10},
-  {id:'d11',name:'White Wrap Dress',type:'dress',color:'White',bg:'#f7f4ef',warmth:1,formality:3,aesthetics:['chic','quiet-luxury','resort'],photo:DEMO_PHOTOS.d11},
-  {id:'d12',name:'Gold Strappy Sandals',type:'shoes',color:'Gold',bg:'#c8a84b',warmth:1,formality:3,aesthetics:['quiet-luxury','chic','resort'],photo:DEMO_PHOTOS.d12},
-  {id:'d13',name:'White Leather Sneakers',type:'shoes',color:'White',bg:'#e8e8e6',warmth:2,formality:1,aesthetics:['casual','minimalist'],photo:DEMO_PHOTOS.d13},
-  {id:'d14',name:'Espadrille Wedges',type:'shoes',color:'Natural',bg:'#c4a882',warmth:1,formality:2,aesthetics:['resort','boho','chic'],photo:DEMO_PHOTOS.d14},
-  {id:'d15',name:'Black One-Piece Swimsuit',type:'swimwear',color:'Black',bg:'#2a2a32',warmth:1,formality:1,aesthetics:['chic','minimalist'],photo:DEMO_PHOTOS.d15},
-  {id:'d16',name:'Coral Bikini Set',type:'swimwear',color:'Coral',bg:'#e8836a',warmth:1,formality:1,aesthetics:['resort','bold'],photo:DEMO_PHOTOS.d16},
   {id:'d17',name:'Woven Sun Hat',type:'accessory',color:'Natural',bg:'#c4a458',warmth:1,formality:1,aesthetics:['resort','boho','quiet-luxury'],photo:DEMO_PHOTOS.d17},
-  {id:'d18',name:'Gold Hoop Earrings',type:'accessory',color:'Gold',bg:'#d4a84b',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','bold'],photo:DEMO_PHOTOS.d18},
-  {id:'d19',name:'Cream Linen Blazer',type:'outerwear',color:'Cream',bg:'#e4ddd0',warmth:3,formality:3,aesthetics:['quiet-luxury','chic','minimalist'],photo:DEMO_PHOTOS.d19},
-  {id:'d20',name:'Raffia Tote Bag',type:'bag',color:'Natural',bg:'#c8aa7a',warmth:1,formality:1,aesthetics:['resort','boho'],photo:DEMO_PHOTOS.d20},
 ];
 const DEMO_SETS = [
-  {id:'ds1',name:'Resort Chic',itemIds:['d01','d07','d12','d17']},
-  {id:'ds2',name:'Beach Day',itemIds:['d04','d08','d13','d16']},
-  {id:'ds3',name:'Sundowner Glam',itemIds:['d06','d12','d18']},
-  {id:'ds4',name:'City Explorer',itemIds:['d02','d09','d14','d19']},
+  {id:'ds1',name:'Resort Chic',itemIds:['d01','d07','d17']},
+  {id:'ds2',name:'Beach Day',itemIds:['d04','d08','d10']},
+  {id:'ds3',name:'Boho Vibes',itemIds:['d05','d07','d17']},
+  {id:'ds4',name:'City Explorer',itemIds:['d02','d03','d06']},
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -691,6 +691,17 @@ function ClosetView({ wardrobe, setWardrobe, savedOutfits, setSavedOutfits }) {
         <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:16}}>
           {FILTERS.map(([v,l])=><span key={v} className={`tag${filter===v?' sel-coral':''}`} onClick={()=>setFilter(v)}>{l}</span>)}
         </div>
+        {/* Drag & Drop hint — always visible when on items tab */}
+        {filter==='all'&&(
+          <div style={{display:'flex',alignItems:'center',gap:10,background:'linear-gradient(135deg,rgba(30,111,181,0.06),rgba(29,143,114,0.06))',border:'1.5px dashed rgba(30,111,181,0.3)',borderRadius:11,padding:'10px 16px',marginBottom:14,cursor:'pointer'}} onClick={()=>setShowAdd(true)}>
+            <span style={{fontSize:'1.4rem'}}>📸</span>
+            <div style={{flex:1}}>
+              <div style={{fontSize:'0.8rem',fontWeight:700,color:'var(--sky)'}}>Drag photos here to add clothing</div>
+              <div style={{fontSize:'0.72rem',color:'var(--text3)',marginTop:2}}>Drop any image onto this page — fields are auto-suggested from the photo</div>
+            </div>
+            <button className="btn btn-sky btn-sm" style={{flexShrink:0}}>+ Add Item</button>
+          </div>
+        )}
         {filtered.length===0?(
           <div className="empty">
             <div className="empty-icon">👗</div><div className="empty-title">No items yet</div>
@@ -834,12 +845,30 @@ function TripSetup({ wardrobe, savedOutfits, board, onTrip }) {
 
       {step===2&&(
         <div>
-          <div className="form-group"><label>Trip Vibe</label><div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vtype===v.value?' sel-coral':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vtype:v.value})}>{v.icon} {v.label}</span>)}</div></div>
+          <div className="form-group"><label>Trip Vibe</label><div className="tag-wrap mt-8">{VACATION_TYPES.map(v=><span key={v.value} className={`tag${form.vtype===v.value?' sel-coral':''}`} style={{fontSize:'0.85rem',padding:'7px 16px'}} onClick={()=>s({vtype:v.value})}>{v.label}</span>)}</div></div>
           <div className="form-group mt-16"><label>Activities (select all that apply)</label><div className="tag-wrap mt-8">{ACTIVITIES.map(a=><span key={a.value} className={`tag${form.acts.includes(a.value)?' sel':''}`} onClick={()=>togAct(a.value)}>{a.label}</span>)}</div></div>
           <hr className="divider"/>
           <div className="flex-between mb-12"><label style={{margin:0}}>Style Mix</label>{board.length>0&&<button className="btn btn-outline btn-sm" onClick={applyDNA}>{form.dnaApplied?'✓ Board Applied':'✨ Apply from Board'}</button>}</div>
           {form.dnaApplied&&<p style={{fontSize:'0.78rem',color:'var(--lavender)',marginBottom:12}}>✨ Sliders filled from your inspiration board</p>}
           {AESTHETICS.map(a=>(<div key={a.value} className="slider-row"><div className="slider-lbl"><span className="slider-lbl-left">{a.emoji} {a.label}</span><span className="slider-lbl-right">{form.aes[a.value]}%</span></div><input type="range" min={0} max={100} step={5} value={form.aes[a.value]} onChange={e=>s({aes:{...form.aes,[a.value]:+e.target.value}})}/></div>))}
+          {/* Style Mix Total Indicator */}
+          {(()=>{
+            const total=Object.values(form.aes).reduce((a,b)=>a+b,0);
+            const over=total>100; const done=total===100;
+            return(
+              <div style={{marginTop:16,marginBottom:4,padding:'12px 16px',borderRadius:11,background:done?'rgba(29,143,114,0.08)':over?'rgba(201,83,58,0.08)':'rgba(26,22,36,0.05)',border:`1.5px solid ${done?'rgba(29,143,114,0.3)':over?'rgba(201,83,58,0.35)':'var(--border)'}`}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+                  <span style={{fontSize:'0.78rem',fontWeight:700,color:done?'var(--mint)':over?'var(--coral)':'var(--text2)'}}>
+                    {done?'✓ Style mix complete':over?`⚠ Over by ${total-100}% — reduce some sliders`:`${100-total}% remaining to allocate`}
+                  </span>
+                  <span style={{fontSize:'1rem',fontWeight:800,color:done?'var(--mint)':over?'var(--coral)':'var(--sky)'}}>{total}%</span>
+                </div>
+                <div style={{height:7,background:'var(--bg4)',borderRadius:4,overflow:'hidden'}}>
+                  <div style={{height:'100%',width:`${Math.min(total,100)}%`,borderRadius:4,background:done?'linear-gradient(90deg,var(--mint),var(--sky))':over?'var(--coral)':'linear-gradient(90deg,var(--sky),var(--lavender))',transition:'width .3s ease'}}/>
+                </div>
+              </div>
+            );
+          })()}
           <div style={{textAlign:'right',marginTop:24}}><button className="btn btn-sky" disabled={!ok2} onClick={()=>setStep(3)}>Next: Anchor Pieces →</button></div>
         </div>
       )}
@@ -1214,6 +1243,17 @@ function Welcome({ onDemo, onOwn, isDemo, onClearDemo }) {
   return (
     <div className="welcome">
       <div className="welcome-hero">
+        <div className="welcome-brand-mark">
+          <div className="welcome-brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="8" width="18" height="13" rx="2.5" fill="white" opacity="0.92"/>
+              <rect x="8" y="4" width="8" height="5" rx="2" fill="none" stroke="white" strokeWidth="1.8"/>
+              <line x1="3" y1="13" x2="21" y2="13" stroke="rgba(26,22,36,0.25)" strokeWidth="1.2"/>
+              <circle cx="12" cy="16.5" r="1.3" fill="rgba(26,22,36,0.3)"/>
+            </svg>
+          </div>
+          <span className="welcome-brand-name">Packed<em>.</em></span>
+        </div>
         <h1 className="welcome-title">Pack smarter,<br/><span>travel better.</span></h1>
         <p className="welcome-sub">Catalog your wardrobe, plan outfits by weather and activities, and generate a complete packing list — in minutes.</p>
         <div className="onboard-paths">
@@ -1222,7 +1262,7 @@ function Welcome({ onDemo, onOwn, isDemo, onClearDemo }) {
           <div className="path-card path-card-demo" onClick={onDemo}>
             <div className="path-icon">🎭</div>
             <div className="path-title">Try the Demo</div>
-            <div className="path-desc">Explore Packed with a pre-loaded wardrobe of 20 sample items. No setup required — just play.</div>
+            <div className="path-desc">Explore Packed with a pre-loaded wardrobe of 10 real clothing photos. No setup required — just play.</div>
             <div className="path-steps">
               <div className="path-step"><div className="path-step-dot demo-dot">1</div>Sample wardrobe loaded instantly</div>
               <div className="path-step"><div className="path-step-dot demo-dot">2</div>Plan a demo trip (e.g. Tulum)</div>
@@ -1278,6 +1318,31 @@ function App() {
   const clearDemo=()=>{setWardrobe([]);setSavedOutfits([]);setIsDemo(false);setNav('welcome');};
   const startOwn=()=>{setIsDemo(false);setNav('closet');};
 
+  // ── Export / Import ──
+  const exportData=()=>{
+    const blob=new Blob([JSON.stringify({wardrobe,savedOutfits,board,trips,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=`packed-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  const importData=()=>{
+    const input=document.createElement('input');input.type='file';input.accept='.json,application/json';
+    input.onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        try{
+          const d=JSON.parse(ev.target.result);
+          if(d.wardrobe)setWardrobe(d.wardrobe);
+          if(d.savedOutfits)setSavedOutfits(d.savedOutfits);
+          if(d.board)setBoard(d.board);
+          if(d.trips)setTrips(d.trips);
+          alert(`✅ Restored: ${d.wardrobe?.length||0} items, ${d.trips?.length||0} trips`);
+        }catch{alert('❌ Invalid backup file — please use a Packed. JSON export.');}
+      };reader.readAsText(file);
+    };input.click();
+  };
+
   const handleTrip=trip=>{setCurTrip(trip);setCurChecked(null);setNav('packing');};
   const handleSaveTrip=(trip,arr)=>{const rec={id:trip.id,destination:trip.dest,trip,checkedItems:arr,updatedAt:new Date().toISOString()};setTrips(p=>[rec,...p.filter(t=>t.id!==trip.id)]);};
   const handleLoadTrip=st=>{setCurTrip(st.trip);setCurChecked(new Set(st.checkedItems));setNav('packing');};
@@ -1287,9 +1352,16 @@ function App() {
     <div className="app">
       {showHeader&&(
         <div className="app-header">
-          <div className="logo" onClick={()=>setNav('welcome')} style={{cursor:'pointer'}}>
-            <div className="logo-mark">🧳</div>
-            <span className="logo-text">Packed.</span>
+          <div className="logo" onClick={()=>setNav('welcome')}>
+            <div className="logo-mark">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="7" width="14" height="10" rx="2" fill="white" opacity="0.9"/>
+                <rect x="7" y="4" width="6" height="4" rx="1.5" fill="none" stroke="white" strokeWidth="1.5"/>
+                <line x1="3" y1="11" x2="17" y2="11" stroke="rgba(26,22,36,0.3)" strokeWidth="1"/>
+                <circle cx="10" cy="13.5" r="1" fill="rgba(26,22,36,0.35)"/>
+              </svg>
+            </div>
+            <span className="logo-text">Packed<em>.</em></span>
             {isDemo&&<span className="logo-badge">DEMO</span>}
           </div>
           <nav className="app-nav">
@@ -1297,6 +1369,9 @@ function App() {
             <button className={`nav-btn${nav==='inspo'?' active':''}`} onClick={()=>setNav('inspo')}>🖼️ Inspo</button>
             <button className={`nav-btn${nav==='plan'?' active':''}`} onClick={()=>setNav('plan')}>🗺️ Plan Trip</button>
             <button className={`nav-btn${nav==='trips'?' active':''}`} onClick={()=>setNav('trips')}>💾 Trips {trips.length>0&&<span className="nav-count">{trips.length}</span>}</button>
+            <div style={{width:'1px',height:20,background:'var(--border)',margin:'0 4px'}}/>
+            <button className="nav-btn" title="Backup all your data" onClick={exportData} style={{fontSize:'0.78rem'}}>⬇ Export</button>
+            <button className="nav-btn" title="Restore from backup" onClick={importData} style={{fontSize:'0.78rem'}}>⬆ Import</button>
           </nav>
         </div>
       )}
@@ -1304,7 +1379,7 @@ function App() {
       {isDemo&&showHeader&&(
         <div className="demo-banner">
           <div className="demo-banner-icon">🎭</div>
-          <div className="demo-banner-text"><strong>Demo Mode</strong><span>— You're exploring with 20 sample items. Go to Plan Trip to see it all in action.</span></div>
+          <div className="demo-banner-text"><strong>Demo Mode</strong><span>— You're exploring with 10 real sample items. Go to Plan Trip to see it all in action.</span></div>
           <button className="btn btn-outline btn-sm" onClick={clearDemo} style={{flexShrink:0}}>Exit Demo</button>
           <button className="btn btn-sky btn-sm" onClick={()=>setNav('plan')} style={{flexShrink:0}}>Plan a Trip →</button>
         </div>
